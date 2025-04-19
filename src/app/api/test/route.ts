@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { createRoute } from './frourio.server';
+import { createRoute } from '@/app/api/test/frourio.server';
 
 export const { GET, POST } = createRoute({
   get: async () => ({ status: 200, body: { value: 'ok' } }),

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const PageContainer = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex flex-col items-center justify-center h-screen">{children}</div>;
-};
+const PageContainer = (props: { children: React.ReactNode }) => (
+  <div className="flex flex-col items-center justify-center h-screen">{props.children}</div>
+);
 
 export default PageContainer;

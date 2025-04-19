@@ -1,10 +1,13 @@
 import js from '@eslint/js';
+import { globalIgnores } from 'eslint/config';
 import gitignore from 'eslint-config-flat-gitignore';
 import prettierConfig from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import testingLibrary from 'eslint-plugin-testing-library';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import { globalIgnores } from 'eslint/config';
 
 export default tseslint.config(
   globalIgnores([
@@ -18,12 +21,34 @@ export default tseslint.config(
   js.configs.recommended,
   tseslint.configs.recommended,
   {
+    plugins: {
+      react,
+      'react-hooks': reactHooks,
+      import: importPlugin,
+    },
     languageOptions: {
       globals: { ...globals.browser, ...globals.node, ...globals.es2020 },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+      'import/resolver': {
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
+        typescript: {
+          project: './tsconfig.json',
+        },
+      },
     },
     rules: {
       eqeqeq: 'error',
-      'no-param-reassign': 'error',
       'object-shorthand': ['error', 'always'],
       'prefer-template': 'error',
       '@typescript-eslint/no-require-imports': 'off',
@@ -38,6 +63,51 @@ export default tseslint.config(
           varsIgnorePattern: '^_',
           caughtErrorsIgnorePattern: '^_',
           destructuredArrayIgnorePattern: '^_',
+        },
+      ],
+      semi: ['error', 'always'],
+      'no-restricted-imports': ['error', { patterns: ['./', '../'] }],
+      'react/prop-types': 'off',
+      'no-console': 'warn',
+      'arrow-body-style': ['error'],
+      'no-else-return': ['error'],
+      'consistent-return': ['error'],
+      'no-unneeded-ternary': ['error'],
+      'prefer-object-spread': ['error'],
+      'class-methods-use-this': ['error'],
+      'no-plusplus': ['error'],
+      'react/jsx-no-constructed-context-values': ['error'],
+      'react/self-closing-comp': ['error'],
+      'react/no-array-index-key': ['error'],
+      'react/jsx-props-no-spreading': ['error'],
+      'react/jsx-curly-brace-presence': ['error'],
+      'react/button-has-type': ['error'],
+      'react/jsx-no-useless-fragment': ['error'],
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'error',
+      '@typescript-eslint/no-use-before-define': ['error'],
+      '@typescript-eslint/no-shadow': ['error'],
+      'import/newline-after-import': ['error'],
+      'import/no-duplicates': ['error'],
+      'import/no-cycle': ['error'],
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react/require-default-props': 'off',
+      'no-underscore-dangle': 'off',
+      'prefer-destructuring': 'off',
+      'react/destructuring-assignment': ['error', 'never'],
+      'react/function-component-definition': [1, { namedComponents: 'arrow-function' }],
+      'import/prefer-default-export': 'off',
+      'import/order': ['error', { alphabetize: { order: 'asc', caseInsensitive: true } }],
+      'react/jsx-sort-props': [
+        'error',
+        {
+          ignoreCase: true,
+          callbacksLast: true,
+          shorthandFirst: true,
+          shorthandLast: false,
+          noSortAlphabetically: false,
+          reservedFirst: true,
         },
       ],
     },
