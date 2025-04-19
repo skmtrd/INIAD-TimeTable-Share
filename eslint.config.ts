@@ -4,10 +4,17 @@ import prettierConfig from 'eslint-config-prettier';
 import testingLibrary from 'eslint-plugin-testing-library';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import { globalIgnores } from 'eslint/config';
 
 export default tseslint.config(
+  globalIgnores([
+    'src/app/api/**/frourio.server.ts',
+    'src/app/api/**/frourio.client.ts',
+    'src/app/api/**/frourio.ts',
+    'src/components/ui/**',
+  ]),
   { files: ['**/*.{ts,tsx}'] },
-  gitignore({ files: ['./.gitignore', './.prettierignore'] }),
+  gitignore({ files: ['./.gitignore'] }),
   js.configs.recommended,
   tseslint.configs.recommended,
   {
