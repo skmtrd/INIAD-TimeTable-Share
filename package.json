@@ -59,9 +59,8 @@
 	},
 	"lint-staged": {
 		"src/**/*.{ts,tsx,js,jsx}": [
-			"next lint --dir src",
-			"npx prettier  --write",
-			"bash -c tsc --noEmit"
+			"biome format --write",
+			"biome lint --apply"
 		]
 	}
 }
