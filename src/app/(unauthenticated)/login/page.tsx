@@ -1,6 +1,6 @@
-import React from "react";
-import PageContainer from "@/components/common/PageContainer";
-import LoginForm from "@/components/domain/(unauthenticated)/login/LoginForm";
+import React from 'react';
+import PageContainer from '@/components/common/PageContainer';
+import LoginForm from '@/components/domain/(unauthenticated)/login/LoginForm';
 
 const LoginPage = () => {
   return (

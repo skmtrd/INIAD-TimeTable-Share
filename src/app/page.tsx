@@ -1,10 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-  redirect("/login");
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  );
-}
+export const Home = () => {
+  redirect('/login');
+};
