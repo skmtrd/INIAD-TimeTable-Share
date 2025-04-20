@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import GoogleIcon from "@mui/icons-material/Google";
 import {
   Box,
+  Button,
+  CircularProgress,
+  Divider,
   Paper,
   Typography,
-  Button,
-  Divider,
-  CircularProgress,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
