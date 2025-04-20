@@ -22,3 +22,7 @@ jobs:
 
       - name: Run Biome checks
         run: biome ci
+
+      - name: TypeScript type checking
+        run: bash -c tsc --noEmit
+
