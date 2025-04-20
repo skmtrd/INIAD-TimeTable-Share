@@ -17,8 +17,14 @@ jobs:
           path: 'node_modules'
           key: npm-${{ hashFiles('package-lock.json') }}
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
 
       - name: Run Biome checks
         run: biome ci
+
+      - name: TypeScript type checking
+        run: bash -c tsc --noEmit
