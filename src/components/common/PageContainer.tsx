@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import type React from "react";
 interface PageContainerProps {
   /**
@@ -16,10 +16,19 @@ interface PageContainerProps {
  * ページのコンテンツをラップするコンテナコンポーネント
  */
 const PageContainer: React.FC<PageContainerProps> = (props) => (
-  <Container sx={{ mb: 6 }}>
-    {!!props.title && <h1>{props.title}</h1>}
+  <Box
+    sx={{
+      width: "100%",
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+    }}
+  >
+    {!!props.title && <Typography variant="h4">{props.title}</Typography>}
     {props.children}
-  </Container>
+  </Box>
 );
 
 export default PageContainer;

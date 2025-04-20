@@ -25,7 +25,8 @@ const LoginForm = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+      console.log("sign in completed");
     }
   }
 
