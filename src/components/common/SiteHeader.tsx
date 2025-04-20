@@ -2,20 +2,20 @@
 
 import type React from "react";
 
-import { useState } from "react";
-import NextLink from "next/link";
-import { usePathname } from "next/navigation";
 import {
   AppBar,
-  Toolbar,
-  Typography,
-  Button,
   Avatar,
   Box,
+  Button,
+  Divider,
   Menu,
   MenuItem,
-  Divider,
+  Toolbar,
+  Typography,
 } from "@mui/material";
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 export const SiteHeader = () => {
   const pathname = usePathname();
