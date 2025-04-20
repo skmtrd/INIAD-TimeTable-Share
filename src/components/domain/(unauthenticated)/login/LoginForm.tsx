@@ -25,7 +25,7 @@ const LoginForm = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      console.log("sign in with Google");
+      setIsLoading(false);
     }
   }
 
