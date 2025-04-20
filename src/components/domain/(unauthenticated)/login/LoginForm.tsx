@@ -1,12 +1,22 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import {
+  Box,
+  Paper,
+  Typography,
+  Button,
+  Divider,
+  CircularProgress,
+} from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
 import { authClient } from "@/lib/auth-client";
-import { GrGoogle } from "react-icons/gr";
 
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   async function handleGoogleSignIn() {
-    // Google oauth
+    setIsLoading(true);
     try {
       await authClient.signIn.social({
         provider: "google",
@@ -18,23 +28,59 @@ const LoginForm = () => {
       console.log("sign in with Google");
     }
   }
+
   return (
-    <div className="mx-auto max-w-sm space-y-6 rounded-lg bg-white p-6 shadow-md">
-      <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">ログイン</h1>
-        <p className="text-muted-foreground">
-          ソーシャルアカウントでログインしてください
-        </p>
-      </div>
+    <Paper
+      elevation={3}
+      sx={{
+        p: 4,
+        width: "100%",
+        maxWidth: 400,
+        borderRadius: 2,
+      }}
+    >
+      <Box sx={{ textAlign: "center", mb: 4 }}>
+        <Typography variant="h5" component="h1" gutterBottom fontWeight="bold">
+          INIAD-TimeTable-Share
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          アカウントにログインして時間割を共有しましょう
+        </Typography>
+      </Box>
+
+      <Divider sx={{ my: 3 }}>
+        <Typography variant="body2" color="text.secondary">
+          ログイン方法
+        </Typography>
+      </Divider>
+
       <Button
-        className="flex w-full items-center justify-evenly"
-        variant="outline"
+        variant="outlined"
+        fullWidth
+        size="large"
+        startIcon={isLoading ? undefined : <GoogleIcon />}
         onClick={handleGoogleSignIn}
+        disabled={isLoading}
+        sx={{
+          py: 1.5,
+          borderColor: "rgba(0, 0, 0, 0.23)",
+          color: "text.primary",
+          textTransform: "none",
+          "&:hover": {
+            borderColor: "rgba(0, 0, 0, 0.5)",
+            bgcolor: "rgba(0, 0, 0, 0.04)",
+          },
+        }}
       >
-        <GrGoogle />
-        Googleでログイン
+        {isLoading ? <CircularProgress size={24} /> : "Googleでログイン"}
       </Button>
-    </div>
+
+      <Box sx={{ mt: 3, textAlign: "center" }}>
+        <Typography variant="body2" color="text.secondary">
+          ログインすることで、利用規約とプライバシーポリシーに同意したことになります。
+        </Typography>
+      </Box>
+    </Paper>
   );
 };
 
