@@ -9,10 +9,11 @@
     "build": "next build",
     "start": "next start",
     "prepare": "husky",
-    "format": "biome format --write .",
     "lint": "biome lint .",
     "check": "biome check --apply .",
-    "format:prettier": "prettier --write ."
+    "format": "biome format --write .",
+    "format:prettier": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
