@@ -18,5 +18,9 @@ jobs:
           key: npm-${{ hashFiles('package-lock.json') }}
       - run: npm install
         if: steps.npm-cache.outputs.cache-hit != 'true'
-      - run: biome ci
-      - run: npm run format
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+
+      - name: Run Biome checks
+        run: biome ci
