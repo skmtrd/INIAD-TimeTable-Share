@@ -32,7 +32,7 @@ export const SiteHeader = () => {
     setAnchorEl(null);
   };
 
-  // リンクのスタイル関数
+  // リンクのスタイル関数dwadwa
   const getLinkStyle = (path: string) => ({
     color: pathname === path ? "text.primary" : "text.secondary",
     fontWeight: pathname === path ? "bold" : "medium",

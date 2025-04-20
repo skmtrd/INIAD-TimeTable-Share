@@ -55,7 +55,7 @@
       "biome check --write",
       "biome format --write",
       "biome lint --apply",
-      "tsc --noEmit"
+      "bash -c tsc --noEmit"
     ]
   }
 }
