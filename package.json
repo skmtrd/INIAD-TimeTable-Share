@@ -11,7 +11,7 @@
     "prepare": "husky",
     "lint": "biome lint .",
     "check": "biome check --apply .",
-    "format": "biome format --write .",
+    "format": "biome check --write .",
     "format:prettier": "prettier --write .",
     "typecheck": "tsc --noEmit"
   },
@@ -52,9 +52,10 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
+      "biome check --write",
       "biome format --write",
       "biome lint --apply",
-      "biome check --apply"
+      "tsc --noEmit"
     ]
   }
 }
