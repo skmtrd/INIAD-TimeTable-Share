@@ -1,5 +1,4 @@
 import type { FrourioSpec } from "@frourio/next";
-import { headers } from "next/headers";
 import { z } from "zod";
 
 export const frourioSpec = {

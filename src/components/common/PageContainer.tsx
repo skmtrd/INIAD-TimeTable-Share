@@ -1,11 +1,25 @@
-import React from "react";
+import { Container } from "@mui/material";
+import type React from "react";
+interface PageContainerProps {
+  /**
+   * ページのタイトル
+   * (省略可)
+   */
+  title?: string;
+  /**
+   * ページのコンテンツ
+   */
+  children: React.ReactNode;
+}
 
-const PageContainer = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      {children}
-    </div>
-  );
-};
+/**
+ * ページのコンテンツをラップするコンテナコンポーネント
+ */
+const PageContainer: React.FC<PageContainerProps> = (props) => (
+  <Container sx={{ mb: 6 }}>
+    {!!props.title && <h1>{props.title}</h1>}
+    {props.children}
+  </Container>
+);
 
 export default PageContainer;
