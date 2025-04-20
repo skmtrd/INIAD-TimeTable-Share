@@ -20,7 +20,8 @@
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "formatWithErrors": true
   },
   "organizeImports": {
     "enabled": true
@@ -30,11 +31,25 @@
     "rules": {
       "recommended": true,
       "correctness": {
+        "noUndeclaredVariables": "error",
         "noUnusedImports": "error",
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
+        "useHookAtTopLevel": "error"
+      },
+      "style": {
+        "useForOf": "error",
+        "useFragmentSyntax": "error"
+      },
+      "suspicious": {
+        "noConsoleLog": "warn",
+        "noEmptyBlockStatements": "error"
       },
       "nursery": {
-        "useSortedClasses": "warn"
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "error",
+          "options": {}
+        }
       }
     }
   },
