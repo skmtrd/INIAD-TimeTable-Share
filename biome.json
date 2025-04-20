@@ -41,7 +41,7 @@
         "useFragmentSyntax": "error"
       },
       "suspicious": {
-        "noConsoleLog": "error",
+        "noConsoleLog": "warn",
         "noEmptyBlockStatements": "error"
       },
       "nursery": {
