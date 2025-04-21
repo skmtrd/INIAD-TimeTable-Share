@@ -17,6 +17,7 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  timetables    TimeTable[]
 
   @@unique([email])
   @@map("user")
@@ -66,3 +67,29 @@ model Verification {
 
   @@map("verification")
 }
+
+model TimeTable{
+  userId String
+  user User @relation(fields: [userId] , references: [id] ,onDelete: Cascade)
+  lectureId String
+  lecture Lecture @relation(fields:[lectureId] , references: [id] , onDelete: Cascade)
+  createdAt  DateTime
+  updatedAt  DateTime
+
+  @@id([userId , lectureId])
+}
+
+model Lecture{
+  id String @id 
+  name String
+  day String
+  timetables TimeTable[]
+  periodNumber Int
+  createdAt  DateTime
+  updatedAt  DateTime
+}
+
+
+
+
+
