@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import {
   AppBar,
   Avatar,
@@ -15,6 +13,7 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import type React from "react";
 import { useState } from "react";
 
 export const SiteHeader = () => {
