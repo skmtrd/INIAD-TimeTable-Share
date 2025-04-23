@@ -9,14 +9,12 @@ import { redirect } from "next/navigation";
  * 認証されていない場合は/loginにリダイレクトする
  * 認証されている場合はtrueを返す
  */
-export async function UserAuthenticationCheck() {
+export async function userAuthenticationCheck() {
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });
 
-  if (!session) {
-    redirect("/login");
-  }
+  if (!session) redirect("/login");
 
   return true;
 }

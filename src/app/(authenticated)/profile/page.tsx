@@ -1,8 +1,8 @@
-import { UserAuthenticationCheck } from "@/app/actions/isUserAuthenticated";
+import { userAuthenticationCheck } from "@/app/actions/userAuthenticationCheck";
 import ProfilePage from "@/components/domain/(authenticated)/profile/ProfilePage";
 
 const Profile = async () => {
-  await UserAuthenticationCheck();
+  await userAuthenticationCheck();
   return <ProfilePage />;
 };
 
