@@ -1,11 +1,16 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Logout from "@mui/icons-material/Logout";
 import {
   AppBar,
   Avatar,
   Box,
   Button,
   Divider,
+  ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
   Toolbar,
@@ -29,6 +34,16 @@ export const SiteHeader = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/"); // redirect to login page
+        },
+      },
+    });
   };
 
   // リンクのスタイル関数
@@ -128,22 +143,24 @@ export const SiteHeader = () => {
               horizontal: "right",
             }}
           >
-            <MenuItem disabled>
-              <Typography variant="body2" fontWeight="bold">
-                マイアカウント
-              </Typography>
-            </MenuItem>
-            <Divider />
             <MenuItem
               onClick={() => {
                 handleClose();
                 router.push("/profile");
               }}
             >
-              プロフィール
+              <ListItemIcon>
+                <AccountCircle fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>プロフィール</ListItemText>
             </MenuItem>
             <Divider />
-            <MenuItem onClick={handleClose}>ログアウト</MenuItem>
+            <MenuItem onClick={handleSignOut}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>ログアウト</ListItemText>
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>
