@@ -7,8 +7,9 @@ import { redirect } from "next/navigation";
 /**
  * ユーザーが認証されているかどうかを確認する
  * 認証されていない場合は/loginにリダイレクトする
+ * 認証されている場合はtrueを返す
  */
-export async function isUserAuthenticated() {
+export async function UserAuthenticationCheck() {
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });

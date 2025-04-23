@@ -28,6 +28,8 @@ export const SiteHeader = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const { data: session } = authClient.useSession();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -119,12 +121,9 @@ export const SiteHeader = () => {
             }}
           >
             <Avatar
-              src="/placeholder.svg"
-              alt="ユーザー"
+              src={session?.user.image || ""}
               sx={{ width: 32, height: 32 }}
-            >
-              ユ
-            </Avatar>
+            />
           </Button>
           <Menu
             id="avatar-menu"
