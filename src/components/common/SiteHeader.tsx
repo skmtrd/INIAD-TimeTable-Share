@@ -12,13 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 import NextLink from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 
 export const SiteHeader = () => {
   const pathname = usePathname();
-
+  const router = useRouter();
   // ユーザーメニューの状態管理
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -58,7 +58,7 @@ export const SiteHeader = () => {
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <NextLink href="/" passHref>
+          <NextLink href="/dashboard" passHref>
             <Typography
               variant="h6"
               component="div"
@@ -134,10 +134,14 @@ export const SiteHeader = () => {
               </Typography>
             </MenuItem>
             <Divider />
-            <MenuItem onClick={handleClose}>プロフィール</MenuItem>
-            <MenuItem onClick={handleClose}>注文履歴</MenuItem>
-            <MenuItem onClick={handleClose}>お気に入り</MenuItem>
-            <MenuItem onClick={handleClose}>設定</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                router.push("/profile");
+              }}
+            >
+              プロフィール
+            </MenuItem>
             <Divider />
             <MenuItem onClick={handleClose}>ログアウト</MenuItem>
           </Menu>
