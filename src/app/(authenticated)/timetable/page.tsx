@@ -1,7 +1,7 @@
 "use client";
 
 import type { ClassCellProps, TimetableData } from "@/app/types/timetable";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import React from "react";
 
 // 時間割のダミーデータ
@@ -78,7 +78,30 @@ const days = [
 const dayLabels = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
 
 // 授業セルコンポーネント
-const ClassCell = ({ classData }: ClassCellProps) => {
+const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          height: "100%",
+          p: 1.5,
+          backgroundColor: "hsl(0 0% 100%)",
+          border: "1px solid hsl(240 5.9% 90%)",
+          borderRadius: "0.375rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
+          "&:hover": {
+            boxShadow:
+              "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+          },
+        }}
+      >
+        <Skeleton variant="text" width={50} height={25} />
+      </Box>
+    );
+  }
   if (!classData) {
     return (
       <Box
@@ -99,9 +122,7 @@ const ClassCell = ({ classData }: ClassCellProps) => {
             fontSize: "0.75rem",
             fontStyle: "italic",
           }}
-        >
-          空き時間
-        </Typography>
+        />
       </Box>
     );
   }
@@ -139,7 +160,11 @@ const ClassCell = ({ classData }: ClassCellProps) => {
   );
 };
 
-export default function Timetable() {
+type TimetableProps = {
+  isLoading: boolean;
+};
+
+const Timetable: React.FC<TimetableProps> = (props) => {
   return (
     <Box
       sx={{
@@ -266,7 +291,10 @@ export default function Timetable() {
               {/* 各曜日のセル */}
               {days.map((day) => (
                 <Box key={`${day}-${period}`} className="class-cell" sx={{}}>
-                  <ClassCell classData={timetableData[day][period]} />
+                  <ClassCell
+                    classData={timetableData[day][period]}
+                    isLoading={props.isLoading}
+                  />
                 </Box>
               ))}
             </React.Fragment>
@@ -275,4 +303,6 @@ export default function Timetable() {
       </Paper>
     </Box>
   );
-}
+};
+
+export default Timetable;

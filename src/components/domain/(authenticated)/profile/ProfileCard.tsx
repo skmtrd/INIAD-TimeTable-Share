@@ -10,6 +10,7 @@ import {
   Button,
   InputAdornment,
   Paper,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -22,6 +23,7 @@ type ProfileCardProps = {
   image: string | null;
   onSave?: (data: { name: string; twitterId: string | null }) => void;
   mutate: () => void;
+  isLoading: boolean;
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = (props) => {
@@ -72,7 +74,9 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
               }}
             />
             <Box>
-              {isEditMode ? (
+              {props.isLoading ? (
+                <Skeleton variant="text" width={100} height={40} />
+              ) : isEditMode ? (
                 <TextField
                   value={editName}
                   onChange={handleNameChange}
@@ -159,7 +163,9 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <TwitterIcon sx={{ fontSize: 18, color: "#1DA1F2", mr: 0.5 }} />
-          {isEditMode ? (
+          {props.isLoading ? (
+            <Skeleton variant="text" width={100} height={25} />
+          ) : isEditMode ? (
             <TextField
               value={editTwitterId ?? ""}
               onChange={handleTwitterIdChange}

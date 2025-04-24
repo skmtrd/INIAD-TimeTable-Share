@@ -10,20 +10,19 @@ const ProfilePage = () => {
   const { user, error, isLoading, mutate } = useProfilePage();
 
   if (error) return <div>Error loading users</div>;
-  if (!user) return <div>Loading...</div>;
-  if (isLoading) return <div>Loading...</div>;
 
   return (
     <PageContainer>
       <Box sx={{ width: "100%", maxWidth: "md", pt: 10, pb: 10 }}>
         <ProfileCard
-          name={user.name}
-          id={user.id}
-          twitterId={user.twitterId}
-          image={user.image}
+          name={user?.name ?? ""}
+          id={user?.id ?? ""}
+          twitterId={user?.twitterId ?? null}
+          image={user?.image ?? null}
           mutate={mutate}
+          isLoading={isLoading}
         />
-        <Timetable />
+        <Timetable isLoading={isLoading} />
       </Box>
     </PageContainer>
   );
