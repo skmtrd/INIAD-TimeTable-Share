@@ -143,9 +143,8 @@ export default function Timetable() {
   return (
     <Box
       sx={{
-        width: "80%",
+        width: "100%",
         overflowX: "auto",
-        margin: "0 auto",
       }}
     >
       <Paper

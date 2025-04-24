@@ -1,15 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { z } from 'zod';
+import { z } from 'zod';
 import { frourioSpec } from './frourio';
-import type { GET, POST } from './route';
+import type { GET } from './route';
 
-type RouteChecker = [typeof GET, typeof POST];
+type RouteChecker = [typeof GET];
+
+export const paramsSchema = z.object({ 'id': frourioSpec.param });
+
+type ParamsType = z.infer<typeof paramsSchema>;
 
 type SpecType = typeof frourioSpec;
 
 type Controller = {
   get: (
     req: {
+      params: ParamsType;
     },
   ) => Promise<
     | {
@@ -21,33 +26,32 @@ type Controller = {
         body: z.infer<SpecType['get']['res'][404]['body']>;
       }
   >;
-  post: (
-    req: {
-      body: z.infer<SpecType['post']['body']>;
-    },
-  ) => Promise<
-    | {
-        status: 200;
-        body: z.infer<SpecType['post']['res'][200]['body']>;
-      }
-    | {
-        status: 404;
-        body: z.infer<SpecType['post']['res'][404]['body']>;
-      }
-  >;
 };
 
-type MethodHandler = (req: NextRequest | Request) => Promise<NextResponse>;;
+type MethodHandler = (req: NextRequest | Request, option: { params: Promise<ParamsType> }) => Promise<NextResponse>;;
 
 type ResHandler = {
   GET: MethodHandler
-  POST: MethodHandler
 };
 
 export const createRoute = (controller: Controller): ResHandler => {
+  const middleware = (next: (
+    args: { req: NextRequest, params: ParamsType },
+  ) => Promise<NextResponse>): MethodHandler => async (originalReq, option) => {
+    const req = originalReq instanceof NextRequest ? originalReq : new NextRequest(originalReq);
+    const params = paramsSchema.safeParse(await option.params);
+
+    if (params.error) return createReqErr(params.error);
+
+
+      return await next({ req, params: params.data })
+      
+    
+  };
+
   return {
-    GET: async (req) => {
-      const res = await controller.get({  });
+    GET: middleware(async ({ req, params }) => {
+      const res = await controller.get({ params });
 
       switch (res.status) {
         case 200: {
@@ -67,33 +71,7 @@ export const createRoute = (controller: Controller): ResHandler => {
         default:
           throw new Error(res satisfies never);
       }
-    },
-    POST: async (req) => {
-      const body = frourioSpec.post.body.safeParse(await req.json().catch(() => undefined));
-
-      if (body.error) return createReqErr(body.error);
-
-      const res = await controller.post({ body: body.data });
-
-      switch (res.status) {
-        case 200: {
-          const body = frourioSpec.post.res[200].body.safeParse(res.body);
-
-          if (body.error) return createResErr();
-
-          return createResponse(body.data, { status: 200 });
-        }
-        case 404: {
-          const body = frourioSpec.post.res[404].body.safeParse(res.body);
-
-          if (body.error) return createResErr();
-
-          return createResponse(body.data, { status: 404 });
-        }
-        default:
-          throw new Error(res satisfies never);
-      }
-    },
+    }),
   };
 };
 
