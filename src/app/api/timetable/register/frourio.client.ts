@@ -2,12 +2,12 @@ import type { FrourioClientOption } from '@frourio/next';
 import { z } from 'zod';
 import { frourioSpec } from './frourio'
 
-export const fc = (option?: FrourioClientOption) => ({
+export const fc_w3uc3e = (option?: FrourioClientOption) => ({
   $url: $url(option),
   ...methods(option),
 });
 
-export const $fc = (option?: FrourioClientOption) => ({
+export const $fc_w3uc3e = (option?: FrourioClientOption) => ({
   $url: {
     post(): string {
       const result = $url(option).post();
