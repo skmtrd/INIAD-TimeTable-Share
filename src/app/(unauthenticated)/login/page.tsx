@@ -1,11 +1,16 @@
-import { UserAuthenticationCheck } from "@/app/actions/isUserAuthenticated";
+import { auth } from "@/auth";
 import PageContainer from "@/components/common/PageContainer";
 import LoginForm from "@/components/domain/(unauthenticated)/login/LoginForm";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 const LoginPage = async () => {
-  const isAuthenticated = await UserAuthenticationCheck();
-  if (isAuthenticated) redirect("/dashboard");
+  const session = await auth.api.getSession({
+    headers: await headers(), // you need to pass the headers object.
+  });
+
+  if (session) redirect("/dashboard");
+
   return (
     <PageContainer>
       <LoginForm />
