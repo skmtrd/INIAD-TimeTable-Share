@@ -143,8 +143,9 @@ export default function Timetable() {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "80%",
         overflowX: "auto",
+        margin: "0 auto",
       }}
     >
       <Paper
@@ -177,6 +178,7 @@ export default function Timetable() {
             gridTemplateColumns: "80px repeat(6, 1fr)",
             gap: 1.5,
             minWidth: 800,
+            "& > div": { aspectRatio: "1/1" },
           }}
         >
           {/* ヘッダー行 */}
@@ -186,6 +188,7 @@ export default function Timetable() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              aspectRatio: "auto !important",
             }}
           >
             <Typography
@@ -208,6 +211,7 @@ export default function Timetable() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                aspectRatio: "auto !important",
               }}
             >
               <Typography
@@ -260,12 +264,7 @@ export default function Timetable() {
 
               {/* 各曜日のセル */}
               {days.map((day) => (
-                <Box
-                  key={`${day}-${period}`}
-                  sx={{
-                    height: 100,
-                  }}
-                >
+                <Box key={`${day}-${period}`} sx={{}}>
                   <ClassCell classData={timetableData[day][period]} />
                 </Box>
               ))}
