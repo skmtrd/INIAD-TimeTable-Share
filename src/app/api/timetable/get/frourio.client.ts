@@ -2,18 +2,18 @@ import type { FrourioClientOption } from '@frourio/next';
 import { z } from 'zod';
 import { frourioSpec } from './frourio'
 
-export const fc = (option?: FrourioClientOption) => ({
+export const fc_bgclsx = (option?: FrourioClientOption) => ({
   $url: $url(option),
   $build(req?: { init?: RequestInit }): [
     key: { dir: string },
     fetcher: () => Promise<NonNullable<Awaited<ReturnType<ReturnType<typeof methods>['$get']>>>>,
   ] {
-    return [{ dir: '/api/timetable/get' }, () => fc(option).$get(req)];
+    return [{ dir: '/api/timetable/get' }, () => fc_bgclsx(option).$get(req)];
   },
   ...methods(option),
 });
 
-export const $fc = (option?: FrourioClientOption) => ({
+export const $fc_bgclsx = (option?: FrourioClientOption) => ({
   $url: {
     get(): string {
       const result = $url(option).get();
@@ -27,7 +27,7 @@ export const $fc = (option?: FrourioClientOption) => ({
     key: { dir: string },
     fetcher: () => Promise<z.infer<typeof frourioSpec.get.res[200]['body']>>,
   ] {
-    return [{ dir: '$/api/timetable/get' }, () => $fc(option).$get(req)];
+    return [{ dir: '$/api/timetable/get' }, () => $fc_bgclsx(option).$get(req)];
   },
   async $get(req?: Parameters<ReturnType<typeof methods>['$get']>[0]): Promise<z.infer<typeof frourioSpec.get.res[200]['body']>> {
     const result = await methods(option).$get(req);

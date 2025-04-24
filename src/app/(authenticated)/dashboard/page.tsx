@@ -1,6 +1,8 @@
 "use client";
 
 import PageContainer from "@/components/common/PageContainer";
+import { apiClient } from "@/lib/apiClient";
+import { authClient } from "@/lib/auth-client";
 import { acceptedFileTypes } from "@/lib/constants";
 import UploadIcon from "@mui/icons-material/Upload";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
@@ -13,6 +15,7 @@ const Dashboard = () => {
     "ファイルを選択してください",
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { data: session } = authClient.useSession();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -27,29 +30,25 @@ const Dashboard = () => {
       return;
     }
 
+    if (!session || !session.user.id) {
+      setMessage("ログインしてください");
+      return;
+    }
+
     try {
+      const requestBody = {
+        file: file,
+        userId: session.user.id,
+      };
       setIsUploading(true);
       setMessage("アップロード中...");
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      // const formData = new FormData();
-      // formData.append("file", file);
-
-      // const response = await fetch("/api/timetable/upload", {
-      //   method: "POST",
-      //   body: formData,
-      // });
-
-      // if (!response.ok) {
-      //   const errorData = await response.json().catch(() => null);
-      //   throw new Error(errorData?.error || "アップロードに失敗しました");
-      // }
-
-      // const data = await response.json();
-      // console.log("アップロード成功:", data);
+      const result = await apiClient["timetable/register"].$post({
+        body: requestBody,
+      });
+      console.log("アップロード結果:", result);
+      console.log(requestBody);
       setMessage("アップロードに成功しました");
-
-      // ファイル選択をリセット
       setFile(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
@@ -70,7 +69,11 @@ const Dashboard = () => {
 
   return (
     <PageContainer>
-      <Box sx={{ width: "50%" }}>
+      <Box
+        sx={{
+          width: "50%",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
