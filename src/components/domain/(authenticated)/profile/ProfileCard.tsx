@@ -1,14 +1,45 @@
-import { Edit as EditIcon, Twitter as TwitterIcon } from "@mui/icons-material";
-import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
+import { useProfileEdit } from "@/app/hooks/domain/(authenticated)/profile/useProfileEdit";
+import {
+  Close as CloseIcon,
+  Edit as EditIcon,
+  Twitter as TwitterIcon,
+} from "@mui/icons-material";
+import {
+  Avatar,
+  Box,
+  Button,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import type React from "react";
 
 type ProfileCardProps = {
   name: string;
+  id: string;
   twitterId: string | null;
   image: string | null;
+  onSave?: (data: { name: string; twitterId: string | null }) => void;
+  mutate: () => void;
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = (props) => {
+  const {
+    editName,
+    editTwitterId,
+    handleSave,
+    handleNameChange,
+    handleTwitterIdChange,
+    isEditMode,
+    handleToggleEditMode,
+  } = useProfileEdit({
+    name: props.name,
+    twitterId: props.twitterId,
+    id: props.id,
+    mutate: props.mutate,
+  });
+
   return (
     <Paper
       elevation={0}
@@ -22,7 +53,6 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
       }}
     >
       <Box sx={{ p: 3 }}>
-        {/* アバターと編集ボタン */}
         <Box
           sx={{
             display: "flex",
@@ -42,59 +72,123 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
               }}
             />
             <Box>
-              {/* 名前とユーザー名 */}
-              <Typography
-                variant="h5"
-                sx={{
-                  fontWeight: 600,
-                  color: "hsl(240 6% 10%)",
-                  fontSize: "1.25rem",
-                  mb: 0.5,
-                }}
-              >
-                {props.name}
-              </Typography>
+              {isEditMode ? (
+                <TextField
+                  value={editName}
+                  onChange={handleNameChange}
+                  label="名前"
+                  variant="outlined"
+                  size="small"
+                  sx={{ mb: 0.5 }}
+                />
+              ) : (
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 600,
+                    color: "hsl(240 6% 10%)",
+                    fontSize: "1.25rem",
+                    mb: 0.5,
+                  }}
+                >
+                  {props.name}
+                </Typography>
+              )}
             </Box>
           </Box>
-          <Button
-            variant="outlined"
-            startIcon={<EditIcon />}
-            sx={{
-              borderRadius: "0.5rem",
-              textTransform: "none",
-              fontWeight: 500,
-              borderColor: "hsl(240 5.9% 90%)",
-              color: "hsl(240 6% 10%)",
-              height: "36px",
-              "&:hover": {
-                borderColor: "hsl(240 5.9% 80%)",
-                backgroundColor: "hsl(240 5% 96%)",
-              },
-            }}
-          >
-            編集
-          </Button>
+          {isEditMode ? (
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Button
+                variant="outlined"
+                startIcon={<CloseIcon />}
+                onClick={handleToggleEditMode}
+                color="error"
+                sx={{
+                  borderRadius: "0.5rem",
+                  textTransform: "none",
+                  fontWeight: 500,
+                  height: "36px",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+              >
+                キャンセル
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleSave}
+                color="success"
+                sx={{
+                  borderRadius: "0.5rem",
+                  textTransform: "none",
+                  fontWeight: 500,
+                  color: "white",
+                  height: "36px",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+              >
+                保存
+              </Button>
+            </Box>
+          ) : (
+            <Button
+              variant="outlined"
+              startIcon={<EditIcon />}
+              onClick={handleToggleEditMode}
+              color="primary"
+              sx={{
+                borderRadius: "0.5rem",
+                textTransform: "none",
+                fontWeight: 500,
+                borderColor: "hsl(240 5.9% 90%)",
+                color: "hsl(240 6% 10%)",
+                height: "36px",
+                "&:hover": {
+                  opacity: 0.8,
+                },
+              }}
+            >
+              編集
+            </Button>
+          )}
         </Box>
-        {/* Xへのリンク */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <TwitterIcon sx={{ fontSize: 18, color: "#1DA1F2", mr: 0.5 }} />
-          <Typography
-            variant="body2"
-            component="a"
-            href={`https://twitter.com/${props.twitterId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              color: "#1DA1F2",
-              fontSize: "0.875rem",
-              textDecoration: "none",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-          >
-            @{props.twitterId ?? "未設定"}
-          </Typography>
+          {isEditMode ? (
+            <TextField
+              value={editTwitterId ?? ""}
+              onChange={handleTwitterIdChange}
+              label="Twitterアカウント"
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">@</InputAdornment>
+                ),
+              }}
+            />
+          ) : (
+            <Typography
+              variant="body2"
+              component="a"
+              href={`https://twitter.com/${props.twitterId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                color: "#1DA1F2",
+                fontSize: "0.875rem",
+                textDecoration: "none",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              @{props.twitterId ?? "未設定"}
+            </Typography>
+          )}
         </Box>
       </Box>
     </Paper>
