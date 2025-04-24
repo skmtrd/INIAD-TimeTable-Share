@@ -1,27 +1,34 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Logout from "@mui/icons-material/Logout";
 import {
   AppBar,
   Avatar,
   Box,
   Button,
   Divider,
+  ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
 import NextLink from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 
 export const SiteHeader = () => {
   const pathname = usePathname();
-
+  const router = useRouter();
   // ユーザーメニューの状態管理
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const { data: session } = authClient.useSession();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -29,6 +36,16 @@ export const SiteHeader = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/"); // redirect to login page
+        },
+      },
+    });
   };
 
   // リンクのスタイル関数
@@ -58,7 +75,7 @@ export const SiteHeader = () => {
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <NextLink href="/" passHref>
+          <NextLink href="/dashboard" passHref>
             <Typography
               variant="h6"
               component="div"
@@ -104,12 +121,9 @@ export const SiteHeader = () => {
             }}
           >
             <Avatar
-              src="/placeholder.svg"
-              alt="ユーザー"
+              src={session?.user.image || ""}
               sx={{ width: 32, height: 32 }}
-            >
-              ユ
-            </Avatar>
+            />
           </Button>
           <Menu
             id="avatar-menu"
@@ -128,18 +142,24 @@ export const SiteHeader = () => {
               horizontal: "right",
             }}
           >
-            <MenuItem disabled>
-              <Typography variant="body2" fontWeight="bold">
-                マイアカウント
-              </Typography>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                router.push(`/profile/${session?.user.id}`);
+              }}
+            >
+              <ListItemIcon>
+                <AccountCircle fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>プロフィール</ListItemText>
             </MenuItem>
             <Divider />
-            <MenuItem onClick={handleClose}>プロフィール</MenuItem>
-            <MenuItem onClick={handleClose}>注文履歴</MenuItem>
-            <MenuItem onClick={handleClose}>お気に入り</MenuItem>
-            <MenuItem onClick={handleClose}>設定</MenuItem>
-            <Divider />
-            <MenuItem onClick={handleClose}>ログアウト</MenuItem>
+            <MenuItem onClick={handleSignOut}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>ログアウト</ListItemText>
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>

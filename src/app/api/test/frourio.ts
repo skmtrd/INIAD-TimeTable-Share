@@ -7,6 +7,9 @@ export const frourioSpec = {
       200: {
         body: z.object({ value: z.string() }),
       },
+      404: {
+        body: z.object({ error: z.string() }),
+      },
     },
   },
   post: {
