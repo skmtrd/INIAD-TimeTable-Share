@@ -19,6 +19,8 @@ model User {
   accounts      Account[]
   timetables    TimeTable[]
 
+  twitterId     String?
+
   @@unique([email])
   @@map("user")
 }

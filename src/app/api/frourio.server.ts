@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { z } from 'zod';
 import { frourioSpec } from './frourio';
-import type { GET, POST } from './route';
+import type { GET } from './route';
 
-type RouteChecker = [typeof GET, typeof POST];
+type RouteChecker = [typeof GET];
 
 type SpecType = typeof frourioSpec;
 
@@ -16,24 +16,6 @@ type Controller = {
         status: 200;
         body: z.infer<SpecType['get']['res'][200]['body']>;
       }
-    | {
-        status: 404;
-        body: z.infer<SpecType['get']['res'][404]['body']>;
-      }
-  >;
-  post: (
-    req: {
-      body: z.infer<SpecType['post']['body']>;
-    },
-  ) => Promise<
-    | {
-        status: 200;
-        body: z.infer<SpecType['post']['res'][200]['body']>;
-      }
-    | {
-        status: 404;
-        body: z.infer<SpecType['post']['res'][404]['body']>;
-      }
   >;
 };
 
@@ -41,7 +23,6 @@ type MethodHandler = (req: NextRequest | Request) => Promise<NextResponse>;;
 
 type ResHandler = {
   GET: MethodHandler
-  POST: MethodHandler
 };
 
 export const createRoute = (controller: Controller): ResHandler => {
@@ -57,41 +38,8 @@ export const createRoute = (controller: Controller): ResHandler => {
 
           return createResponse(body.data, { status: 200 });
         }
-        case 404: {
-          const body = frourioSpec.get.res[404].body.safeParse(res.body);
-
-          if (body.error) return createResErr();
-
-          return createResponse(body.data, { status: 404 });
-        }
         default:
-          throw new Error(res satisfies never);
-      }
-    },
-    POST: async (req) => {
-      const body = frourioSpec.post.body.safeParse(await req.json().catch(() => undefined));
-
-      if (body.error) return createReqErr(body.error);
-
-      const res = await controller.post({ body: body.data });
-
-      switch (res.status) {
-        case 200: {
-          const body = frourioSpec.post.res[200].body.safeParse(res.body);
-
-          if (body.error) return createResErr();
-
-          return createResponse(body.data, { status: 200 });
-        }
-        case 404: {
-          const body = frourioSpec.post.res[404].body.safeParse(res.body);
-
-          if (body.error) return createResErr();
-
-          return createResponse(body.data, { status: 404 });
-        }
-        default:
-          throw new Error(res satisfies never);
+          throw new Error(res.status satisfies never);
       }
     },
   };
