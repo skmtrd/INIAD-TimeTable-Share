@@ -1,5 +1,6 @@
 "use client";
 
+import type { ClassCellProps, TimetableData } from "@/app/types/timetable";
 import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
 
@@ -75,21 +76,6 @@ const days = [
   "saturday",
 ];
 const dayLabels = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
-
-interface ClassCellProps {
-  classData: {
-    id: number;
-    name: string;
-  } | null;
-}
-
-// 時間割データの型定義を追加
-interface TimetableData {
-  [key: string]: Array<{
-    id: number;
-    name: string;
-  } | null>;
-}
 
 // 授業セルコンポーネント
 const ClassCell = ({ classData }: ClassCellProps) => {

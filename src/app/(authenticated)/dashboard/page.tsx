@@ -35,9 +35,6 @@ const Dashboard = () => {
       <button type="button" onClick={handleSignOut}>
         サインアウト
       </button>
-      <button type="button" onClick={() => router.push("/timetable")}>
-        時間割を表示
-      </button>
     </div>
   );
 };
