@@ -178,7 +178,8 @@ export default function Timetable() {
             gridTemplateColumns: "80px repeat(6, 1fr)",
             gap: 1.5,
             minWidth: 800,
-            "& > div": { aspectRatio: "1/1" },
+            gridTemplateRows: "auto repeat(6, 1fr)",
+            "& .class-cell": { aspectRatio: "1/1" },
           }}
         >
           {/* ヘッダー行 */}
@@ -240,6 +241,7 @@ export default function Timetable() {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
+                  height: "100%",
                 }}
               >
                 <Typography
@@ -264,7 +266,7 @@ export default function Timetable() {
 
               {/* 各曜日のセル */}
               {days.map((day) => (
-                <Box key={`${day}-${period}`} sx={{}}>
+                <Box key={`${day}-${period}`} className="class-cell" sx={{}}>
                   <ClassCell classData={timetableData[day][period]} />
                 </Box>
               ))}
