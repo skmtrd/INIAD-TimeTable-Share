@@ -1,24 +1,24 @@
 import type React from "react";
 import { useState } from "react";
 
-export const useProfileEdit = (props: {
-  name: string;
-  twitterId: string | null;
-  id: string;
-  mutate: () => void;
-}) => {
+export const useProfileEdit = (
+  name: string,
+  twitterId: string | null,
+  id: string,
+  mutate: () => void,
+) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [editName, setEditName] = useState(props.name);
-  const [editTwitterId, setEditTwitterId] = useState(props.twitterId);
+  const [editName, setEditName] = useState(name);
+  const [editTwitterId, setEditTwitterId] = useState(twitterId);
 
   const handleSave = async () => {
-    const response = await fetch(`/api/users/${props.id}`, {
+    const response = await fetch(`/api/users/${id}`, {
       method: "PUT",
       body: JSON.stringify({ name: editName, twitterId: editTwitterId }),
     });
     if (response.ok) {
       setIsEditMode(false);
-      props.mutate();
+      mutate();
     }
   };
 
@@ -27,8 +27,8 @@ export const useProfileEdit = (props: {
       setEditName("");
       setEditTwitterId("");
     } else {
-      setEditName(props.name);
-      setEditTwitterId(props.twitterId);
+      setEditName(name);
+      setEditTwitterId(twitterId);
     }
     setIsEditMode((prev) => !prev);
   };

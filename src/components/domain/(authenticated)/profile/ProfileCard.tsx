@@ -35,12 +35,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
     handleTwitterIdChange,
     isEditMode,
     handleToggleEditMode,
-  } = useProfileEdit({
-    name: props.name,
-    twitterId: props.twitterId,
-    id: props.id,
-    mutate: props.mutate,
-  });
+  } = useProfileEdit(props.name, props.twitterId, props.id, props.mutate);
 
   return (
     <Paper
