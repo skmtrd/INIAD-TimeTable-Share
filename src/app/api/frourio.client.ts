@@ -1,12 +1,12 @@
 import type { FrourioClientOption } from '@frourio/next';
 import { z } from 'zod';
 import { fc_jty5ez, $fc_jty5ez } from './test/frourio.client';
-import { fc_16ecq9e, $fc_16ecq9e } from './user/[id]/frourio.client';
+import { fc_15ctk2d, $fc_15ctk2d } from './users/[id]/frourio.client';
 import { frourioSpec } from './frourio'
 
 export const fc = (option?: FrourioClientOption) => ({
   'test': fc_jty5ez(option),
-  'user/[id]': fc_16ecq9e(option),
+  'users/[id]': fc_15ctk2d(option),
   $url: $url(option),
   $build(req?: { init?: RequestInit }): [
     key: { dir: string },
@@ -19,7 +19,7 @@ export const fc = (option?: FrourioClientOption) => ({
 
 export const $fc = (option?: FrourioClientOption) => ({
   'test': $fc_jty5ez(option),
-  'user/[id]': $fc_16ecq9e(option),
+  'users/[id]': $fc_15ctk2d(option),
   $url: {
     get(): string {
       const result = $url(option).get();

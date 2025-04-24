@@ -2,7 +2,7 @@ import type { FrourioClientOption } from '@frourio/next';
 import { z } from 'zod';
 import { frourioSpec } from './frourio'
 
-export const fc_16ecq9e = (option?: FrourioClientOption) => ({
+export const fc_15ctk2d = (option?: FrourioClientOption) => ({
   $url: $url(option),
   $build(req: Parameters<ReturnType<typeof methods>['$get']>[0] | null): [
     key: { dir: string } & Omit<Parameters<ReturnType<typeof methods>['$get']>[0], 'init'> | null,
@@ -12,12 +12,12 @@ export const fc_16ecq9e = (option?: FrourioClientOption) => ({
 
     const { init, ...rest } = req;
 
-    return [{ dir: '/api/user/[id]', ...rest }, () => fc_16ecq9e(option).$get(req)];
+    return [{ dir: '/api/users/[id]', ...rest }, () => fc_15ctk2d(option).$get(req)];
   },
   ...methods(option),
 });
 
-export const $fc_16ecq9e = (option?: FrourioClientOption) => ({
+export const $fc_15ctk2d = (option?: FrourioClientOption) => ({
   $url: {
     get(req: Parameters<ReturnType<typeof $url>['get']>[0]): string {
       const result = $url(option).get(req);
@@ -35,7 +35,7 @@ export const $fc_16ecq9e = (option?: FrourioClientOption) => ({
 
     const { init, ...rest } = req;
 
-    return [{ dir: '$/api/user/[id]', ...rest }, () => $fc_16ecq9e(option).$get(req)];
+    return [{ dir: '$/api/users/[id]', ...rest }, () => $fc_15ctk2d(option).$get(req)];
   },
   async $get(req: Parameters<ReturnType<typeof methods>['$get']>[0]): Promise<z.infer<typeof frourioSpec.get.res[200]['body']>> {
     const result = await methods(option).$get(req);
@@ -56,7 +56,7 @@ const $url = (option?: FrourioClientOption) => ({
 
     if (!parsedParams.success) return { isValid: false, reason: parsedParams.error };
 
-    return { isValid: true, data: `${option?.baseURL ?? ''}/api/user/${parsedParams.data.id}` };
+    return { isValid: true, data: `${option?.baseURL ?? ''}/api/users/${parsedParams.data.id}` };
   },
 });
 

@@ -12,8 +12,7 @@ export const { GET } = createRoute({
         id: true,
         name: true,
         email: true,
-        // createdAt: true,
-        // updatedAt: true,
+        image: true,
         twitterId: true,
       },
     });
