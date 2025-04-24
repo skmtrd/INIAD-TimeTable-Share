@@ -145,7 +145,7 @@ export const SiteHeader = () => {
             <MenuItem
               onClick={() => {
                 handleClose();
-                router.push("/profile");
+                router.push(`/profile/${session?.user.id}`);
               }}
             >
               <ListItemIcon>

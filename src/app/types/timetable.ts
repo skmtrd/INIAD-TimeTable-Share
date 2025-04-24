@@ -3,6 +3,7 @@ export interface ClassCellProps {
     id: number;
     name: string;
   } | null;
+  isLoading: boolean;
 }
 
 // 時間割データの型定義を追加

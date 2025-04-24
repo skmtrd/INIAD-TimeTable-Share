@@ -4,7 +4,6 @@ export const userSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
-  // createdAt: z.date(),
-  // updatedAt: z.date(),
+  image: z.string().nullable(),
   twitterId: z.string().nullable(),
 });

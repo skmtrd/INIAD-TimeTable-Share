@@ -1,10 +1,9 @@
 import { createRoute } from "@/app/api/test/frourio.server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
 export const { GET, POST } = createRoute({
   get: async () => ({ status: 200, body: { value: "ok" } }),
   post: async ({ body }) => {
-    const prisma = new PrismaClient();
     const userInfo = await prisma.user.findUnique({
       where: {
         id: body.id,

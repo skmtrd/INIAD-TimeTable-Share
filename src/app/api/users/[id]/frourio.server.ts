@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { frourioSpec } from './frourio';
-import type { GET } from './route';
+import type { GET, PUT } from './route';
 
-type RouteChecker = [typeof GET];
+type RouteChecker = [typeof GET, typeof PUT];
 
 export const paramsSchema = z.object({ 'id': frourioSpec.param });
 
@@ -26,12 +26,32 @@ type Controller = {
         body: z.infer<SpecType['get']['res'][404]['body']>;
       }
   >;
+  put: (
+    req: {
+      params: ParamsType;
+      body: z.infer<SpecType['put']['body']>;
+    },
+  ) => Promise<
+    | {
+        status: 200;
+        body: z.infer<SpecType['put']['res'][200]['body']>;
+      }
+    | {
+        status: 403;
+        body: z.infer<SpecType['put']['res'][403]['body']>;
+      }
+    | {
+        status: 404;
+        body: z.infer<SpecType['put']['res'][404]['body']>;
+      }
+  >;
 };
 
 type MethodHandler = (req: NextRequest | Request, option: { params: Promise<ParamsType> }) => Promise<NextResponse>;;
 
 type ResHandler = {
   GET: MethodHandler
+  PUT: MethodHandler
 };
 
 export const createRoute = (controller: Controller): ResHandler => {
@@ -63,6 +83,39 @@ export const createRoute = (controller: Controller): ResHandler => {
         }
         case 404: {
           const body = frourioSpec.get.res[404].body.safeParse(res.body);
+
+          if (body.error) return createResErr();
+
+          return createResponse(body.data, { status: 404 });
+        }
+        default:
+          throw new Error(res satisfies never);
+      }
+    }),
+    PUT: middleware(async ({ req, params }) => {
+      const body = frourioSpec.put.body.safeParse(await req.json().catch(() => undefined));
+
+      if (body.error) return createReqErr(body.error);
+
+      const res = await controller.put({ body: body.data, params });
+
+      switch (res.status) {
+        case 200: {
+          const body = frourioSpec.put.res[200].body.safeParse(res.body);
+
+          if (body.error) return createResErr();
+
+          return createResponse(body.data, { status: 200 });
+        }
+        case 403: {
+          const body = frourioSpec.put.res[403].body.safeParse(res.body);
+
+          if (body.error) return createResErr();
+
+          return createResponse(body.data, { status: 403 });
+        }
+        case 404: {
+          const body = frourioSpec.put.res[404].body.safeParse(res.body);
 
           if (body.error) return createResErr();
 
