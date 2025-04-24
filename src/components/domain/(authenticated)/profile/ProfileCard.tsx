@@ -117,12 +117,14 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
               </Button>
               <Button
                 variant="contained"
+                startIcon={<EditIcon />}
                 onClick={handleSave}
                 color="success"
                 sx={{
                   borderRadius: "0.5rem",
                   textTransform: "none",
                   fontWeight: 500,
+                  borderColor: "hsl(240 5.9% 90%)",
                   color: "white",
                   height: "36px",
                   "&:hover": {
