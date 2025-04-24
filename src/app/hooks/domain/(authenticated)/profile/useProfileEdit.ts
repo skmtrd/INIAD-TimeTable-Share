@@ -1,3 +1,4 @@
+import { apiClient } from "@/lib/apiClient";
 import type React from "react";
 import { useState } from "react";
 
@@ -12,13 +13,15 @@ export const useProfileEdit = (
   const [editTwitterId, setEditTwitterId] = useState(twitterId);
 
   const handleSave = async () => {
-    const response = await fetch(`/api/users/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ name: editName, twitterId: editTwitterId }),
-    });
-    if (response.ok) {
+    try {
+      await apiClient["users/[id]"].$put({
+        params: { id },
+        body: { name: editName, twitterId: editTwitterId },
+      });
       setIsEditMode(false);
       mutate();
+    } catch (error) {
+      console.error(error);
     }
   };
 
