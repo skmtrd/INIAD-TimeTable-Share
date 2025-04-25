@@ -1,14 +1,14 @@
 import type { FrourioClientOption } from '@frourio/next';
 import { z } from 'zod';
 import { fc_jty5ez, $fc_jty5ez } from './test/frourio.client';
-import { fc_bgclsx, $fc_bgclsx } from './timetable/get/frourio.client';
+import { fc_ldcif4, $fc_ldcif4 } from './timetable/get/[userId]/frourio.client';
 import { fc_w3uc3e, $fc_w3uc3e } from './timetable/register/frourio.client';
 import { fc_15ctk2d, $fc_15ctk2d } from './users/[id]/frourio.client';
 import { frourioSpec } from './frourio'
 
 export const fc = (option?: FrourioClientOption) => ({
   'test': fc_jty5ez(option),
-  'timetable/get': fc_bgclsx(option),
+  'timetable/get/[userId]': fc_ldcif4(option),
   'timetable/register': fc_w3uc3e(option),
   'users/[id]': fc_15ctk2d(option),
   $url: $url(option),
@@ -23,7 +23,7 @@ export const fc = (option?: FrourioClientOption) => ({
 
 export const $fc = (option?: FrourioClientOption) => ({
   'test': $fc_jty5ez(option),
-  'timetable/get': $fc_bgclsx(option),
+  'timetable/get/[userId]': $fc_ldcif4(option),
   'timetable/register': $fc_w3uc3e(option),
   'users/[id]': $fc_15ctk2d(option),
   $url: {
