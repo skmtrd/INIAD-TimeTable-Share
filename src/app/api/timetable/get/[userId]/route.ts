@@ -1,16 +1,9 @@
+import type { TimeTableSchema } from "@/schema/timetable";
 import { PrismaClient } from "@prisma/client";
+import type { z } from "zod";
 import { createRoute } from "./frourio.server";
 
-type TimeTableDataType = {
-  id: string;
-  name: string;
-  day: string;
-  periodNumber: number;
-};
-
-type TimeTableType = {
-  [periodNumber: string]: TimeTableDataType[];
-};
+export type TimeTable = z.infer<typeof TimeTableSchema>;
 
 export const { GET } = createRoute({
   get: async (req) => {
@@ -23,7 +16,7 @@ export const { GET } = createRoute({
         include: { lecture: true },
       });
 
-      const FormattedTimeTable: TimeTableType = {};
+      const FormattedTimeTable: TimeTable = {};
 
       timeTable.map((item) => {
         const periodNumber: string = item.lecture.periodNumber.toString();
