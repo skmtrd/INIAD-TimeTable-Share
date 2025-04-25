@@ -1,10 +1,9 @@
 "use client";
-
-import Timetable from "@/app/(authenticated)/timetable/page";
 import { useProfilePage } from "@/app/hooks/domain/(authenticated)/profile/useProfilePage";
 import PageContainer from "@/components/common/PageContainer";
 import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard";
 import { Box } from "@mui/material";
+import TimetablePage from "./Timetable";
 
 const ProfilePage = () => {
   const { user, error, isLoading, mutate } = useProfilePage();
@@ -22,7 +21,7 @@ const ProfilePage = () => {
           mutate={mutate}
           isLoading={isLoading}
         />
-        <Timetable isLoading={isLoading} />
+        <TimetablePage isLoading={isLoading} />
       </Box>
     </PageContainer>
   );
