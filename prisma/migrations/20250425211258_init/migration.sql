@@ -61,18 +61,18 @@ CREATE TABLE "verification" (
 CREATE TABLE "TimeTable" (
     "userId" TEXT NOT NULL,
     "lectureId" TEXT NOT NULL,
+    "day" TEXT NOT NULL,
+    "periodNumber" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "TimeTable_pkey" PRIMARY KEY ("userId","lectureId")
+    CONSTRAINT "TimeTable_pkey" PRIMARY KEY ("userId","lectureId","day","periodNumber")
 );
 
 -- CreateTable
 CREATE TABLE "Lecture" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "day" TEXT NOT NULL,
-    "periodNumber" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

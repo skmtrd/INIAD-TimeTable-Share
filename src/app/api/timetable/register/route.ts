@@ -1,14 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-
 import { createRoute } from "./frourio.server";
 
-type Timetable = {
+//Toyo net aceでダウンロードする時間割のデータ型
+type TimetableFromToyoNetAce = {
   [periodNumber: string]: string[];
 };
 
 export const { POST } = createRoute({
   post: async ({ body }) => {
-    let timetableObject: Timetable = {};
+    let timetableObject: TimetableFromToyoNetAce = {};
 
     try {
       timetableObject = await convertJsonFileToObject(body.file);
@@ -26,9 +26,11 @@ export const { POST } = createRoute({
   },
 });
 
-const convertJsonFileToObject = async (jsonfile: File): Promise<Timetable> => {
+const convertJsonFileToObject = async (
+  jsonfile: File,
+): Promise<TimetableFromToyoNetAce> => {
   const text = await jsonfile.text();
-  const timetableObject: Timetable = JSON.parse(text);
+  const timetableObject = JSON.parse(text);
 
   return timetableObject;
 };
@@ -42,7 +44,7 @@ const days: Record<number, string> = {
   5: "土曜日",
 };
 
-const handleRegister = (timetable: Timetable, userId: string) => {
+const handleRegister = (timetable: TimetableFromToyoNetAce, userId: string) => {
   Object.entries(timetable).map(
     ([periodNumber, lectures]: [string, string[]]) => {
       lectures.map((lecture: string, dayIndex: number) => {
@@ -62,10 +64,11 @@ const registerFacade = async (
 ) => {
   if (await isExitsLecture(lectureName)) {
     const lectureId: string = await getLectureId(lectureName);
-    registerLectureToTimetable(userId, lectureId);
+
+    registerLectureToTimetable(userId, lectureId, day, periodNumber);
   } else {
-    const lecture = await addNewLecture(lectureName, periodNumber, day);
-    registerLectureToTimetable(userId, lecture.id);
+    const lecture = await addNewLecture(lectureName);
+    registerLectureToTimetable(userId, lecture.id, day, periodNumber);
   }
 };
 
@@ -93,17 +96,11 @@ const isExitsLecture = async (lectureName: string): Promise<boolean> => {
   return isExit;
 };
 
-const addNewLecture = async (
-  lectureName: string,
-  periodNumber: number,
-  day: string,
-) => {
+const addNewLecture = async (lectureName: string) => {
   const prisma = new PrismaClient();
   const lecture = await prisma.lecture.create({
     data: {
       name: lectureName,
-      day: day,
-      periodNumber: periodNumber,
     },
   });
 
@@ -113,12 +110,17 @@ const addNewLecture = async (
 const registerLectureToTimetable = async (
   userId: string,
   lectureId: string,
+  day: string,
+  periodNumber: number,
 ): Promise<void> => {
   const prisma = new PrismaClient();
+
   await prisma.timeTable.create({
     data: {
       userId: userId,
       lectureId: lectureId,
+      day: day,
+      periodNumber: periodNumber,
     },
   });
 };
