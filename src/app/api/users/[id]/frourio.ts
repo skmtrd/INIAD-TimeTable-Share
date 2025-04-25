@@ -14,6 +14,7 @@ export const frourioSpec = {
     body: z.object({
       name: z.string(),
       twitterId: z.string().nullable(),
+      image: z.string().nullable(),
     }),
     res: {
       200: { body: userSchema },
