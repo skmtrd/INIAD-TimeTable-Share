@@ -2,6 +2,7 @@ import { apiClient } from "@/lib/apiClient";
 import { authClient } from "@/lib/auth-client";
 import { useRef, useState } from "react";
 import type { ChangeEvent } from "react";
+
 export const useDashboard = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);

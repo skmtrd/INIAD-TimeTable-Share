@@ -36,6 +36,7 @@ export const { GET, PUT } = createRoute({
       data: {
         name: body.name,
         twitterId: body.twitterId,
+        image: body.image,
       },
       select: {
         id: true,

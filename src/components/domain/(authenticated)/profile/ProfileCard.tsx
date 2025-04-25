@@ -1,4 +1,5 @@
 import { useProfileEdit } from "@/app/hooks/domain/(authenticated)/profile/useProfileEdit";
+import InputAvatarIcon from "@/components/domain/(authenticated)/profile/InputAvatarIcon";
 import {
   Close as CloseIcon,
   Edit as EditIcon,
@@ -36,7 +37,15 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
     handleTwitterIdChange,
     isEditMode,
     handleToggleEditMode,
-  } = useProfileEdit(props.name, props.twitterId, props.id, props.mutate);
+    editImage,
+    setEditImage,
+  } = useProfileEdit(
+    props.name,
+    props.twitterId,
+    props.id,
+    props.image,
+    props.mutate,
+  );
 
   return (
     <Paper
@@ -60,15 +69,28 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Avatar
-              src={props.image ?? ""}
-              sx={{
-                width: 80,
-                height: 80,
-                backgroundColor: "hsl(240 5.9% 90%)",
-                mr: 2,
-              }}
-            />
+            {isEditMode ? (
+              <Box sx={{ mr: 2 }}>
+                <InputAvatarIcon
+                  value={editImage}
+                  onChange={setEditImage}
+                  width="80px"
+                  aspectRatio={1}
+                  resultWidth={80}
+                />
+              </Box>
+            ) : (
+              <Avatar
+                src={props.image ?? ""}
+                sx={{
+                  width: 80,
+                  height: 80,
+                  backgroundColor: "hsl(240 5.9% 90%)",
+                  mr: 2,
+                }}
+              />
+            )}
+
             <Box>
               {props.isLoading ? (
                 <Skeleton variant="text" width={100} height={40} />
