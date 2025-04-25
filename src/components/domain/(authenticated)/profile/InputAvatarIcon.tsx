@@ -9,10 +9,8 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Slider,
-  Typography,
-  useTheme, // Theme を利用してスタイルを設定
+  useTheme,
 } from "@mui/material";
 import { useCallback, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
@@ -255,7 +253,6 @@ const InputAvatarIcon = ({
 
       {/* Cropping Dialog */}
       <Dialog open={open} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>イメージを切り抜く</DialogTitle>
         <DialogContent>
           <Box
             sx={{
@@ -291,9 +288,6 @@ const InputAvatarIcon = ({
           </Box>
 
           <Box sx={{ my: 2, px: 1 }}>
-            <Typography gutterBottom variant="caption">
-              ズーム
-            </Typography>
             <Slider
               aria-label="ズームスライダー"
               value={scale}
