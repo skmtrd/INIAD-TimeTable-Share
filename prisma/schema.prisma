@@ -75,17 +75,17 @@ model TimeTable{
   user User @relation(fields: [userId] , references: [id] ,onDelete: Cascade)
   lectureId String
   lecture Lecture @relation(fields:[lectureId] , references: [id] , onDelete: Cascade)
+  day String
+  periodNumber Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
 
-  @@id([userId , lectureId])
+  @@id([userId , lectureId , day , periodNumber])
 }
 
 model Lecture{
   id String @id @default(cuid())
   name String
-  day String
-  periodNumber Int
   timetables TimeTable[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())

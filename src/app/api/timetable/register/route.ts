@@ -65,10 +65,10 @@ const registerFacade = async (
   if (await isExitsLecture(lectureName)) {
     const lectureId: string = await getLectureId(lectureName);
 
-    registerLectureToTimetable(userId, lectureId);
+    registerLectureToTimetable(userId, lectureId, day, periodNumber);
   } else {
-    const lecture = await addNewLecture(lectureName, periodNumber, day);
-    registerLectureToTimetable(userId, lecture.id);
+    const lecture = await addNewLecture(lectureName);
+    registerLectureToTimetable(userId, lecture.id, day, periodNumber);
   }
 };
 
@@ -96,17 +96,11 @@ const isExitsLecture = async (lectureName: string): Promise<boolean> => {
   return isExit;
 };
 
-const addNewLecture = async (
-  lectureName: string,
-  periodNumber: number,
-  day: string,
-) => {
+const addNewLecture = async (lectureName: string) => {
   const prisma = new PrismaClient();
   const lecture = await prisma.lecture.create({
     data: {
       name: lectureName,
-      day: day,
-      periodNumber: periodNumber,
     },
   });
 
@@ -116,6 +110,8 @@ const addNewLecture = async (
 const registerLectureToTimetable = async (
   userId: string,
   lectureId: string,
+  day: string,
+  periodNumber: number,
 ): Promise<void> => {
   const prisma = new PrismaClient();
 
@@ -123,6 +119,8 @@ const registerLectureToTimetable = async (
     data: {
       userId: userId,
       lectureId: lectureId,
+      day: day,
+      periodNumber: periodNumber,
     },
   });
 };

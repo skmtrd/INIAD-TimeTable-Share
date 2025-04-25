@@ -19,7 +19,7 @@ export const { GET } = createRoute({
       const FormattedTimeTable: TimeTable = {};
 
       timeTable.map((item) => {
-        const periodNumber: string = item.lecture.periodNumber.toString();
+        const periodNumber: string = item.periodNumber.toString();
 
         if (!FormattedTimeTable[periodNumber]) {
           FormattedTimeTable[periodNumber] = [];
@@ -28,8 +28,8 @@ export const { GET } = createRoute({
         FormattedTimeTable[periodNumber].push({
           id: item.lecture.id,
           name: item.lecture.name,
-          day: item.lecture.day,
-          periodNumber: item.lecture.periodNumber,
+          day: item.day,
+          periodNumber: item.periodNumber,
         });
       });
 
