@@ -8,6 +8,7 @@ import {
   Avatar,
   Box,
   Button,
+  IconButton,
   InputAdornment,
   Paper,
   Skeleton,
@@ -97,34 +98,23 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
           </Box>
           {isEditMode ? (
             <Box sx={{ display: "flex", gap: 1 }}>
+              <IconButton
+                onClick={handleToggleEditMode}
+                size="small"
+                color="error"
+              >
+                <CloseIcon />
+              </IconButton>
               <Button
                 variant="outlined"
-                startIcon={<CloseIcon />}
-                onClick={handleToggleEditMode}
-                color="error"
-                sx={{
-                  borderRadius: "0.5rem",
-                  textTransform: "none",
-                  fontWeight: 500,
-                  height: "36px",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-              >
-                キャンセル
-              </Button>
-              <Button
-                variant="contained"
                 startIcon={<EditIcon />}
                 onClick={handleSave}
-                color="success"
+                color="primary"
                 sx={{
                   borderRadius: "0.5rem",
                   textTransform: "none",
                   fontWeight: 500,
                   borderColor: "hsl(240 5.9% 90%)",
-                  color: "white",
                   height: "36px",
                   "&:hover": {
                     opacity: 0.8,
@@ -159,7 +149,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <TwitterIcon sx={{ fontSize: 18, color: "#1DA1F2", mr: 0.5 }} />
           {props.isLoading ? (
-            <Skeleton variant="text" width={100} height={25} />
+            <Skeleton variant="text" width={100} height={20} />
           ) : isEditMode ? (
             <TextField
               value={editTwitterId ?? ""}
