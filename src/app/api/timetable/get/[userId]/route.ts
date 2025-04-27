@@ -1,9 +1,9 @@
-import type { TimeTableSchema } from "@/schema/timetable";
+import type { timetableSchema } from "@/schema";
 import { PrismaClient } from "@prisma/client";
 import type { z } from "zod";
 import { createRoute } from "./frourio.server";
 
-export type TimeTable = z.infer<typeof TimeTableSchema>;
+export type TimeTable = z.infer<typeof timetableSchema>;
 
 export const { GET } = createRoute({
   get: async (req) => {
@@ -28,7 +28,14 @@ export const { GET } = createRoute({
         FormattedTimeTable[periodNumber].push({
           id: item.lecture.id,
           name: item.lecture.name,
-          day: item.day,
+          day: item.day as
+            | "月曜日"
+            | "火曜日"
+            | "水曜日"
+            | "木曜日"
+            | "金曜日"
+            | "土曜日"
+            | "日曜日",
           periodNumber: item.periodNumber,
         });
       });

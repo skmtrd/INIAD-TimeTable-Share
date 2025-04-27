@@ -1,10 +1,28 @@
 "use client";
 
-import type { ClassCellProps, TimetableData } from "@/app/types/timetable";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import React from "react";
 
-// 時間割のダミーデータ
+// 授業データの型定義
+type Lecture = { id: number; name: string } | null;
+
+// 曜日のキーの型定義
+const daysConst = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+] as const; // as const を追加してリテラル型にする
+type DayKey = (typeof daysConst)[number]; // "monday" | "tuesday" | ...
+
+// 時間割データの型定義
+type TimetableData = {
+  [key in DayKey]: Lecture[];
+};
+
+// 時間割のダミーデータに型を適用
 const timetableData: TimetableData = {
   monday: [
     { id: 1, name: "数学I" },
@@ -66,8 +84,8 @@ const periodTimes = [
   "18:00 - 19:30",
 ];
 
-// 曜日の配列
-const days = [
+// 曜日の配列 (型注釈を DayKey[] に変更)
+const days: DayKey[] = [
   "monday",
   "tuesday",
   "wednesday",
@@ -76,6 +94,11 @@ const days = [
   "saturday",
 ];
 const dayLabels = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
+
+type ClassCellProps = {
+  classData: Lecture | null;
+  isLoading: boolean;
+};
 
 // 授業セルコンポーネント
 const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
