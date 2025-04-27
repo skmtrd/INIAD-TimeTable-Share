@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { getUserInfo } from "../../lib";
 import { createRoute } from "./frourio.server";
 
@@ -10,7 +10,6 @@ export const { GET } = createRoute({
     }
 
     try {
-      const prisma = new PrismaClient();
       const timetable = await prisma.timeTable.findFirst({
         where: {
           userId: user.id,

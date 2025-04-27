@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { createRoute } from "./frourio.server";
 
 //Toyo net aceでダウンロードする時間割のデータ型
@@ -73,7 +73,6 @@ const registerFacade = async (
 };
 
 const getLectureId = async (lectureName: string): Promise<string> => {
-  const prisma = new PrismaClient();
   const lecture = await prisma.lecture.findFirst({
     where: { name: lectureName },
   });
@@ -86,7 +85,6 @@ const getLectureId = async (lectureName: string): Promise<string> => {
 };
 
 const isExitsLecture = async (lectureName: string): Promise<boolean> => {
-  const prisma = new PrismaClient();
   const lecture = await prisma.lecture.findFirst({
     where: { name: lectureName },
   });
@@ -97,7 +95,6 @@ const isExitsLecture = async (lectureName: string): Promise<boolean> => {
 };
 
 const addNewLecture = async (lectureName: string) => {
-  const prisma = new PrismaClient();
   const lecture = await prisma.lecture.create({
     data: {
       name: lectureName,
@@ -113,8 +110,6 @@ const registerLectureToTimetable = async (
   day: string,
   periodNumber: number,
 ): Promise<void> => {
-  const prisma = new PrismaClient();
-
   await prisma.timeTable.create({
     data: {
       userId: userId,

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { createRoute } from "./frourio.server";
 
 export const { GET } = createRoute({
@@ -6,7 +6,6 @@ export const { GET } = createRoute({
     const lectureId: string = req.params.lectureId;
 
     try {
-      const prisma = new PrismaClient();
       const participants = await prisma.timeTable.findMany({
         where: {
           lectureId: lectureId,

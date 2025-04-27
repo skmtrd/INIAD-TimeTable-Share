@@ -6,7 +6,9 @@ import { Box } from "@mui/material";
 import TimetablePage from "./Timetable";
 
 const ProfilePage = () => {
-  const { user, error, isLoading, mutate } = useProfilePage();
+  const { user, error, isLoading, userMutate } = useProfilePage();
+
+  console.log(user);
 
   if (error) return <div>Error loading users</div>;
 
@@ -18,7 +20,7 @@ const ProfilePage = () => {
           id={user?.id ?? ""}
           twitterId={user?.twitterId ?? null}
           image={user?.image ?? null}
-          mutate={mutate}
+          mutate={userMutate}
           isLoading={isLoading}
         />
         <TimetablePage isLoading={isLoading} />

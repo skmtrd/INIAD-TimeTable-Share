@@ -17,14 +17,12 @@ import {
   Typography,
 } from "@mui/material";
 import NextLink from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 
 export const SiteHeader = () => {
-  const pathname = usePathname();
   const router = useRouter();
-  // ユーザーメニューの状態管理
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { data: session } = authClient.useSession();
@@ -46,19 +44,6 @@ export const SiteHeader = () => {
       },
     });
   };
-
-  // リンクのスタイル関数
-  const getLinkStyle = (path: string) => ({
-    color: pathname === path ? "text.primary" : "text.secondary",
-    fontWeight: pathname === path ? "bold" : "medium",
-    textDecoration: "none",
-    transition: "color 0.2s",
-    fontSize: "0.875rem",
-    "&:hover": {
-      color: "text.primary",
-      opacity: 0.8,
-    },
-  });
 
   return (
     <AppBar
@@ -89,21 +74,6 @@ export const SiteHeader = () => {
               INIAD-TimeTable-Share
             </Typography>
           </NextLink>
-
-          <Box sx={{ display: "flex", gap: 3 }}>
-            <NextLink href="/products" passHref>
-              <Box sx={getLinkStyle("/products")}>商品一覧</Box>
-            </NextLink>
-            <NextLink href="/services" passHref>
-              <Box sx={getLinkStyle("/services")}>サービス</Box>
-            </NextLink>
-            <NextLink href="/about" passHref>
-              <Box sx={getLinkStyle("/about")}>会社概要</Box>
-            </NextLink>
-            <NextLink href="/contact" passHref>
-              <Box sx={getLinkStyle("/contact")}>お問い合わせ</Box>
-            </NextLink>
-          </Box>
         </Box>
 
         <Box sx={{ mr: 2 }}>

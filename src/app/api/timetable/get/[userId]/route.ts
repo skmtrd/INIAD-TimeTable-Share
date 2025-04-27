@@ -1,5 +1,5 @@
+import { prisma } from "@/lib/prisma";
 import type { timetableSchema } from "@/schema";
-import { PrismaClient } from "@prisma/client";
 import type { z } from "zod";
 import { createRoute } from "./frourio.server";
 
@@ -10,7 +10,6 @@ export const { GET } = createRoute({
     const userId: string = req.params.userId;
 
     try {
-      const prisma = new PrismaClient();
       const timeTable = await prisma.timeTable.findMany({
         where: { userId: userId },
         include: { lecture: true },
