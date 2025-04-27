@@ -1,8 +1,8 @@
 "use client";
 
-import { useDashboard } from "@/app/hooks/domain/(authenticated)/dashboard/useDashboard";
 import PageContainer from "@/components/common/PageContainer";
 import UploadForm from "@/components/domain/(authenticated)/dashboard/UploadForm";
+import { useDashboard } from "@/hooks/domain/(authenticated)/dashboard/useDashboard";
 import { Box } from "@mui/material";
 
 const DashboardPage = () => {

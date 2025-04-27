@@ -1,7 +1,7 @@
 "use client";
-import { useProfilePage } from "@/app/hooks/domain/(authenticated)/profile/useProfilePage";
 import PageContainer from "@/components/common/PageContainer";
 import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard";
+import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
 import { Box } from "@mui/material";
 import TimetablePage from "./Timetable";
 

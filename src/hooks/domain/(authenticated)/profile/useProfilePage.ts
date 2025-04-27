@@ -1,4 +1,4 @@
-import { useUserDataSWR } from "@/app/hooks/data/useUserDataSWR";
+import { useUserDataSWR } from "@/hooks/data/useUserDataSWR";
 import { useParams } from "next/navigation";
 
 export const useProfilePage = () => {

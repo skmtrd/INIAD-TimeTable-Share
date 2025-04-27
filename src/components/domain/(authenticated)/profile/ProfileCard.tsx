@@ -1,5 +1,5 @@
-import { useProfileEdit } from "@/app/hooks/domain/(authenticated)/profile/useProfileEdit";
 import InputAvatarIcon from "@/components/domain/(authenticated)/profile/InputAvatarIcon";
+import { useProfileEdit } from "@/hooks/domain/(authenticated)/profile/useProfileEdit";
 import {
   Close as CloseIcon,
   Edit as EditIcon,
