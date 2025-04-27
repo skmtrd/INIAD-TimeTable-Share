@@ -1,7 +1,7 @@
 import { apiClient } from "@/lib/apiClient";
 import useSWR from "swr";
 
-export const useSpecificUser = (id: string) => {
+export const useUserDataSWR = (id: string) => {
   const [key, fetcher] = apiClient["users/[id]"].$build({
     params: { id },
   });

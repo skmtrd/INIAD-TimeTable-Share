@@ -27,7 +27,6 @@ export const SiteHeader = () => {
   // ユーザーメニューの状態管理
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
   const { data: session } = authClient.useSession();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

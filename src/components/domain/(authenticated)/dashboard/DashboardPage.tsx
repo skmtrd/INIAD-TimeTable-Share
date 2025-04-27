@@ -16,6 +16,12 @@ const DashboardPage = () => {
     openFileDialog,
   } = useDashboard();
 
+  // const { data: session } = authClient.useSession();
+
+  // const { timetable, error, isLoading, mutate } = useTimetableSWR(
+  //   session?.user.id ?? "",
+  // );
+
   return (
     <PageContainer>
       <Box
