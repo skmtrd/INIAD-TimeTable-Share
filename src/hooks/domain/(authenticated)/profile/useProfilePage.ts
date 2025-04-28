@@ -1,11 +1,20 @@
 import { useTimetableSWR } from "@/hooks/data/useTimetableSWR";
 import { useUserDataSWR } from "@/hooks/data/useUserDataSWR";
+import { authClient } from "@/lib/auth-client";
 import { useParams } from "next/navigation";
 
 export const useProfilePage = () => {
   const params = useParams();
   const {
-    user,
+    data: session,
+    isPending: sessionIsPending,
+    error: sessionError,
+  } = authClient.useSession();
+
+  const accessUser = session?.user;
+
+  const {
+    user: displayUser,
     error: userError,
     isLoading: userIsLoading,
     mutate: userMutate,
@@ -17,10 +26,11 @@ export const useProfilePage = () => {
   } = useTimetableSWR(params.id as string);
 
   return {
-    user,
+    displayUser,
+    accessUser,
     timetable,
-    error: timetableError || userError,
-    isLoading: timetableLoading || userIsLoading,
+    error: timetableError || userError || sessionError,
+    isLoading: timetableLoading || userIsLoading || sessionIsPending,
     userMutate,
   };
 };

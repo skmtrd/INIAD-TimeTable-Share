@@ -15,6 +15,7 @@ export const { GET, PUT } = createRoute({
         email: true,
         image: true,
         twitterId: true,
+        privacyProtection: true,
       },
     });
     if (!user) {
@@ -44,6 +45,7 @@ export const { GET, PUT } = createRoute({
         email: true,
         image: true,
         twitterId: true,
+        privacyProtection: true,
       },
     });
 

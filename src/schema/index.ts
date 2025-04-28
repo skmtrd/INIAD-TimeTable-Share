@@ -6,6 +6,7 @@ export const userSchema = z.object({
   email: z.string(),
   image: z.string().nullable(),
   twitterId: z.string().nullable(),
+  privacyProtection: z.boolean(),
 });
 
 export const lectureSchema = z.object({
