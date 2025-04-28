@@ -2,6 +2,7 @@ import { useTimetableSWR } from "@/hooks/data/useTimetableSWR";
 import { useUserDataSWR } from "@/hooks/data/useUserDataSWR";
 import { apiClient } from "@/lib/apiClient";
 import { authClient } from "@/lib/auth-client";
+import { mutateOption } from "@/lib/mutateOption";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import { useParams } from "next/navigation";
 
@@ -51,10 +52,7 @@ export const useProfilePage = () => {
         return newDisplayUser;
       },
       {
-        optimisticData: newDisplayUser,
-        rollbackOnError: true,
-        populateCache: true,
-        revalidate: false,
+        ...mutateOption(newDisplayUser),
       },
     );
   };
