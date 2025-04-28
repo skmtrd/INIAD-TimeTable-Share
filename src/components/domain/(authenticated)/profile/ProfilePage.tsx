@@ -2,37 +2,18 @@
 import PageContainer from "@/components/common/PageContainer";
 import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard";
 import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
-import { apiClient } from "@/lib/apiClient";
-import type { SelectChangeEvent } from "@mui/material";
 import { Box, MenuItem, Select } from "@mui/material";
-import { useEffect, useState } from "react";
 import TimetablePage from "./Timetable";
 
 const ProfilePage = () => {
-  const { displayUser, accessUser, error, isLoading, userMutate } =
-    useProfilePage();
-
-  const [privacyProtection, setPrivacyProtection] = useState<string>("");
-
-  const isAccessUserPage =
-    accessUser !== undefined &&
-    displayUser !== undefined &&
-    accessUser.id === displayUser.id;
-
-  const handlePrivacyProtectionChange = async (
-    event: SelectChangeEvent<string>,
-  ) => {
-    await apiClient.privacy.$put({
-      body: {
-        privacyProtection: event.target.value !== "公開",
-      },
-    });
-    setPrivacyProtection(event.target.value);
-  };
-
-  useEffect(() => {
-    setPrivacyProtection(displayUser?.privacyProtection ? "非公開" : "公開");
-  }, [displayUser]);
+  const {
+    displayUser,
+    error,
+    isLoading,
+    userMutate,
+    isAccessUserPage,
+    handlePrivacyProtectionChange,
+  } = useProfilePage();
 
   if (error) return <div>Error loading users</div>;
 
@@ -53,7 +34,7 @@ const ProfilePage = () => {
         >
           {isAccessUserPage && (
             <Select
-              value={privacyProtection}
+              value={displayUser?.privacyProtection ? "非公開" : "公開"}
               onChange={handlePrivacyProtectionChange}
               color="secondary"
               size="small"
