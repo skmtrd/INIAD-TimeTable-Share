@@ -8,8 +8,6 @@ import TimetablePage from "./Timetable";
 const ProfilePage = () => {
   const { user, error, isLoading, userMutate } = useProfilePage();
 
-  console.log(user);
-
   if (error) return <div>Error loading users</div>;
 
   return (
