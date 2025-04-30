@@ -1,6 +1,7 @@
 "use client";
 import PageContainer from "@/components/common/PageContainer";
 import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard";
+import { dummyTimetableData } from "@/constants/dummyTimetableData";
 import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
 import { Box, MenuItem, Select } from "@mui/material";
 import TimetablePage from "./Timetable";
@@ -19,7 +20,6 @@ const ProfilePage = () => {
   if (error) return <div>Error loading users</div>;
 
   const isLoading = fetchLoading || !timetable;
-  if (!timetable) return <div>Loading...</div>;
 
   return (
     <PageContainer>
@@ -48,7 +48,10 @@ const ProfilePage = () => {
             </Select>
           )}
         </Box>
-        <TimetablePage isLoading={isLoading} timetableData={timetable} />
+        <TimetablePage
+          timetableData={timetable || dummyTimetableData}
+          isLoading={isLoading}
+        />
       </Box>
     </PageContainer>
   );
