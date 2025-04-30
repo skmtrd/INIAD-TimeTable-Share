@@ -1,10 +1,17 @@
 "use client";
 
+import { timetableData } from "@/constants/dummyTimetableData";
+import { Timetable } from "@/types";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import React from "react";
 
 // 授業データの型定義
-type Lecture = { id: number; name: string } | null;
+type Lecture = {
+  id: string;
+  name: string;
+  day: string;
+  periodNumber: number;
+} | null;
 
 // 曜日のキーの型定義
 const daysConst = [
@@ -17,62 +24,7 @@ const daysConst = [
 ] as const; // as const を追加してリテラル型にする
 type DayKey = (typeof daysConst)[number]; // "monday" | "tuesday" | ...
 
-// 時間割データの型定義
-type TimetableData = {
-  [key in DayKey]: Lecture[];
-};
-
 // 時間割のダミーデータに型を適用
-const timetableData: TimetableData = {
-  monday: [
-    { id: 1, name: "数学I" },
-    { id: 2, name: "英語" },
-    { id: 3, name: "物理" },
-    { id: 4, name: "歴史" },
-    null,
-    { id: 6, name: "化学" },
-  ],
-  tuesday: [
-    { id: 1, name: "国語" },
-    { id: 2, name: "体育" },
-    null,
-    { id: 4, name: "生物" },
-    { id: 5, name: "数学II" },
-    { id: 6, name: "英語会話" },
-  ],
-  wednesday: [
-    { id: 1, name: "地理" },
-    { id: 2, name: "プログラミング" },
-    { id: 3, name: "英語" },
-    { id: 4, name: "数学III" },
-    { id: 5, name: "美術" },
-    null,
-  ],
-  thursday: [
-    null,
-    { id: 2, name: "物理実験" },
-    { id: 3, name: "国語" },
-    { id: 4, name: "英語" },
-    { id: 5, name: "数学I" },
-    { id: 6, name: "社会" },
-  ],
-  friday: [
-    { id: 1, name: "化学実験" },
-    { id: 2, name: "数学II" },
-    { id: 3, name: "英語" },
-    null,
-    { id: 5, name: "音楽" },
-    { id: 6, name: "情報" },
-  ],
-  saturday: [
-    { id: 1, name: "特別講義" },
-    null,
-    { id: 3, name: "クラブ活動" },
-    null,
-    null,
-    null,
-  ],
-};
 
 // 時限の時間帯
 const periodTimes = [
@@ -184,6 +136,7 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
 };
 
 type TimetableProps = {
+  timetableData: Timetable;
   isLoading: boolean;
 };
 
@@ -315,7 +268,13 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               {days.map((day) => (
                 <Box key={`${day}-${period}`} className="class-cell" sx={{}}>
                   <ClassCell
-                    classData={timetableData[day][period]}
+                    classData={
+                      timetableData[`${day}`].find(
+                        (lecture) =>
+                          lecture.day === day &&
+                          lecture.periodNumber === period + 1
+                      ) || null
+                    }
                     isLoading={props.isLoading}
                   />
                 </Box>

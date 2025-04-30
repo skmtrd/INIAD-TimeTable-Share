@@ -4,6 +4,7 @@ import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard
 import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
 import { Box, MenuItem, Select } from "@mui/material";
 import TimetablePage from "./Timetable";
+import { timetableData } from "@/constants/dummyTimetableData";
 
 const ProfilePage = () => {
   const {
@@ -44,7 +45,7 @@ const ProfilePage = () => {
             </Select>
           )}
         </Box>
-        <TimetablePage isLoading={isLoading} />
+        <TimetablePage isLoading={isLoading} timetableData={timetableData} />
       </Box>
     </PageContainer>
   );
