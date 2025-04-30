@@ -12,18 +12,8 @@ export const userSchema = z.object({
 export const lectureSchema = z.object({
   id: z.string(),
   name: z.string(),
-  day: z.enum([
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-  ]),
+  day: z.enum(["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"]),
   periodNumber: z.number().int().positive(),
 });
 
-export const timetableSchema = z.record(
-  z.string().regex(/^\d+$/),
-  z.array(lectureSchema)
-);
+export const timetableSchema = z.record(z.string(), z.array(lectureSchema));

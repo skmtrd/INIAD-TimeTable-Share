@@ -62,7 +62,7 @@ export const useProfilePage = () => {
     timetable,
     handlePrivacyProtectionChange,
     error: timetableError || userError || sessionError,
-    isLoading: timetableLoading || userIsLoading || sessionIsPending,
+    fetchLoading: timetableLoading || userIsLoading || sessionIsPending,
     isAccessUserPage,
     userMutate,
   };

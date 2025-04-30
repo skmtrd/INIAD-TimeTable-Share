@@ -11,20 +11,17 @@ export const { GET } = createRoute({
 
     try {
       const timeTable = await prisma.timeTable.findMany({
-        where: { userId: userId },
+        where: { userId },
         include: { lecture: true },
       });
 
       const FormattedTimeTable: TimeTable = {};
-
       timeTable.map((item) => {
-        const periodNumber: string = item.periodNumber.toString();
-
-        if (!FormattedTimeTable[periodNumber]) {
-          FormattedTimeTable[periodNumber] = [];
+        if (!FormattedTimeTable[item.day]) {
+          FormattedTimeTable[item.day] = [];
         }
 
-        FormattedTimeTable[periodNumber].push({
+        FormattedTimeTable[item.day].push({
           id: item.lecture.id,
           name: item.lecture.name,
           day: item.day as
@@ -33,12 +30,10 @@ export const { GET } = createRoute({
             | "水曜日"
             | "木曜日"
             | "金曜日"
-            | "土曜日"
-            | "日曜日",
+            | "土曜日",
           periodNumber: item.periodNumber,
         });
       });
-
       return { status: 200, body: FormattedTimeTable };
     } catch {
       return { status: 500, body: { message: "Internal Server Error" } };

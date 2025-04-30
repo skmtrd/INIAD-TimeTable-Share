@@ -4,19 +4,22 @@ import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard
 import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
 import { Box, MenuItem, Select } from "@mui/material";
 import TimetablePage from "./Timetable";
-import { timetableData } from "@/constants/dummyTimetableData";
 
 const ProfilePage = () => {
   const {
     displayUser,
+    timetable,
     error,
-    isLoading,
+    fetchLoading,
     userMutate,
     isAccessUserPage,
     handlePrivacyProtectionChange,
   } = useProfilePage();
 
   if (error) return <div>Error loading users</div>;
+
+  const isLoading = fetchLoading || !timetable;
+  if (!timetable) return <div>Loading...</div>;
 
   return (
     <PageContainer>
@@ -45,7 +48,7 @@ const ProfilePage = () => {
             </Select>
           )}
         </Box>
-        <TimetablePage isLoading={isLoading} timetableData={timetableData} />
+        <TimetablePage isLoading={isLoading} timetableData={timetable} />
       </Box>
     </PageContainer>
   );

@@ -1,7 +1,5 @@
 "use client";
-
-import { timetableData } from "@/constants/dummyTimetableData";
-import { Timetable } from "@/types";
+import type { Timetable } from "@/types";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import React from "react";
 
@@ -15,12 +13,12 @@ type Lecture = {
 
 // 曜日のキーの型定義
 const daysConst = [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
+  "月曜日",
+  "火曜日",
+  "水曜日",
+  "木曜日",
+  "金曜日",
+  "土曜日",
 ] as const; // as const を追加してリテラル型にする
 type DayKey = (typeof daysConst)[number]; // "monday" | "tuesday" | ...
 
@@ -38,12 +36,12 @@ const periodTimes = [
 
 // 曜日の配列 (型注釈を DayKey[] に変更)
 const days: DayKey[] = [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
+  "月曜日",
+  "火曜日",
+  "水曜日",
+  "木曜日",
+  "金曜日",
+  "土曜日",
 ];
 const dayLabels = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
 
@@ -269,10 +267,10 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                 <Box key={`${day}-${period}`} className="class-cell" sx={{}}>
                   <ClassCell
                     classData={
-                      timetableData[`${day}`].find(
+                      props.timetableData[day]?.find(
                         (lecture) =>
                           lecture.day === day &&
-                          lecture.periodNumber === period + 1
+                          lecture.periodNumber === period + 1,
                       ) || null
                     }
                     isLoading={props.isLoading}
