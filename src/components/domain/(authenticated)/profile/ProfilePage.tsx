@@ -4,6 +4,7 @@ import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard
 import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
 import { Box } from "@mui/material";
 import TimetablePage from "./Timetable";
+import { timetableData } from "@/constants/dummyTimetableData";
 
 const ProfilePage = () => {
   const { user, error, isLoading, userMutate } = useProfilePage();
@@ -21,7 +22,7 @@ const ProfilePage = () => {
           mutate={userMutate}
           isLoading={isLoading}
         />
-        <TimetablePage isLoading={isLoading} />
+        <TimetablePage timetableData={timetableData} isLoading={isLoading} />
       </Box>
     </PageContainer>
   );
