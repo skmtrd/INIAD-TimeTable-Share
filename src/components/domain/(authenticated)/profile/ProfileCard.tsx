@@ -1,15 +1,10 @@
+import EditActionButton from "@/components/domain/(authenticated)/profile/EditActionButton";
 import InputAvatarIcon from "@/components/domain/(authenticated)/profile/InputAvatarIcon";
 import { useProfileEdit } from "@/hooks/domain/(authenticated)/profile/useProfileEdit";
-import {
-  Close as CloseIcon,
-  Edit as EditIcon,
-  Twitter as TwitterIcon,
-} from "@mui/icons-material";
+import { Twitter as TwitterIcon } from "@mui/icons-material";
 import {
   Avatar,
   Box,
-  Button,
-  IconButton,
   InputAdornment,
   Paper,
   Skeleton,
@@ -26,6 +21,7 @@ type ProfileCardProps = {
   onSave?: (data: { name: string; twitterId: string | null }) => void;
   mutate: () => void;
   isLoading: boolean;
+  isAccessUserPage: boolean;
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = (props) => {
@@ -118,54 +114,12 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
               )}
             </Box>
           </Box>
-          {isEditMode ? (
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <IconButton
-                onClick={handleToggleEditMode}
-                size="small"
-                color="error"
-              >
-                <CloseIcon />
-              </IconButton>
-              <Button
-                variant="outlined"
-                startIcon={<EditIcon />}
-                onClick={handleSave}
-                color="primary"
-                sx={{
-                  borderRadius: "0.5rem",
-                  textTransform: "none",
-                  fontWeight: 500,
-                  borderColor: "hsl(240 5.9% 90%)",
-                  height: "36px",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-              >
-                保存
-              </Button>
-            </Box>
-          ) : (
-            <Button
-              variant="outlined"
-              startIcon={<EditIcon />}
-              onClick={handleToggleEditMode}
-              color="primary"
-              sx={{
-                borderRadius: "0.5rem",
-                textTransform: "none",
-                fontWeight: 500,
-                borderColor: "hsl(240 5.9% 90%)",
-                color: "hsl(240 6% 10%)",
-                height: "36px",
-                "&:hover": {
-                  opacity: 0.8,
-                },
-              }}
-            >
-              編集
-            </Button>
+          {props.isAccessUserPage && (
+            <EditActionButton
+              isEditMode={isEditMode}
+              handleToggleEditMode={handleToggleEditMode}
+              handleSave={handleSave}
+            />
           )}
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>

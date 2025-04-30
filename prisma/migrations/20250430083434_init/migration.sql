@@ -8,6 +8,7 @@ CREATE TABLE "user" (
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "twitterId" TEXT,
+    "privacyProtection" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );

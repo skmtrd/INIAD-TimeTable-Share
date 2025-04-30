@@ -20,6 +20,7 @@ model User {
   timetables    TimeTable[]
 
   twitterId     String?
+  privacyProtection Boolean @default(false)
 
   @@unique([email])
   @@map("user")

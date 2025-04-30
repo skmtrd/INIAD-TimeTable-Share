@@ -2,12 +2,19 @@
 import PageContainer from "@/components/common/PageContainer";
 import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard";
 import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
-import { Box } from "@mui/material";
+import { Box, MenuItem, Select } from "@mui/material";
 import TimetablePage from "./Timetable";
 import { timetableData } from "@/constants/dummyTimetableData";
 
 const ProfilePage = () => {
-  const { user, error, isLoading, userMutate } = useProfilePage();
+  const {
+    displayUser,
+    error,
+    isLoading,
+    userMutate,
+    isAccessUserPage,
+    handlePrivacyProtectionChange,
+  } = useProfilePage();
 
   if (error) return <div>Error loading users</div>;
 
@@ -15,14 +22,30 @@ const ProfilePage = () => {
     <PageContainer>
       <Box sx={{ width: "100%", maxWidth: "md", pt: 10, pb: 10 }}>
         <ProfileCard
-          name={user?.name ?? ""}
-          id={user?.id ?? ""}
-          twitterId={user?.twitterId ?? null}
-          image={user?.image ?? null}
+          name={displayUser?.name ?? ""}
+          id={displayUser?.id ?? ""}
+          twitterId={displayUser?.twitterId ?? null}
+          image={displayUser?.image ?? null}
           mutate={userMutate}
           isLoading={isLoading}
+          isAccessUserPage={isAccessUserPage}
         />
-        <TimetablePage timetableData={timetableData} isLoading={isLoading} />
+        <Box
+          sx={{ display: "flex", width: "100%", justifyContent: "flex-end" }}
+        >
+          {isAccessUserPage && (
+            <Select
+              value={displayUser?.privacyProtection ? "非公開" : "公開"}
+              onChange={handlePrivacyProtectionChange}
+              color="secondary"
+              size="small"
+            >
+              <MenuItem value="公開">公開</MenuItem>
+              <MenuItem value="非公開">非公開</MenuItem>
+            </Select>
+          )}
+        </Box>
+        <TimetablePage isLoading={isLoading} />
       </Box>
     </PageContainer>
   );
