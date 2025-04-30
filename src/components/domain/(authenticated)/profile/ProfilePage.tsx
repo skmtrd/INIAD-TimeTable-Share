@@ -45,7 +45,7 @@ const ProfilePage = () => {
             </Select>
           )}
         </Box>
-        <TimetablePage isLoading={isLoading} />
+        <TimetablePage isLoading={isLoading} timetableData={timetableData} />
       </Box>
     </PageContainer>
   );
