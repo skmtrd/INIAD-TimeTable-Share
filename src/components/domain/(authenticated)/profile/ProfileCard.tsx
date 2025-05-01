@@ -32,6 +32,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
     handleNameChange,
     handleTwitterIdChange,
     isEditMode,
+    isUploading,
     handleToggleEditMode,
     editImage,
     setEditImage,
@@ -119,6 +120,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
               isEditMode={isEditMode}
               handleToggleEditMode={handleToggleEditMode}
               handleSave={handleSave}
+              isUploading={isUploading}
             />
           )}
         </Box>

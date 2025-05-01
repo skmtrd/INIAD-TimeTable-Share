@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthUserSWR } from "@/hooks/data/useAuthUserSWR";
 import { authClient } from "@/lib/auth-client";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Logout from "@mui/icons-material/Logout";
@@ -8,6 +9,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Divider,
   ListItemIcon,
   ListItemText,
@@ -24,8 +26,9 @@ import { useState } from "react";
 export const SiteHeader = () => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const open = Boolean(anchorEl);
-  const { data: session } = authClient.useSession();
+  const { authUser } = useAuthUserSWR();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +39,8 @@ export const SiteHeader = () => {
   };
 
   const handleSignOut = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
@@ -43,6 +48,7 @@ export const SiteHeader = () => {
         },
       },
     });
+    setIsLoading(false);
   };
 
   return (
@@ -90,7 +96,7 @@ export const SiteHeader = () => {
             }}
           >
             <Avatar
-              src={session?.user.image || ""}
+              src={authUser?.image || ""}
               sx={{ width: 32, height: 32 }}
             />
           </Button>
@@ -114,7 +120,7 @@ export const SiteHeader = () => {
             <MenuItem
               onClick={() => {
                 handleClose();
-                router.push(`/profile/${session?.user.id}`);
+                router.push(`/profile/${authUser?.id}`);
               }}
             >
               <ListItemIcon>
@@ -125,7 +131,11 @@ export const SiteHeader = () => {
             <Divider />
             <MenuItem onClick={handleSignOut}>
               <ListItemIcon>
-                <Logout fontSize="small" />
+                {isLoading ? (
+                  <CircularProgress size={18} />
+                ) : (
+                  <Logout fontSize="small" />
+                )}
               </ListItemIcon>
               <ListItemText>ログアウト</ListItemText>
             </MenuItem>

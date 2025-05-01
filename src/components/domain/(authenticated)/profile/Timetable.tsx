@@ -1,7 +1,8 @@
 "use client";
+import ParticipantsModal from "@/components/domain/(authenticated)/dashboard/ParticipantsModal";
 import type { Timetable } from "@/types";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 // 授業データの型定義
 type Lecture = {
@@ -21,8 +22,6 @@ const daysConst = [
   "土曜日",
 ] as const; // as const を追加してリテラル型にする
 type DayKey = (typeof daysConst)[number]; // "monday" | "tuesday" | ...
-
-// 時間割のダミーデータに型を適用
 
 // 時限の時間帯
 const periodTimes = [
@@ -48,11 +47,22 @@ const dayLabels = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜�
 type ClassCellProps = {
   classData: Lecture | null;
   isLoading: boolean;
+  isAccessUserPage: boolean;
 };
 
 // 授業セルコンポーネント
-const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
-  if (isLoading) {
+const ClassCell: React.FC<ClassCellProps> = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpen = () => {
+    if (!props.isAccessUserPage) return;
+    setIsModalOpen(true);
+  };
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setIsModalOpen(false);
+  };
+
+  if (props.isLoading) {
     return (
       <Box
         sx={{
@@ -75,7 +85,7 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
       </Box>
     );
   }
-  if (!classData) {
+  if (!props.classData) {
     return (
       <Box
         sx={{
@@ -102,6 +112,7 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
 
   return (
     <Box
+      onClick={handleOpen}
       sx={{
         height: "100%",
         p: 1.5,
@@ -112,6 +123,7 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
         flexDirection: "column",
         justifyContent: "space-between",
         transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        cursor: props.isAccessUserPage ? "pointer" : "default",
         "&:hover": {
           boxShadow:
             "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
@@ -125,17 +137,29 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
           fontWeight: 600,
           fontSize: "0.875rem",
           mb: 0.5,
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          // whiteSpace: "nowrap",
         }}
       >
-        {classData.name}
+        {props.classData.name}
       </Typography>
+      <ParticipantsModal
+        isOpen={isModalOpen}
+        handleClose={handleClose}
+        lectureId={props.classData.id}
+        lectureName={props.classData.name}
+        isAccessUserPage={props.isAccessUserPage}
+      />
     </Box>
   );
 };
 
 type TimetableProps = {
   timetableData: Timetable;
+  privacyProtection: boolean | null;
   isLoading: boolean;
+  isAccessUserPage: boolean;
 };
 
 const TimetablePage: React.FC<TimetableProps> = (props) => {
@@ -154,6 +178,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
           backgroundColor: "white",
           boxShadow:
             "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+          position: "relative",
         }}
       >
         <Typography
@@ -169,7 +194,6 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
         >
           時間割表
         </Typography>
-
         <Box
           sx={{
             display: "grid",
@@ -178,8 +202,40 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
             minWidth: 800,
             gridTemplateRows: "auto repeat(6, 1fr)",
             "& .class-cell": { aspectRatio: "1/1" },
+            borderRadius: "3rem",
+            position: "relative",
           }}
         >
+          {props.privacyProtection && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                zIndex: 1000,
+                backdropFilter: "blur(5px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "0.75rem",
+                boxShadow:
+                  "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "hsl(240 6% 10%)",
+                  fontWeight: 600,
+                }}
+              >
+                このユーザーは時間割を非公開にしています
+              </Typography>
+            </Box>
+          )}
           {/* ヘッダー行 */}
           <Box
             sx={{
@@ -274,6 +330,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                       ) || null
                     }
                     isLoading={props.isLoading}
+                    isAccessUserPage={props.isAccessUserPage}
                   />
                 </Box>
               ))}
