@@ -16,4 +16,14 @@ export const lectureSchema = z.object({
   periodNumber: z.number().int().positive(),
 });
 
+export const sessionUserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  emailVerified: z.boolean(),
+  image: z.string().nullable().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 export const timetableSchema = z.record(z.string(), z.array(lectureSchema));

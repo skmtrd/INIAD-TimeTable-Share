@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthUserSWR } from "@/hooks/data/useAuthUserSWR";
 import { authClient } from "@/lib/auth-client";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Logout from "@mui/icons-material/Logout";
@@ -25,7 +26,7 @@ export const SiteHeader = () => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { data: session } = authClient.useSession();
+  const { authUser } = useAuthUserSWR();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -90,7 +91,7 @@ export const SiteHeader = () => {
             }}
           >
             <Avatar
-              src={session?.user.image || ""}
+              src={authUser?.image || ""}
               sx={{ width: 32, height: 32 }}
             />
           </Button>
@@ -114,7 +115,7 @@ export const SiteHeader = () => {
             <MenuItem
               onClick={() => {
                 handleClose();
-                router.push(`/profile/${session?.user.id}`);
+                router.push(`/profile/${authUser?.id}`);
               }}
             >
               <ListItemIcon>

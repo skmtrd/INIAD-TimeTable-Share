@@ -1,40 +1,19 @@
 import type { FrourioClientOption } from '@frourio/next';
 import { z } from 'zod';
-import { fc_4pnlye, $fc_4pnlye } from './authUser/frourio.client';
-import { fc_4y03fh, $fc_4y03fh } from './lecture/[lectureId]/participant/frourio.client';
-import { fc_moy59l, $fc_moy59l } from './privacy/frourio.client';
-import { fc_1ufjebb, $fc_1ufjebb } from './timetable/exists/frourio.client';
-import { fc_ldcif4, $fc_ldcif4 } from './timetable/get/[userId]/frourio.client';
-import { fc_w3uc3e, $fc_w3uc3e } from './timetable/register/frourio.client';
-import { fc_15ctk2d, $fc_15ctk2d } from './users/[id]/frourio.client';
 import { frourioSpec } from './frourio'
 
-export const fc = (option?: FrourioClientOption) => ({
-  'authUser': fc_4pnlye(option),
-  'lecture/[lectureId]/participant': fc_4y03fh(option),
-  'privacy': fc_moy59l(option),
-  'timetable/exists': fc_1ufjebb(option),
-  'timetable/get/[userId]': fc_ldcif4(option),
-  'timetable/register': fc_w3uc3e(option),
-  'users/[id]': fc_15ctk2d(option),
+export const fc_4pnlye = (option?: FrourioClientOption) => ({
   $url: $url(option),
   $build(req?: { init?: RequestInit }): [
     key: { dir: string },
     fetcher: () => Promise<NonNullable<Awaited<ReturnType<ReturnType<typeof methods>['$get']>>>>,
   ] {
-    return [{ dir: '/api' }, () => fc(option).$get(req)];
+    return [{ dir: '/api/authUser' }, () => fc_4pnlye(option).$get(req)];
   },
   ...methods(option),
 });
 
-export const $fc = (option?: FrourioClientOption) => ({
-  'authUser': $fc_4pnlye(option),
-  'lecture/[lectureId]/participant': $fc_4y03fh(option),
-  'privacy': $fc_moy59l(option),
-  'timetable/exists': $fc_1ufjebb(option),
-  'timetable/get/[userId]': $fc_ldcif4(option),
-  'timetable/register': $fc_w3uc3e(option),
-  'users/[id]': $fc_15ctk2d(option),
+export const $fc_4pnlye = (option?: FrourioClientOption) => ({
   $url: {
     get(): string {
       const result = $url(option).get();
@@ -48,12 +27,14 @@ export const $fc = (option?: FrourioClientOption) => ({
     key: { dir: string },
     fetcher: () => Promise<z.infer<typeof frourioSpec.get.res[200]['body']>>,
   ] {
-    return [{ dir: '$/api' }, () => $fc(option).$get(req)];
+    return [{ dir: '$/api/authUser' }, () => $fc_4pnlye(option).$get(req)];
   },
   async $get(req?: Parameters<ReturnType<typeof methods>['$get']>[0]): Promise<z.infer<typeof frourioSpec.get.res[200]['body']>> {
     const result = await methods(option).$get(req);
 
     if (!result.isValid) throw result.isValid === false ? result.reason : result.error;
+
+    if (!result.ok) throw new Error(`HTTP Error: ${result.failure.status}`);
 
     return result.data.body;
   },
@@ -61,13 +42,14 @@ export const $fc = (option?: FrourioClientOption) => ({
 
 const $url = (option?: FrourioClientOption) => ({
   get(): { isValid: true; data: string; reason?: undefined } | { isValid: false, data?: undefined; reason: z.ZodError } {
-    return { isValid: true, data: `${option?.baseURL ?? ''}/api` };
+    return { isValid: true, data: `${option?.baseURL ?? ''}/api/authUser` };
   },
 });
 
 const methods = (option?: FrourioClientOption) => ({
   async $get(req?: { init?: RequestInit }): Promise<
     | { ok: true; isValid: true; data: { status: 200; headers?: undefined; body: z.infer<typeof frourioSpec.get.res[200]['body']> }; failure?: undefined; raw: Response; reason?: undefined; error?: undefined }
+    | { ok: false; isValid: true; data?: undefined; failure: { status: 401; headers?: undefined; body: z.infer<typeof frourioSpec.get.res[401]['body']> }; raw: Response; reason?: undefined; error?: undefined }
     | { ok: boolean; isValid: false; data?: undefined; failure?: undefined; raw: Response; reason: z.ZodError; error?: undefined }
     | { ok: boolean; isValid?: undefined; data?: undefined; failure?: undefined; raw: Response; reason?: undefined; error: unknown }
     | { ok?: undefined; isValid: false; data?: undefined; failure?: undefined; raw?: undefined; reason: z.ZodError; error?: undefined }
@@ -104,6 +86,22 @@ const methods = (option?: FrourioClientOption) => ({
           ok: true,
           isValid: true,
           data: { status: 200, body: body.data },
+          raw: result.res,
+        };
+      }
+      case 401: {
+        const resBody: { success: true; data: unknown } | { success: false; error: unknown } = await result.res.json().then(data => ({ success: true, data } as const)).catch(error => ({ success: false, error }));
+
+        if (!resBody.success) return { ok: false, raw: result.res, error: resBody.error };
+
+        const body = frourioSpec.get.res[401].body.safeParse(resBody.data);
+
+        if (!body.success) return { ok: false, isValid: false, raw: result.res, reason: body.error };
+
+        return {
+          ok: false,
+          isValid: true,
+          failure: { status: 401, body: body.data },
           raw: result.res,
         };
       }
