@@ -15,7 +15,6 @@ const LectureParticipantSchema = z.array(
 
 export const frourioSpec = {
   param: z.string(),
-
   get: {
     res: { 
     200: { body: LectureParticipantSchema }, 

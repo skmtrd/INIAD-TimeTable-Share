@@ -1,7 +1,8 @@
 "use client";
+import ParticipantsModal from "@/components/domain/(authenticated)/dashboard/ParticipantsModal";
 import type { Timetable } from "@/types";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 // 授業データの型定義
 type Lecture = {
@@ -50,6 +51,13 @@ type ClassCellProps = {
 
 // 授業セルコンポーネント
 const ClassCell: React.FC<ClassCellProps> = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpen = () => setIsModalOpen(true);
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setIsModalOpen(false);
+  };
+
   if (props.isLoading) {
     return (
       <Box
@@ -100,6 +108,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
 
   return (
     <Box
+      onClick={handleOpen}
       sx={{
         height: "100%",
         p: 1.5,
@@ -110,6 +119,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
         flexDirection: "column",
         justifyContent: "space-between",
         transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        cursor: "pointer",
         "&:hover": {
           boxShadow:
             "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
@@ -130,6 +140,12 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
       >
         {props.classData.name}
       </Typography>
+      <ParticipantsModal
+        isOpen={isModalOpen}
+        handleClose={handleClose}
+        lectureId={props.classData.id}
+        lectureName={props.classData.name}
+      />
     </Box>
   );
 };
