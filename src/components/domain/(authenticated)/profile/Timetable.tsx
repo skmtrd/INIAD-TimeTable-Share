@@ -47,12 +47,16 @@ const dayLabels = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜�
 type ClassCellProps = {
   classData: Lecture | null;
   isLoading: boolean;
+  isAccessUserPage: boolean;
 };
 
 // 授業セルコンポーネント
 const ClassCell: React.FC<ClassCellProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpen = () => setIsModalOpen(true);
+  const handleOpen = () => {
+    if (!props.isAccessUserPage) return;
+    setIsModalOpen(true);
+  };
   const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setIsModalOpen(false);
@@ -119,7 +123,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
         flexDirection: "column",
         justifyContent: "space-between",
         transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
-        cursor: "pointer",
+        cursor: props.isAccessUserPage ? "pointer" : "default",
         "&:hover": {
           boxShadow:
             "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
@@ -145,6 +149,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
         handleClose={handleClose}
         lectureId={props.classData.id}
         lectureName={props.classData.name}
+        isAccessUserPage={props.isAccessUserPage}
       />
     </Box>
   );
@@ -154,6 +159,7 @@ type TimetableProps = {
   timetableData: Timetable;
   privacyProtection: boolean | null;
   isLoading: boolean;
+  isAccessUserPage: boolean;
 };
 
 const TimetablePage: React.FC<TimetableProps> = (props) => {
@@ -324,6 +330,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                       ) || null
                     }
                     isLoading={props.isLoading}
+                    isAccessUserPage={props.isAccessUserPage}
                   />
                 </Box>
               ))}

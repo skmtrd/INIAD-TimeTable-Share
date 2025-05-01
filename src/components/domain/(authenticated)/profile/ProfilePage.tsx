@@ -53,6 +53,7 @@ const ProfilePage = () => {
           timetableData={timetable || dummyTimetableData}
           isLoading={isLoading}
           privacyProtection={privacyProtection}
+          isAccessUserPage={isAccessUserPage}
         />
       </Box>
     </PageContainer>

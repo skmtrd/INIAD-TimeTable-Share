@@ -75,10 +75,14 @@ type ParticipantsModalProps = {
   handleClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
   lectureId: string;
   lectureName: string;
+  isAccessUserPage: boolean;
 };
 
 const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
-  const { participants } = useParticipantsSWR(props.lectureId);
+  const { participants } = useParticipantsSWR(
+    props.lectureId,
+    props.isAccessUserPage,
+  );
   const isLoading = participants === undefined;
   const skeletonCount = 5;
 
