@@ -1,18 +1,21 @@
+import { useUploadForm } from "@/hooks/domain/(authenticated)/dashboard/useUploadForm";
 import UploadIcon from "@mui/icons-material/Upload";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import type React from "react";
-
 type UploadFormProps = {
-  file: File | null;
-  isUploading: boolean;
-  message: string;
-  fileInputRef: React.RefObject<HTMLInputElement | null>;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleUpload: () => void;
-  openFileDialog: () => void;
+  timetableMutate: () => void;
 };
 
 const UploadForm: React.FC<UploadFormProps> = (props) => {
+  const {
+    file,
+    isUploading,
+    message,
+    fileInputRef,
+    handleFileChange,
+    handleUpload,
+    openFileDialog,
+  } = useUploadForm(props.timetableMutate);
   return (
     <Box
       sx={{
@@ -41,14 +44,14 @@ const UploadForm: React.FC<UploadFormProps> = (props) => {
             boxShadow: "0 0 0 2px hsl(240 5% 96%)",
           },
         }}
-        onClick={props.openFileDialog}
+        onClick={openFileDialog}
       >
         <input
           type="file"
-          ref={props.fileInputRef}
+          ref={fileInputRef}
           style={{ display: "none" }}
           accept={".json"}
-          onChange={props.handleFileChange}
+          onChange={handleFileChange}
         />
         <Box
           sx={{
@@ -78,7 +81,7 @@ const UploadForm: React.FC<UploadFormProps> = (props) => {
             mb: 0.5,
           }}
         >
-          {props.file ? props.file.name : "ファイルを選択"}
+          {file ? file.name : "ファイルを選択"}
         </Typography>
         <Typography
           variant="body2"
@@ -92,8 +95,8 @@ const UploadForm: React.FC<UploadFormProps> = (props) => {
       </Box>
       <Button
         variant="contained"
-        onClick={props.handleUpload}
-        disabled={!props.file || props.isUploading}
+        onClick={handleUpload}
+        disabled={!file || isUploading}
         fullWidth
         disableElevation
         sx={{
@@ -112,7 +115,7 @@ const UploadForm: React.FC<UploadFormProps> = (props) => {
           },
         }}
       >
-        {props.isUploading && (
+        {isUploading && (
           <CircularProgress
             size={20}
             sx={{
@@ -128,7 +131,7 @@ const UploadForm: React.FC<UploadFormProps> = (props) => {
             justifyContent: "center",
           }}
         >
-          {props.message}
+          {message}
         </Box>
       </Button>
     </Box>

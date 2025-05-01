@@ -3,18 +3,11 @@
 import PageContainer from "@/components/common/PageContainer";
 import UploadForm from "@/components/domain/(authenticated)/dashboard/UploadForm";
 import { useDashboard } from "@/hooks/domain/(authenticated)/dashboard/useDashboard";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
+import Timetable from "../profile/Timetable";
 
 const DashboardPage = () => {
-  const {
-    file,
-    isUploading,
-    message,
-    fileInputRef,
-    handleFileChange,
-    handleUpload,
-    openFileDialog,
-  } = useDashboard();
+  const { timetable, isLoading, timetableMutate } = useDashboard();
 
   return (
     <PageContainer>
@@ -28,15 +21,18 @@ const DashboardPage = () => {
           justifyContent: "center",
         }}
       >
-        <UploadForm
-          file={file}
-          isUploading={isUploading}
-          message={message ?? ""}
-          fileInputRef={fileInputRef}
-          handleFileChange={handleFileChange}
-          handleUpload={handleUpload}
-          openFileDialog={openFileDialog}
-        />
+        {isLoading || !timetable ? (
+          <CircularProgress />
+        ) : Object.keys(timetable).length > 0 ? (
+          <Timetable
+            timetableData={timetable}
+            privacyProtection={false}
+            isLoading={isLoading}
+            isAccessUserPage={true}
+          />
+        ) : (
+          <UploadForm timetableMutate={timetableMutate} />
+        )}
       </Box>
     </PageContainer>
   );

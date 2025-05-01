@@ -14,7 +14,7 @@ export const useTimetableSWR = (
     error,
     isLoading,
     mutate,
-  } = useSWR(!privacyProtection ? key : null, fetcher);
+  } = useSWR(!privacyProtection && userId !== "" ? key : null, fetcher);
 
   return { timetable, error, isLoading, mutate };
 };
