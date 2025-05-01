@@ -14,12 +14,13 @@ const ProfilePage = () => {
     fetchLoading,
     userMutate,
     isAccessUserPage,
+    privacyProtection,
     handlePrivacyProtectionChange,
   } = useProfilePage();
 
   if (error) return <div>Error loading users</div>;
 
-  const isLoading = fetchLoading || !timetable;
+  const isLoading = fetchLoading;
 
   return (
     <PageContainer>
@@ -51,6 +52,7 @@ const ProfilePage = () => {
         <TimetablePage
           timetableData={timetable || dummyTimetableData}
           isLoading={isLoading}
+          privacyProtection={privacyProtection}
         />
       </Box>
     </PageContainer>

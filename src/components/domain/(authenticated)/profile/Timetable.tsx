@@ -22,8 +22,6 @@ const daysConst = [
 ] as const; // as const を追加してリテラル型にする
 type DayKey = (typeof daysConst)[number]; // "monday" | "tuesday" | ...
 
-// 時間割のダミーデータに型を適用
-
 // 時限の時間帯
 const periodTimes = [
   "8:50 - 10:20",
@@ -51,8 +49,8 @@ type ClassCellProps = {
 };
 
 // 授業セルコンポーネント
-const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
-  if (isLoading) {
+const ClassCell: React.FC<ClassCellProps> = (props) => {
+  if (props.isLoading) {
     return (
       <Box
         sx={{
@@ -75,7 +73,7 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
       </Box>
     );
   }
-  if (!classData) {
+  if (!props.classData) {
     return (
       <Box
         sx={{
@@ -125,9 +123,12 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
           fontWeight: 600,
           fontSize: "0.875rem",
           mb: 0.5,
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          // whiteSpace: "nowrap",
         }}
       >
-        {classData.name}
+        {props.classData.name}
       </Typography>
     </Box>
   );
@@ -135,6 +136,7 @@ const ClassCell = ({ classData, isLoading }: ClassCellProps) => {
 
 type TimetableProps = {
   timetableData: Timetable;
+  privacyProtection: boolean | null;
   isLoading: boolean;
 };
 
@@ -154,6 +156,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
           backgroundColor: "white",
           boxShadow:
             "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+          position: "relative",
         }}
       >
         <Typography
@@ -169,7 +172,6 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
         >
           時間割表
         </Typography>
-
         <Box
           sx={{
             display: "grid",
@@ -178,8 +180,40 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
             minWidth: 800,
             gridTemplateRows: "auto repeat(6, 1fr)",
             "& .class-cell": { aspectRatio: "1/1" },
+            borderRadius: "3rem",
+            position: "relative",
           }}
         >
+          {props.privacyProtection && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                zIndex: 1000,
+                backdropFilter: "blur(5px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "0.75rem",
+                boxShadow:
+                  "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "hsl(240 6% 10%)",
+                  fontWeight: 600,
+                }}
+              >
+                このユーザーは時間割を非公開にしています
+              </Typography>
+            </Box>
+          )}
           {/* ヘッダー行 */}
           <Box
             sx={{

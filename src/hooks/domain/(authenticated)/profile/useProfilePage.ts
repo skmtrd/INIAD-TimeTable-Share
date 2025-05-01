@@ -1,7 +1,7 @@
+import { useAuthUserSWR } from "@/hooks/data/useAuthUserSWR";
 import { useTimetableSWR } from "@/hooks/data/useTimetableSWR";
 import { useUserDataSWR } from "@/hooks/data/useUserDataSWR";
 import { apiClient } from "@/lib/apiClient";
-import { authClient } from "@/lib/auth-client";
 import { mutateOption } from "@/lib/mutateOption";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import { useParams } from "next/navigation";
@@ -10,11 +10,10 @@ export const useProfilePage = () => {
   const params = useParams();
 
   const {
-    data: session,
-    isPending: sessionIsPending,
+    authUser: accessUser,
+    isLoading: sessionIsLoading,
     error: sessionError,
-  } = authClient.useSession();
-  const accessUser = session?.user;
+  } = useAuthUserSWR();
 
   const {
     user: displayUser,
@@ -23,16 +22,19 @@ export const useProfilePage = () => {
     mutate: userMutate,
   } = useUserDataSWR(params.id as string);
 
-  const {
-    timetable,
-    error: timetableError,
-    isLoading: timetableLoading,
-  } = useTimetableSWR(params.id as string);
-
   const isAccessUserPage =
     accessUser !== undefined &&
     displayUser !== undefined &&
     accessUser.id === displayUser.id;
+
+  const privacyProtection =
+    displayUser?.privacyProtection === true && !isAccessUserPage;
+
+  const {
+    timetable,
+    error: timetableError,
+    isLoading: timetableLoading,
+  } = useTimetableSWR(params.id as string, privacyProtection);
 
   const handlePrivacyProtectionChange = async (
     event: SelectChangeEvent<string>,
@@ -62,8 +64,9 @@ export const useProfilePage = () => {
     timetable,
     handlePrivacyProtectionChange,
     error: timetableError || userError || sessionError,
-    fetchLoading: timetableLoading || userIsLoading || sessionIsPending,
+    fetchLoading: timetableLoading || userIsLoading || sessionIsLoading,
     isAccessUserPage,
+    privacyProtection,
     userMutate,
   };
 };
