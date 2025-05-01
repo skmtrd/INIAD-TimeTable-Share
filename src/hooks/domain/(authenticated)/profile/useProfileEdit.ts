@@ -13,6 +13,7 @@ export const useProfileEdit = (
   const [editName, setEditName] = useState(name);
   const [editTwitterId, setEditTwitterId] = useState(twitterId);
   const [editImage, setEditImage] = useState<string | null>("");
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   useEffect(() => {
     if (image) {
@@ -46,15 +47,19 @@ export const useProfileEdit = (
   }, [image]);
 
   const handleSave = async () => {
+    if (isUploading) return;
     try {
+      setIsUploading(true);
       await apiClient["users/[id]"].$put({
         params: { id },
         body: { name: editName, twitterId: editTwitterId, image: editImage },
       });
-      setIsEditMode(false);
       mutate();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsUploading(false);
+      setIsEditMode(false);
     }
   };
 
@@ -81,6 +86,7 @@ export const useProfileEdit = (
     editName,
     editTwitterId,
     isEditMode,
+    isUploading,
     handleSave,
     handleToggleEditMode,
     handleNameChange,

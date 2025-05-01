@@ -30,6 +30,10 @@ export const useDashboard = () => {
       return;
     }
 
+    if (isUploading) {
+      return;
+    }
+
     try {
       const requestBody = {
         file: file,

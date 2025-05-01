@@ -1,10 +1,11 @@
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, CircularProgress, IconButton } from "@mui/material";
 import type React from "react";
 
 type EditActionButtonProps = {
   isEditMode: boolean;
+  isUploading: boolean;
   handleToggleEditMode: () => void;
   handleSave: () => void;
 };
@@ -19,11 +20,13 @@ const EditActionButton: React.FC<EditActionButtonProps> = (props) => {
             size="small"
             color="error"
           >
-            <CloseIcon />
+            {!props.isUploading && <CloseIcon />}
           </IconButton>
           <Button
             variant="outlined"
-            startIcon={<EditIcon />}
+            startIcon={
+              props.isUploading ? <CircularProgress size={18} /> : <EditIcon />
+            }
             onClick={props.handleSave}
             color="primary"
             sx={{
