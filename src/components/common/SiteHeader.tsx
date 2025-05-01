@@ -9,6 +9,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Divider,
   ListItemIcon,
   ListItemText,
@@ -25,6 +26,7 @@ import { useState } from "react";
 export const SiteHeader = () => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const open = Boolean(anchorEl);
   const { authUser } = useAuthUserSWR();
 
@@ -37,6 +39,8 @@ export const SiteHeader = () => {
   };
 
   const handleSignOut = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
@@ -44,6 +48,7 @@ export const SiteHeader = () => {
         },
       },
     });
+    setIsLoading(false);
   };
 
   return (
@@ -126,7 +131,11 @@ export const SiteHeader = () => {
             <Divider />
             <MenuItem onClick={handleSignOut}>
               <ListItemIcon>
-                <Logout fontSize="small" />
+                {isLoading ? (
+                  <CircularProgress size={18} />
+                ) : (
+                  <Logout fontSize="small" />
+                )}
               </ListItemIcon>
               <ListItemText>ログアウト</ListItemText>
             </MenuItem>

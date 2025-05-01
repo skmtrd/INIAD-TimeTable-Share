@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import PageContainer from "@/components/common/PageContainer";
 import LoginForm from "@/components/domain/(unauthenticated)/login/LoginForm";
+import { Box } from "@mui/material";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -13,7 +14,9 @@ const LoginPage = async () => {
 
   return (
     <PageContainer>
-      <LoginForm />
+      <Box sx={{ height: "100vh", display: "flex", alignItems: "center" }}>
+        <LoginForm />
+      </Box>
     </PageContainer>
   );
 };

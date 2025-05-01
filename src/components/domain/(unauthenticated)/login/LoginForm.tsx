@@ -75,12 +75,6 @@ const LoginForm = () => {
       >
         {isLoading ? <CircularProgress size={24} /> : "Googleでログイン"}
       </Button>
-
-      <Box sx={{ mt: 3, textAlign: "center" }}>
-        <Typography variant="body2" color="text.secondary">
-          ログインすることで、利用規約とプライバシーポリシーに同意したことになります。
-        </Typography>
-      </Box>
     </Paper>
   );
 };
