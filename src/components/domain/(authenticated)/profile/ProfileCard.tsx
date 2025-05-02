@@ -20,6 +20,7 @@ type ProfileCardProps = {
   image: string | null;
   onSave?: (data: { name: string; twitterId: string | null }) => void;
   mutate: () => void;
+  authUserMutate: () => void;
   isLoading: boolean;
   isAccessUserPage: boolean;
 };
@@ -42,6 +43,8 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
     props.id,
     props.image,
     props.mutate,
+    props.authUserMutate,
+    props.isAccessUserPage,
   );
 
   return (

@@ -13,6 +13,7 @@ export const useProfilePage = () => {
     authUser: accessUser,
     isLoading: sessionIsLoading,
     error: sessionError,
+    mutate: authUserMutate,
   } = useAuthUserSWR();
 
   const {
@@ -68,5 +69,6 @@ export const useProfilePage = () => {
     isAccessUserPage,
     privacyProtection,
     userMutate,
+    authUserMutate,
   };
 };

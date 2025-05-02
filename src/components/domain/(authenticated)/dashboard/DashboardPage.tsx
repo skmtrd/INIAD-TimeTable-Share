@@ -5,12 +5,27 @@ import UploadForm from "@/components/domain/(authenticated)/dashboard/UploadForm
 import { useDashboard } from "@/hooks/domain/(authenticated)/dashboard/useDashboard";
 import { Box, CircularProgress, Link, Typography } from "@mui/material";
 import Timetable from "../profile/Timetable";
+import SettingRecommendModal from "./SettingRecommendModal";
 
 const DashboardPage = () => {
-  const { timetable, isLoading, timetableMutate } = useDashboard();
+  const {
+    timetable,
+    isLoading,
+    timetableMutate,
+    open,
+    handleClose,
+    handleConfigure,
+  } = useDashboard();
 
   return (
     <PageContainer>
+      <SettingRecommendModal
+        open={open}
+        onClose={handleClose}
+        onConfigure={handleConfigure}
+        settingName="表示名とTwitter ID"
+        description="アプリをより快適に使用するために、表示名とTwitter IDを設定しましょう。これにより、他のユーザーがあなたを見つけやすくなります。"
+      />
       <Box
         sx={{
           width: "100%",

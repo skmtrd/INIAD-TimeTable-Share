@@ -13,6 +13,7 @@ const ProfilePage = () => {
     error,
     fetchLoading,
     userMutate,
+    authUserMutate,
     isAccessUserPage,
     privacyProtection,
     handlePrivacyProtectionChange,
@@ -31,6 +32,7 @@ const ProfilePage = () => {
           twitterId={displayUser?.twitterId ?? null}
           image={displayUser?.image ?? null}
           mutate={userMutate}
+          authUserMutate={authUserMutate}
           isLoading={isLoading}
           isAccessUserPage={isAccessUserPage}
         />
