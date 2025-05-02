@@ -183,7 +183,12 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                         {participant.user.name}
                       </Typography>
                       {participant.user.twitterId && (
-                        <Box sx={twitterHandleSx}>
+                        <Box
+                          sx={twitterHandleSx}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
                           <TwitterIcon
                             sx={{ fontSize: 16, mr: 0.5, color: "#1DA1F2" }}
                           />
