@@ -8,6 +8,8 @@ export const useProfileEdit = (
   id: string,
   image: string | null,
   mutate: () => void,
+  authUserMutate: () => void,
+  isAccessUserPage: boolean,
 ) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [editName, setEditName] = useState(name);
@@ -58,6 +60,9 @@ export const useProfileEdit = (
     } catch (error) {
       console.error(error);
     } finally {
+      if (isAccessUserPage) {
+        authUserMutate();
+      }
       setIsUploading(false);
       setIsEditMode(false);
     }
