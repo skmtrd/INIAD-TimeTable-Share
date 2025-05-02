@@ -22,6 +22,10 @@ type Controller = {
         body: z.infer<SpecType['get']['res'][200]['body']>;
       }
     | {
+        status: 401;
+        body: z.infer<SpecType['get']['res'][401]['body']>;
+      }
+    | {
         status: 500;
         body: z.infer<SpecType['get']['res'][500]['body']>;
       }
@@ -60,6 +64,13 @@ export const createRoute = (controller: Controller): ResHandler => {
           if (body.error) return createResErr();
 
           return createResponse(body.data, { status: 200 });
+        }
+        case 401: {
+          const body = frourioSpec.get.res[401].body.safeParse(res.body);
+
+          if (body.error) return createResErr();
+
+          return createResponse(body.data, { status: 401 });
         }
         case 500: {
           const body = frourioSpec.get.res[500].body.safeParse(res.body);

@@ -7,6 +7,7 @@ export const frourioSpec = {
   get: {
     res: {
       200: { body: userSchema },
+      401: { body: z.object({ error: z.string() }) },
       404: { body: z.object({ error: z.string() }) },
     },
   },
@@ -18,6 +19,7 @@ export const frourioSpec = {
     }),
     res: {
       200: { body: userSchema },
+      401: { body: z.object({ error: z.string() }) },
       403: { body: z.object({ error: z.string() }) },
       404: { body: z.object({ error: z.string() }) },
     },

@@ -1,8 +1,13 @@
+import { authenticationCheck } from "@/app/api/lib";
 import { prisma } from "@/lib/prisma";
 import { createRoute } from "./frourio.server";
 
 export const { GET } = createRoute({
   get: async (req) => {
+    const authCheck = await authenticationCheck();
+    if (!authCheck) {
+      return { status: 401, body: { message: "Unauthorized" } };
+    }
     const lectureId: string = req.params.lectureId;
 
     try {

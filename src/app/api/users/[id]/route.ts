@@ -1,10 +1,15 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
+import { authenticationCheck } from "../../lib";
 import { createRoute } from "./frourio.server";
 
 export const { GET, PUT } = createRoute({
   get: async ({ params }) => {
+    const authCheck = await authenticationCheck();
+    if (!authCheck) {
+      return { status: 401, body: { error: "Unauthorized" } };
+    }
     const user = await prisma.user.findUnique({
       where: {
         id: params.id,
@@ -24,6 +29,11 @@ export const { GET, PUT } = createRoute({
     return { status: 200, body: user };
   },
   put: async ({ params, body }) => {
+    const authCheck = await authenticationCheck();
+    if (!authCheck) {
+      return { status: 401, body: { error: "Unauthorized" } };
+    }
+
     const requestUser = await auth.api.getSession({
       headers: await headers(),
     });

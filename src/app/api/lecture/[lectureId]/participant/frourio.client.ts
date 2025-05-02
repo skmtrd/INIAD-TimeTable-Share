@@ -63,7 +63,7 @@ const $url = (option?: FrourioClientOption) => ({
 const methods = (option?: FrourioClientOption) => ({
   async $get(req: { params: z.infer<typeof paramsSchema>, init?: RequestInit }): Promise<
     | { ok: true; isValid: true; data: { status: 200; headers?: undefined; body: z.infer<typeof frourioSpec.get.res[200]['body']> }; failure?: undefined; raw: Response; reason?: undefined; error?: undefined }
-    | { ok: false; isValid: true; data?: undefined; failure: { status: 500; headers?: undefined; body: z.infer<typeof frourioSpec.get.res[500]['body']> }; raw: Response; reason?: undefined; error?: undefined }
+    | { ok: false; isValid: true; data?: undefined; failure: { status: 401; headers?: undefined; body: z.infer<typeof frourioSpec.get.res[401]['body']> } | { status: 500; headers?: undefined; body: z.infer<typeof frourioSpec.get.res[500]['body']> }; raw: Response; reason?: undefined; error?: undefined }
     | { ok: boolean; isValid: false; data?: undefined; failure?: undefined; raw: Response; reason: z.ZodError; error?: undefined }
     | { ok: boolean; isValid?: undefined; data?: undefined; failure?: undefined; raw: Response; reason?: undefined; error: unknown }
     | { ok?: undefined; isValid: false; data?: undefined; failure?: undefined; raw?: undefined; reason: z.ZodError; error?: undefined }
@@ -100,6 +100,22 @@ const methods = (option?: FrourioClientOption) => ({
           ok: true,
           isValid: true,
           data: { status: 200, body: body.data },
+          raw: result.res,
+        };
+      }
+      case 401: {
+        const resBody: { success: true; data: unknown } | { success: false; error: unknown } = await result.res.json().then(data => ({ success: true, data } as const)).catch(error => ({ success: false, error }));
+
+        if (!resBody.success) return { ok: false, raw: result.res, error: resBody.error };
+
+        const body = frourioSpec.get.res[401].body.safeParse(resBody.data);
+
+        if (!body.success) return { ok: false, isValid: false, raw: result.res, reason: body.error };
+
+        return {
+          ok: false,
+          isValid: true,
+          failure: { status: 401, body: body.data },
           raw: result.res,
         };
       }
