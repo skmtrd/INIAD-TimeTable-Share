@@ -7,6 +7,7 @@ export const frourioSpec = {
   get: {
     res: { 
       200: { body: timetableSchema } ,
+      401: { body: z.object({ error: z.string() }) },
       500: { body: z.object({ message: z.string() }) }
      }
   },

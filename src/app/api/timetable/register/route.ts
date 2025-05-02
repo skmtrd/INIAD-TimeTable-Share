@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { authenticationCheck } from "../../lib";
 import { createRoute } from "./frourio.server";
 
 //Toyo net aceでダウンロードする時間割のデータ型
@@ -8,6 +9,11 @@ type TimetableFromToyoNetAce = {
 
 export const { POST } = createRoute({
   post: async ({ body }) => {
+    const authCheck = await authenticationCheck();
+    if (!authCheck) {
+      return { status: 401, body: { message: "Unauthorized" } };
+    }
+
     let timetableObject: TimetableFromToyoNetAce = {};
 
     try {

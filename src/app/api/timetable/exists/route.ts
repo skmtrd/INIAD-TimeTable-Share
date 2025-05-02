@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/prisma";
-import { getUserInfo } from "../../lib";
+import { authenticationCheck } from "../../lib";
 import { createRoute } from "./frourio.server";
 
 export const { GET } = createRoute({
   get: async () => {
-    const user = await getUserInfo();
+    const user = await authenticationCheck();
     if (!user) {
       return { status: 401, body: { message: "Unauthorized" } };
     }

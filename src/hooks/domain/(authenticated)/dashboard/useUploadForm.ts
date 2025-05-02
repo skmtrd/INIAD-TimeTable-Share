@@ -50,12 +50,12 @@ export const useUploadForm = (timetableMutate: () => void) => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
+      timetableMutate();
     } catch (err) {
       console.error("アップロードエラー:", err);
       setMessage(err instanceof Error ? err.message : "エラーが発生しました");
     } finally {
       setIsUploading(false);
-      timetableMutate();
     }
   };
 

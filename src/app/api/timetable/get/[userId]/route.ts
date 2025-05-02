@@ -1,12 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import type { timetableSchema } from "@/schema";
 import type { z } from "zod";
+import { authenticationCheck } from "../../../lib";
 import { createRoute } from "./frourio.server";
-
 export type TimeTable = z.infer<typeof timetableSchema>;
 
 export const { GET } = createRoute({
   get: async (req) => {
+    const authCheck = await authenticationCheck();
+    if (!authCheck) {
+      return { status: 401, body: { error: "Unauthorized" } };
+    }
     const userId: string = req.params.userId;
 
     try {

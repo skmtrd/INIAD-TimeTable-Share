@@ -18,6 +18,7 @@ export const frourioSpec = {
   get: {
     res: { 
     200: { body: LectureParticipantSchema }, 
+    401: { body: z.object({ message: z.string() }) },
     500: { body: z.object({ message: z.string() }) } 
     },
   },

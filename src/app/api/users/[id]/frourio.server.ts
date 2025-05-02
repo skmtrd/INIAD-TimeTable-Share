@@ -22,6 +22,10 @@ type Controller = {
         body: z.infer<SpecType['get']['res'][200]['body']>;
       }
     | {
+        status: 401;
+        body: z.infer<SpecType['get']['res'][401]['body']>;
+      }
+    | {
         status: 404;
         body: z.infer<SpecType['get']['res'][404]['body']>;
       }
@@ -35,6 +39,10 @@ type Controller = {
     | {
         status: 200;
         body: z.infer<SpecType['put']['res'][200]['body']>;
+      }
+    | {
+        status: 401;
+        body: z.infer<SpecType['put']['res'][401]['body']>;
       }
     | {
         status: 403;
@@ -81,6 +89,13 @@ export const createRoute = (controller: Controller): ResHandler => {
 
           return createResponse(body.data, { status: 200 });
         }
+        case 401: {
+          const body = frourioSpec.get.res[401].body.safeParse(res.body);
+
+          if (body.error) return createResErr();
+
+          return createResponse(body.data, { status: 401 });
+        }
         case 404: {
           const body = frourioSpec.get.res[404].body.safeParse(res.body);
 
@@ -106,6 +121,13 @@ export const createRoute = (controller: Controller): ResHandler => {
           if (body.error) return createResErr();
 
           return createResponse(body.data, { status: 200 });
+        }
+        case 401: {
+          const body = frourioSpec.put.res[401].body.safeParse(res.body);
+
+          if (body.error) return createResErr();
+
+          return createResponse(body.data, { status: 401 });
         }
         case 403: {
           const body = frourioSpec.put.res[403].body.safeParse(res.body);
