@@ -5,6 +5,7 @@ import type React from "react";
 export const metadata: Metadata = {
   title: "INIAD Timetable Share",
   description: "INIAD Timetable Share",
+  appleWebApp: true,
 };
 
 type RootLayoutProps = {
@@ -12,6 +13,11 @@ type RootLayoutProps = {
 };
 const RootLayout: React.FC<RootLayoutProps> = (props) => (
   <html lang="en">
+    <head>
+      <link rel="manifest" href="/manifest.json" />
+      <link rel="apple-touch-icon" href="/icon512_maskable.png" />
+      <meta name="theme-color" content="#b8e986" />
+    </head>
     <body>{props.children}</body>
   </html>
 );
