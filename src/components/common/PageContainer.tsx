@@ -25,6 +25,7 @@ const PageContainer: React.FC<PageContainerProps> = (props) => (
       flexDirection: "column",
       pt: { xs: 2, sm: 3, md: 4 },
       pb: { xs: 4, sm: 5, md: 6 },
+      px: { xs: 0, sm: 3, md: 4 },
     }}
   >
     {!!props.title && <Typography variant="h4">{props.title}</Typography>}
