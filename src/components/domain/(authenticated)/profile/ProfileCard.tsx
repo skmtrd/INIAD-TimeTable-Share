@@ -51,11 +51,12 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
     <Paper
       elevation={0}
       sx={{
-        borderRadius: "0.75rem",
+        borderRadius: "1rem",
         overflow: "hidden",
-        border: "1px solid hsl(240 5.9% 90%)",
+        backgroundColor: "white",
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.08)",
         mb: 4,
-        p: 2,
+        p: { xs: 2, sm: 3 },
         width: "100%",
       }}
     >
@@ -85,8 +86,9 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
                 sx={{
                   width: 80,
                   height: 80,
-                  backgroundColor: "hsl(240 5.9% 90%)",
+                  backgroundColor: "#f0f0f0",
                   mr: 2,
+                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
                 }}
               />
             )}
@@ -107,9 +109,9 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
                 <Typography
                   variant="h5"
                   sx={{
-                    fontWeight: 600,
-                    color: "hsl(240 6% 10%)",
-                    fontSize: "1.25rem",
+                    fontWeight: 700,
+                    color: "#222222",
+                    fontSize: { xs: "1.1rem", sm: "1.25rem" },
                     mb: 0.5,
                   }}
                 >
@@ -128,7 +130,16 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
           )}
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <TwitterIcon sx={{ fontSize: 18, color: "#1DA1F2", mr: 0.5 }} />
+          <TwitterIcon
+            sx={{
+              fontSize: 20,
+              color: "#1DA1F2",
+              mr: 0.5,
+              backgroundColor: "rgba(29, 161, 242, 0.1)",
+              padding: "4px",
+              borderRadius: "50%",
+            }}
+          />
           {props.isLoading ? (
             <Skeleton variant="text" width={100} height={20} />
           ) : isEditMode ? (
@@ -155,6 +166,9 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
                 color: "#1DA1F2",
                 fontSize: "0.875rem",
                 textDecoration: "none",
+                fontWeight: 500,
+                display: "flex",
+                alignItems: "center",
                 "&:hover": {
                   textDecoration: "underline",
                 },

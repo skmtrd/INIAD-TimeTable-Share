@@ -25,7 +25,15 @@ const ProfilePage = () => {
 
   return (
     <PageContainer>
-      <Box sx={{ width: "100%", maxWidth: "md", pt: 10, pb: 10 }}>
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: "md",
+          mt: { xs: 2, sm: 4, md: 6 },
+          mb: { xs: 4, sm: 6, md: 8 },
+          px: { xs: 2, sm: 0 },
+        }}
+      >
         <ProfileCard
           name={displayUser?.name ?? ""}
           id={displayUser?.id ?? ""}
@@ -37,7 +45,12 @@ const ProfilePage = () => {
           isAccessUserPage={isAccessUserPage}
         />
         <Box
-          sx={{ display: "flex", width: "100%", justifyContent: "flex-end" }}
+          sx={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "flex-end",
+            mb: 2,
+          }}
         >
           {isAccessUserPage && (
             <Tooltip
@@ -47,8 +60,25 @@ const ProfilePage = () => {
               <Select
                 value={displayUser?.privacyProtection ? "非公開" : "公開"}
                 onChange={handlePrivacyProtectionChange}
-                color="secondary"
                 size="small"
+                sx={{
+                  height: "36px",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "0.5rem",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#e0e0e0",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#d0d0d0",
+                  },
+                  "& .MuiSelect-select": {
+                    py: 1,
+                    px: 1.5,
+                    fontWeight: 500,
+                    fontSize: "0.875rem",
+                    color: "#333333",
+                  },
+                }}
               >
                 <MenuItem value="公開">公開</MenuItem>
                 <MenuItem value="非公開">非公開</MenuItem>
