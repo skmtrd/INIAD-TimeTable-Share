@@ -18,25 +18,33 @@ const EditActionButton: React.FC<EditActionButtonProps> = (props) => {
           <IconButton
             onClick={props.handleToggleEditMode}
             size="small"
-            color="error"
+            sx={{
+              color: "#f44336",
+              backgroundColor: "rgba(244, 67, 54, 0.1)",
+              "&:hover": {
+                backgroundColor: "rgba(244, 67, 54, 0.2)",
+              },
+            }}
           >
             {!props.isUploading && <CloseIcon />}
           </IconButton>
           <Button
-            variant="outlined"
+            variant="contained"
+            disableElevation
             startIcon={
               props.isUploading ? <CircularProgress size={18} /> : <EditIcon />
             }
             onClick={props.handleSave}
-            color="primary"
             sx={{
               borderRadius: "0.5rem",
               textTransform: "none",
-              fontWeight: 500,
-              borderColor: "hsl(240 5.9% 90%)",
+              fontWeight: 600,
+              backgroundColor: "#2979ff",
+              color: "white",
+              padding: "6px 16px",
               height: "36px",
               "&:hover": {
-                opacity: 0.8,
+                backgroundColor: "#1c54b2",
               },
             }}
           >
@@ -48,16 +56,18 @@ const EditActionButton: React.FC<EditActionButtonProps> = (props) => {
           variant="outlined"
           startIcon={<EditIcon />}
           onClick={props.handleToggleEditMode}
-          color="primary"
           sx={{
             borderRadius: "0.5rem",
             textTransform: "none",
-            fontWeight: 500,
-            borderColor: "hsl(240 5.9% 90%)",
-            color: "hsl(240 6% 10%)",
+            fontWeight: 600,
+            borderColor: "#2979ff",
+            color: "#2979ff",
+            backgroundColor: "rgba(41, 121, 255, 0.05)",
             height: "36px",
+            padding: "6px 16px",
             "&:hover": {
-              opacity: 0.8,
+              backgroundColor: "rgba(41, 121, 255, 0.1)",
+              borderColor: "#2979ff",
             },
           }}
         >

@@ -9,6 +9,8 @@ import {
   Paper,
   type SxProps,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import type React from "react";
 
@@ -17,55 +19,71 @@ const modalSx: SxProps<Theme> = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  backdropFilter: "blur(5px)",
+  p: { xs: 2, sm: 3 }, // モバイルでは余白を追加
 };
 
-const modalContentSx: SxProps<Theme> = {
+const modalContentSx = (isMobile: boolean): SxProps<Theme> => ({
   width: "100%",
-  maxWidth: 400,
+  maxWidth: isMobile ? "calc(100% - 24px)" : 400,
   outline: "none",
-  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.08)",
-  borderRadius: "12px",
+  boxShadow:
+    "0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
+  borderRadius: isMobile ? "12px" : "16px",
   bgcolor: "#ffffff",
-};
+  overflow: "hidden",
+});
 
-const modalHeaderSx: SxProps<Theme> = {
+const modalHeaderSx = (isMobile: boolean): SxProps<Theme> => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "16px 24px",
-  borderBottom: "1px solid #f0f0f0",
-};
+  padding: isMobile ? "14px 16px" : "18px 24px",
+  borderBottom: "1px solid hsl(210 80% 92%)",
+  background: "linear-gradient(to right, white, hsl(210 100% 97%))",
+});
 
 const contentSx: SxProps<Theme> = {
-  padding: "24px",
+  padding: { xs: "20px", sm: "24px" },
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   textAlign: "center",
+  backgroundColor: "hsl(210 100% 98%)",
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: "48px",
-  color: "#000000",
-  marginBottom: "16px",
+  fontSize: { xs: "40px", sm: "48px" },
+  color: "#333333",
+  marginBottom: { xs: "12px", sm: "16px" },
+  backgroundColor: "#f0f4f8",
+  padding: "12px",
+  borderRadius: "50%",
+  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
 };
 
 const actionsSx: SxProps<Theme> = {
   display: "flex",
   justifyContent: "center",
   gap: 2,
-  padding: "16px 24px 24px",
+  padding: { xs: "12px 16px 20px", sm: "16px 24px 24px" },
+  backgroundColor: "hsl(210 100% 98%)",
+  borderTop: "1px solid hsl(210 80% 92%)",
 };
 
 const primaryButtonSx: SxProps<Theme> = {
   textTransform: "none",
-  fontWeight: 500,
-  padding: "8px 16px",
-  bgcolor: "#000000",
+  fontWeight: 600,
+  padding: "8px 20px",
+  bgcolor: "hsl(210 100% 50%)",
   color: "#ffffff",
   borderRadius: "8px",
+  transition: "all 0.2s ease",
+  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
   "&:hover": {
-    bgcolor: "#333333",
+    bgcolor: "hsl(210 100% 45%)",
+    boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+    transform: "translateY(-1px)",
   },
 };
 
@@ -73,10 +91,22 @@ const secondaryButtonSx: SxProps<Theme> = {
   textTransform: "none",
   fontWeight: 500,
   padding: "8px 16px",
-  color: "#666666",
+  color: "hsl(210 80% 40%)",
   borderRadius: "8px",
+  transition: "all 0.2s ease",
   "&:hover": {
-    bgcolor: "#f5f5f5",
+    bgcolor: "hsl(210 80% 95%)",
+  },
+};
+
+const closeButtonSx: SxProps<Theme> = {
+  borderRadius: "8px",
+  color: "hsl(210 80% 45%)",
+  transition: "all 0.2s ease",
+  padding: { xs: "4px", sm: "8px" },
+  "&:hover": {
+    bgcolor: "hsl(210 80% 90%)",
+    color: "hsl(210 100% 40%)",
   },
 };
 
@@ -107,6 +137,9 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
   settingName,
   description,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Modal
       open={open}
@@ -114,8 +147,8 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
       aria-labelledby="settings-suggestion-title"
       sx={modalSx}
     >
-      <Paper sx={modalContentSx}>
-        <Box sx={modalHeaderSx}>
+      <Paper sx={modalContentSx(isMobile)} elevation={0}>
+        <Box sx={modalHeaderSx(isMobile)}>
           <Typography
             id="settings-suggestion-title"
             variant="h6"
@@ -123,19 +156,19 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
             sx={{
               fontWeight: 600,
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+              color: "#222222",
+              fontSize: { xs: "1rem", sm: "1.1rem" },
+              letterSpacing: "-0.01em",
             }}
           >
             {settingName}の設定
           </Typography>
           <IconButton
             onClick={onClose}
-            size="small"
-            sx={{
-              borderRadius: "8px",
-              "&:hover": { bgcolor: "#f5f5f5" },
-            }}
+            size={isMobile ? "small" : "medium"}
+            sx={closeButtonSx}
           >
-            <CloseIcon />
+            <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
 
@@ -146,15 +179,19 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
             sx={{
               mb: 2,
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+              color: "#333333",
+              fontSize: { xs: "0.9rem", sm: "1rem" },
+              lineHeight: 1.6,
             }}
           >
             {description}
           </Typography>
           <Typography
             variant="body2"
-            color="text.secondary"
             sx={{
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+              color: "#555555",
+              fontSize: { xs: "0.85rem", sm: "0.9rem" },
             }}
           >
             今すぐ設定しますか？
@@ -169,6 +206,7 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
             variant="contained"
             onClick={onConfigure}
             sx={primaryButtonSx}
+            disableElevation
           >
             設定する
           </Button>

@@ -61,6 +61,7 @@ export const useProfilePage = () => {
   };
 
   return {
+    accessUser,
     displayUser,
     timetable,
     handlePrivacyProtectionChange,
