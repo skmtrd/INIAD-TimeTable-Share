@@ -35,10 +35,9 @@ const modalContentSx = (isMobile: boolean): SxProps<Theme> => ({
   overflow: "auto",
   outline: "none",
   boxShadow:
-    "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
+    "0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
   borderRadius: isMobile ? "12px" : "16px", // モバイルでは角を少し小さく
   bgcolor: "#ffffff",
-  border: "1px solid hsl(210 30% 92%)",
 });
 
 const modalHeaderSx = (isMobile: boolean): SxProps<Theme> => ({
@@ -46,8 +45,9 @@ const modalHeaderSx = (isMobile: boolean): SxProps<Theme> => ({
   justifyContent: "space-between",
   alignItems: "center",
   padding: isMobile ? "14px 16px" : "18px 24px", // モバイルではコンパクトに
-  borderBottom: "1px solid hsl(210 30% 92%)",
-  background: "linear-gradient(to right, hsl(210 30% 98%), hsl(210 30% 95%))",
+  borderBottom: "1px solid hsl(210 80% 92%)",
+  // より鮮やかな青みのグラデーション
+  background: "linear-gradient(to right, white, hsl(210 100% 97%))",
   borderTopLeftRadius: isMobile ? "12px" : "16px",
   borderTopRightRadius: isMobile ? "12px" : "16px",
 });
@@ -55,18 +55,19 @@ const modalHeaderSx = (isMobile: boolean): SxProps<Theme> => ({
 const studentListSx: SxProps<Theme> = {
   maxHeight: { xs: "360px", sm: "450px" }, // モバイルでは少し小さく
   overflow: "auto",
+  backgroundColor: "#FFFFFF",
   "&::-webkit-scrollbar": {
     width: { xs: "4px", sm: "8px" }, // モバイルではスクロールバーを細く
   },
   "&::-webkit-scrollbar-track": {
-    background: "hsl(210 30% 97%)",
+    background: "hsl(210 80% 95%)",
     borderRadius: "4px",
   },
   "&::-webkit-scrollbar-thumb": {
-    background: "hsl(210 30% 85%)",
+    background: "hsl(210 80% 85%)",
     borderRadius: "4px",
     "&:hover": {
-      background: "hsl(210 30% 75%)",
+      background: "hsl(210 80% 75%)",
     },
   },
 };
@@ -76,8 +77,9 @@ const studentItemSx = (isMobile: boolean): SxProps<Theme> => ({
   padding: isMobile ? "10px 16px" : "14px 24px", // モバイルではコンパクトに
   cursor: "pointer",
   transition: "all 0.2s ease",
+  borderBottom: "1px solid hsl(210 80% 95%)",
   "&:hover": {
-    backgroundColor: "hsl(210 30% 97%)",
+    backgroundColor: "hsl(210 100% 97%)",
   },
 });
 
@@ -91,19 +93,19 @@ const studentInfoSx: SxProps<Theme> = {
 const twitterHandleSx: SxProps<Theme> = {
   display: "flex",
   alignItems: "center",
-  color: "hsl(210 20% 50%)",
+  color: "#666666",
   fontSize: { xs: "0.8rem", sm: "0.875rem" }, // モバイルでは文字サイズを小さく
   marginTop: { xs: 0.3, sm: 0.5 }, // モバイルでは余白を小さく
 };
 
 const closeButtonSx: SxProps<Theme> = {
   borderRadius: "8px",
-  color: "hsl(210 40% 45%)",
+  color: "hsl(210 80% 45%)",
   transition: "all 0.2s ease",
   padding: { xs: "4px", sm: "8px" }, // モバイルではパディングを小さく
   "&:hover": {
-    bgcolor: "hsl(210 30% 90%)",
-    color: "hsl(210 60% 40%)",
+    bgcolor: "hsl(210 80% 95%)",
+    color: "hsl(210 100% 40%)",
   },
 };
 
@@ -142,7 +144,7 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
             sx={{
               fontWeight: 600,
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-              color: "hsl(210 40% 35%)",
+              color: "#222222",
               fontSize: { xs: "1rem", sm: "1.1rem" }, // モバイルでは文字サイズを小さく
               letterSpacing: "-0.01em",
               // 長いタイトルを省略表示
@@ -171,8 +173,9 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
               py: { xs: 1.5, sm: 2 }, // モバイルでは余白を小さく
               fontWeight: 500,
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-              color: "hsl(210 30% 40%)",
-              fontSize: { xs: "0.9rem", sm: "0.95rem" }, // モバイルでは文字サイズを小さく
+              color: "#222222",
+              fontSize: { xs: "1rem", sm: "1.1rem" }, // モバイルでは文字サイズを小さく
+              borderBottom: "1px solid hsl(210 80% 92%)",
             }}
           >
             受講生徒
@@ -200,7 +203,7 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                     variant="circular"
                     width={isMobile ? 36 : 44}
                     height={isMobile ? 36 : 44}
-                    sx={{ bgcolor: "hsl(210 30% 95%)" }}
+                    sx={{ bgcolor: "hsl(210 80% 95%)" }}
                   />
                 ) : (
                   <Avatar
@@ -209,8 +212,8 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                     sx={{
                       width: isMobile ? 36 : 44,
                       height: isMobile ? 36 : 44,
-                      border: "2px solid hsl(210 30% 90%)",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+                      boxShadow:
+                        "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
                     }}
                   />
                 )}
@@ -222,7 +225,7 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                         width={120}
                         sx={{
                           fontSize: { xs: "0.9rem", sm: "1rem" },
-                          bgcolor: "hsl(210 30% 95%)",
+                          bgcolor: "#F0F0F0",
                         }}
                       />
                       <Skeleton
@@ -230,7 +233,7 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                         width={80}
                         sx={{
                           fontSize: { xs: "0.8rem", sm: "0.875rem" },
-                          bgcolor: "hsl(210 30% 95%)",
+                          bgcolor: "#F0F0F0",
                         }}
                       />
                     </>
@@ -242,7 +245,7 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                           fontWeight: 600,
                           fontFamily:
                             '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                          color: "hsl(210 30% 30%)",
+                          color: "#222222",
                           fontSize: { xs: "0.9rem", sm: "0.95rem" }, // モバイルでは文字サイズを小さく
                         }}
                       >
@@ -259,7 +262,7 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                             sx={{
                               fontSize: isMobile ? 14 : 16,
                               mr: 0.5,
-                              color: "#1DA1F2",
+                              color: "#1DA1F2", // Twitter色はそのまま
                             }}
                           />
                           <Link
@@ -268,7 +271,7 @@ const ParticipantsModal: React.FC<ParticipantsModalProps> = (props) => {
                             rel="noopener noreferrer"
                             underline="hover"
                             sx={{
-                              color: "hsl(210 40% 50%)",
+                              color: "hsl(210 100% 45%)",
                               fontWeight: 500,
                               fontSize: { xs: "0.8rem", sm: "0.875rem" }, // モバイルでは文字サイズを小さく
                               transition: "color 0.2s ease",

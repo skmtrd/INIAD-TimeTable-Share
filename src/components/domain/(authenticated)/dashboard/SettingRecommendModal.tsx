@@ -28,10 +28,9 @@ const modalContentSx = (isMobile: boolean): SxProps<Theme> => ({
   maxWidth: isMobile ? "calc(100% - 24px)" : 400,
   outline: "none",
   boxShadow:
-    "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
+    "0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
   borderRadius: isMobile ? "12px" : "16px",
   bgcolor: "#ffffff",
-  border: "1px solid hsl(210 30% 92%)",
   overflow: "hidden",
 });
 
@@ -40,8 +39,8 @@ const modalHeaderSx = (isMobile: boolean): SxProps<Theme> => ({
   justifyContent: "space-between",
   alignItems: "center",
   padding: isMobile ? "14px 16px" : "18px 24px",
-  borderBottom: "1px solid hsl(210 30% 92%)",
-  background: "linear-gradient(to right, hsl(210 30% 98%), hsl(210 30% 95%))",
+  borderBottom: "1px solid hsl(210 80% 92%)",
+  background: "linear-gradient(to right, white, hsl(210 100% 97%))",
 });
 
 const contentSx: SxProps<Theme> = {
@@ -50,16 +49,17 @@ const contentSx: SxProps<Theme> = {
   flexDirection: "column",
   alignItems: "center",
   textAlign: "center",
+  backgroundColor: "hsl(210 100% 98%)",
 };
 
 const iconSx: SxProps<Theme> = {
   fontSize: { xs: "40px", sm: "48px" },
-  color: "hsl(210 60% 50%)",
+  color: "#333333",
   marginBottom: { xs: "12px", sm: "16px" },
-  backgroundColor: "hsl(210 50% 95%)",
+  backgroundColor: "#f0f4f8",
   padding: "12px",
   borderRadius: "50%",
-  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
 };
 
 const actionsSx: SxProps<Theme> = {
@@ -67,6 +67,8 @@ const actionsSx: SxProps<Theme> = {
   justifyContent: "center",
   gap: 2,
   padding: { xs: "12px 16px 20px", sm: "16px 24px 24px" },
+  backgroundColor: "hsl(210 100% 98%)",
+  borderTop: "1px solid hsl(210 80% 92%)",
 };
 
 const primaryButtonSx: SxProps<Theme> = {
@@ -77,10 +79,10 @@ const primaryButtonSx: SxProps<Theme> = {
   color: "#ffffff",
   borderRadius: "8px",
   transition: "all 0.2s ease",
-  boxShadow: "0 2px 5px rgba(0, 120, 255, 0.2)",
+  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
   "&:hover": {
     bgcolor: "hsl(210 100% 45%)",
-    boxShadow: "0 3px 8px rgba(0, 120, 255, 0.3)",
+    boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
     transform: "translateY(-1px)",
   },
 };
@@ -89,22 +91,22 @@ const secondaryButtonSx: SxProps<Theme> = {
   textTransform: "none",
   fontWeight: 500,
   padding: "8px 16px",
-  color: "hsl(210 30% 40%)",
+  color: "hsl(210 80% 40%)",
   borderRadius: "8px",
   transition: "all 0.2s ease",
   "&:hover": {
-    bgcolor: "hsl(210 30% 95%)",
+    bgcolor: "hsl(210 80% 95%)",
   },
 };
 
 const closeButtonSx: SxProps<Theme> = {
   borderRadius: "8px",
-  color: "hsl(210 40% 45%)",
+  color: "hsl(210 80% 45%)",
   transition: "all 0.2s ease",
   padding: { xs: "4px", sm: "8px" },
   "&:hover": {
-    bgcolor: "hsl(210 30% 90%)",
-    color: "hsl(210 60% 40%)",
+    bgcolor: "hsl(210 80% 90%)",
+    color: "hsl(210 100% 40%)",
   },
 };
 
@@ -154,7 +156,7 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
             sx={{
               fontWeight: 600,
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-              color: "hsl(210 40% 35%)",
+              color: "#222222",
               fontSize: { xs: "1rem", sm: "1.1rem" },
               letterSpacing: "-0.01em",
             }}
@@ -177,7 +179,7 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
             sx={{
               mb: 2,
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-              color: "hsl(210 30% 30%)",
+              color: "#333333",
               fontSize: { xs: "0.9rem", sm: "1rem" },
               lineHeight: 1.6,
             }}
@@ -188,7 +190,7 @@ const SettingsSuggestionModal: React.FC<SettingsSuggestionModalProps> = ({
             variant="body2"
             sx={{
               fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-              color: "hsl(210 30% 50%)",
+              color: "#555555",
               fontSize: { xs: "0.85rem", sm: "0.9rem" },
             }}
           >
