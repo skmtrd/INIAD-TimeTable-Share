@@ -2,7 +2,7 @@
   "name": "INIAD Timetable Share",
   "short_name": "INIAD Timetable Share",
   "description": "INIAD Timetable Share",
-  "start_url": "/",
+  "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
