@@ -3,8 +3,8 @@ import ParticipantsModal from "@/components/domain/(authenticated)/dashboard/Par
 import type { Timetable } from "@/types";
 import {
   Box,
+  CircularProgress,
   Paper,
-  Skeleton,
   Typography,
   useMediaQuery,
   useTheme,
@@ -77,18 +77,9 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
           p: { xs: 0.5, sm: 0.75, md: 1 },
           backgroundColor: "white",
           borderRadius: "0.5rem",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
           boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.05)",
-          "&:hover": {
-            boxShadow: "0 2px 6px 0 rgba(0, 0, 0, 0.08)",
-          },
         }}
-      >
-        <Skeleton variant="text" width={50} height={25} />
-      </Box>
+      />
     );
   }
   if (!props.classData) {
@@ -184,211 +175,254 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
         width: "100%",
         // 横スクロールを無効化
         overflowX: { xs: "hidden", md: "hidden" },
+        // 高さを確保して位置ズレを防止
+        minHeight: { xs: 400, sm: 450, md: 550 },
       }}
     >
-      <Paper
-        elevation={0}
-        sx={{
-          p: { xs: 1, sm: 1.5, md: 2 },
-          borderRadius: "0.75rem",
-          backgroundColor: "white",
-          boxShadow:
-            "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03)",
-          position: "relative",
-          width: "100%",
-        }}
-      >
-        <Box
+      {props.isLoading ? (
+        <Paper
+          elevation={0}
           sx={{
-            display: "grid",
-            // モバイル用により最適化したグリッド設定
-            gridTemplateColumns: {
-              xs: "20px repeat(6, 1fr)", // モバイル
-              sm: "40px repeat(6, 1fr)", // タブレット
-              md: "60px repeat(6, 1fr)", // デスクトップ
-            },
-            gap: { xs: 1, sm: 1.5, md: 2 },
-            width: "100%",
-            // 各行の設定
-            gridTemplateRows: {
-              xs: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // モバイル - ヘッダー行以外を等分
-              sm: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // タブレットも同様に
-              md: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // デスクトップも同様に
-            },
-            borderRadius: { xs: "0.5rem", md: "0.75rem" },
-            position: "relative",
-            mx: "auto", // 中央揃え
-            // PC表示時のグリッド全体の高さを調整（正方形セルのため）
-            aspectRatio: { md: "1.15/1" },
-            mb: { xs: 1, sm: 1.5, md: 2 },
-            backgroundColor: "hsl(210 100% 98%)",
             p: { xs: 1, sm: 1.5, md: 2 },
+            borderRadius: "0.75rem",
+            backgroundColor: "white",
+            boxShadow:
+              "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03)",
+            position: "relative",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // 高さをデータ表示時と同等に設定
+            height: { xs: 300, sm: 400, md: 500 },
+            minHeight: { xs: 300, sm: 400, md: 500 },
           }}
         >
-          {props.privacyProtection && (
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                zIndex: 1000,
-                backdropFilter: "blur(5px)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "0.75rem",
-                boxShadow:
-                  "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  color: "#333333",
-                  fontWeight: 600,
-                  fontSize: { xs: "0.875rem", sm: "1rem", md: "1.25rem" },
-                  px: 2,
-                  textAlign: "center",
-                }}
-              >
-                このユーザーは時間割を非公開にしています
-              </Typography>
-            </Box>
-          )}
-          {/* ヘッダー行 */}
+          <CircularProgress
+            size={48}
+            sx={{
+              color: "hsl(210 100% 50%)",
+            }}
+          />
+        </Paper>
+      ) : (
+        <Paper
+          elevation={0}
+          sx={{
+            p: { xs: 1, sm: 1.5, md: 2 },
+            borderRadius: "0.75rem",
+            backgroundColor: "white",
+            boxShadow:
+              "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03)",
+            position: "relative",
+            width: "100%",
+            // 高さをデータ表示時と同等に設定
+            height: { xs: 400, sm: 450, md: 550 },
+            minHeight: { xs: 400, sm: 450, md: 550 },
+          }}
+        >
           <Box
             sx={{
-              p: { xs: 0.75, sm: 1, md: 1.5 },
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              aspectRatio: "auto !important",
+              display: "grid",
+              // モバイル用により最適化したグリッド設定
+              gridTemplateColumns: {
+                xs: "20px repeat(6, 1fr)", // モバイル
+                sm: "40px repeat(6, 1fr)", // タブレット
+                md: "60px repeat(6, 1fr)", // デスクトップ
+              },
+              gap: { xs: 1, sm: 1.5, md: 2 },
+              width: "100%",
+              // 各行の設定
+              gridTemplateRows: {
+                xs: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // モバイル - ヘッダー行以外を等分
+                sm: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // タブレットも同様に
+                md: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // デスクトップも同様に
+              },
+              borderRadius: { xs: "0.5rem", md: "0.75rem" },
+              position: "relative",
+              mx: "auto", // 中央揃え
+              // PC表示時のグリッド全体の高さを調整（正方形セルのため）
+              aspectRatio: { md: "1.15/1" },
+              mb: { xs: 1, sm: 1.5, md: 2 },
+              backgroundColor: "hsl(210 100% 98%)",
+              p: { xs: 1, sm: 1.5, md: 2 },
             }}
           >
-            <Typography
-              sx={{
-                color: "#555555",
-                fontSize: { xs: "0.6rem", sm: "0.7rem", md: "0.75rem" },
-                fontWeight: 500,
-              }}
-            >
-              {isMobile ? "" : "時限"}
-            </Typography>
-          </Box>
-          {dayLabels.map((day) => (
+            {props.privacyProtection && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(255, 255, 255, 0.5)",
+                  zIndex: 1000,
+                  backdropFilter: "blur(5px)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "0.75rem",
+                  boxShadow:
+                    "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#333333",
+                    fontWeight: 600,
+                    fontSize: { xs: "0.875rem", sm: "1rem", md: "1.25rem" },
+                    px: 2,
+                    textAlign: "center",
+                  }}
+                >
+                  このユーザーは時間割を非公開にしています
+                </Typography>
+              </Box>
+            )}
+            {/* ヘッダー行 */}
             <Box
-              key={day}
               sx={{
-                p: { xs: 0.5, sm: 0.75, md: 1.5 },
-                backgroundColor: "#FFFFFF",
-                borderRadius: "0.5rem",
+                p: { xs: 0.75, sm: 1, md: 1.5 },
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 aspectRatio: "auto !important",
-                background: "white",
-                boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.05)",
               }}
             >
               <Typography
                 sx={{
-                  color: "#333333",
-                  fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.875rem" },
-                  fontWeight: 600,
+                  color: "#555555",
+                  fontSize: { xs: "0.6rem", sm: "0.7rem", md: "0.75rem" },
+                  fontWeight: 500,
                 }}
               >
-                {isMobile ? day.charAt(0) : day}
+                {isMobile ? "" : "時限"}
               </Typography>
             </Box>
-          ))}
-
-          {/* 時限ごとの行 */}
-          {[0, 1, 2, 3, 4, 5].map((period) => (
-            <React.Fragment key={`period-row-${period}`}>
-              {/* 時限表示 */}
+            {dayLabels.map((day) => (
               <Box
-                key={`period-${period}`}
+                key={day}
                 sx={{
-                  p: { xs: 0.25, sm: 0.5, md: 0.75 },
+                  p: { xs: 0.5, sm: 0.75, md: 1.5 },
                   backgroundColor: "#FFFFFF",
                   borderRadius: "0.5rem",
                   display: "flex",
-                  flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  height: "100%",
+                  aspectRatio: "auto !important",
                   background: "white",
                   boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.05)",
                 }}
               >
-                <Typography
-                  sx={{
-                    color: "#333333",
-                    fontSize: { xs: "0.65rem", sm: "0.75rem", md: "0.875rem" },
-                    fontWeight: 600,
-                  }}
-                >
-                  {period + 1}
-                </Typography>
-                {!isMobile && (
+                {props.isLoading && isMobile ? null : (
                   <Typography
                     sx={{
-                      color: "#555555",
-                      fontSize: { xs: "0.5rem", sm: "0.6rem", md: "0.7rem" },
-                      mt: { xs: 0.25, md: 0.5 },
-                      display: { xs: "none", sm: "block" },
+                      color: "#333333",
+                      fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.875rem" },
+                      fontWeight: 600,
                     }}
                   >
-                    {isTablet
-                      ? periodTimes[period].split(" - ")[0] // タブレットでは開始時間のみ
-                      : periodTimes[period]}
+                    {isMobile ? day.charAt(0) : day}
                   </Typography>
                 )}
               </Box>
+            ))}
 
-              {/* 各曜日のセル */}
-              {days.map((day) => (
+            {/* 時限ごとの行 */}
+            {[0, 1, 2, 3, 4, 5].map((period) => (
+              <React.Fragment key={`period-row-${period}`}>
+                {/* 時限表示 */}
                 <Box
-                  key={`${day}-${period}`}
-                  className="class-cell"
+                  key={`period-${period}`}
                   sx={{
-                    position: "relative",
-                    width: "100%",
-                    // モバイルとPCで正方形に
-                    "&::before": {
-                      content: '""',
-                      display: "block",
-                      paddingTop: "100%",
-                    },
-                    "& > *": {
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                    },
+                    p: { xs: 0.25, sm: 0.5, md: 0.75 },
+                    backgroundColor: "#FFFFFF",
+                    borderRadius: "0.5rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    background: "white",
+                    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.05)",
                   }}
                 >
-                  <ClassCell
-                    classData={
-                      props.timetableData[day]?.find(
-                        (lecture) =>
-                          lecture.day === day &&
-                          lecture.periodNumber === period + 1,
-                      ) || null
-                    }
-                    isLoading={props.isLoading}
-                    isAccessUserPage={props.isAccessUserPage}
-                  />
+                  <Typography
+                    sx={{
+                      color: "#333333",
+                      fontSize: {
+                        xs: "0.65rem",
+                        sm: "0.75rem",
+                        md: "0.875rem",
+                      },
+                      fontWeight: 600,
+                    }}
+                  >
+                    {period + 1}
+                  </Typography>
+                  {!isMobile && (
+                    <Typography
+                      sx={{
+                        color: "#555555",
+                        fontSize: {
+                          xs: "0.5rem",
+                          sm: "0.6rem",
+                          md: "0.7rem",
+                        },
+                        mt: { xs: 0.25, md: 0.5 },
+                        display: { xs: "none", sm: "block" },
+                      }}
+                    >
+                      {isTablet
+                        ? periodTimes[period].split(" - ")[0] // タブレットでは開始時間のみ
+                        : periodTimes[period]}
+                    </Typography>
+                  )}
                 </Box>
-              ))}
-            </React.Fragment>
-          ))}
-        </Box>
-      </Paper>
+
+                {/* 各曜日のセル */}
+                {days.map((day) => (
+                  <Box
+                    key={`${day}-${period}`}
+                    className="class-cell"
+                    sx={{
+                      position: "relative",
+                      width: "100%",
+                      // モバイルとPCで正方形に
+                      "&::before": {
+                        content: '""',
+                        display: "block",
+                        paddingTop: "100%",
+                      },
+                      "& > *": {
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                      },
+                    }}
+                  >
+                    <ClassCell
+                      classData={
+                        props.timetableData[day]?.find(
+                          (lecture) =>
+                            lecture.day === day &&
+                            lecture.periodNumber === period + 1,
+                        ) || null
+                      }
+                      isLoading={props.isLoading}
+                      isAccessUserPage={props.isAccessUserPage}
+                    />
+                  </Box>
+                ))}
+              </React.Fragment>
+            ))}
+          </Box>
+        </Paper>
+      )}
     </Box>
   );
 };
