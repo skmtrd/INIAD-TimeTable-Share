@@ -241,8 +241,8 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               borderRadius: { xs: "0.5rem", md: "0.75rem" },
               position: "relative",
               mx: "auto", // 中央揃え
-              // PC表示時のグリッド全体の高さを調整（正方形セルのため）
-              aspectRatio: { md: "1.15/1" },
+              // グリッド全体の高さを調整（正方形セルのため）
+              aspectRatio: { xs: "1.15/1", sm: "1.15/1", md: "1.15/1" },
               mb: { xs: 1, sm: 1.5, md: 2 },
               backgroundColor: "hsl(210 100% 98%)",
               p: { xs: 1, sm: 1.5, md: 2 },
