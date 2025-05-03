@@ -24,7 +24,7 @@ const DashboardPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (timetable && Object.keys(timetable).length > 0 && authUser) {
+  if (timetable && authUser && Object.keys(timetable).length > 0) {
     router.push(`/profile/${authUser.id}`);
   }
 
