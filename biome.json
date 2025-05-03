@@ -12,6 +12,7 @@
       "**/dist/**",
       "**/build/**",
       "**/.next/**",
+      "**/public/**",
       "**/frourio.ts",
       "**/frourio.client.ts",
       "**/frourio.server.ts",
