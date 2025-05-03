@@ -30,10 +30,11 @@ const DashboardPage = () => {
         sx={{
           width: "100%",
           maxWidth: "md",
-          height: "90vh",
+          minHeight: { xs: "70vh", md: "75vh" },
           display: "flex",
-          alignItems: "center",
+          alignItems: { xs: "center", md: "flex-start" },
           justifyContent: "center",
+          py: { xs: 2, md: 3 },
         }}
       >
         {isLoading || !timetable ? (

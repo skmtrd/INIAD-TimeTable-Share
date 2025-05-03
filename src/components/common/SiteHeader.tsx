@@ -2,21 +2,23 @@
 
 import { useAuthUserSWR } from "@/hooks/data/useAuthUserSWR";
 import { authClient } from "@/lib/auth-client";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Logout from "@mui/icons-material/Logout";
+import { AccountCircle, Logout, School } from "@mui/icons-material";
 import {
   AppBar,
   Avatar,
   Box,
-  Button,
   CircularProgress,
+  Container,
   Divider,
+  IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,6 +27,8 @@ import { useState } from "react";
 
 export const SiteHeader = () => {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const open = Boolean(anchorEl);
@@ -57,91 +61,186 @@ export const SiteHeader = () => {
       color="default"
       elevation={0}
       sx={{
-        borderBottom: 1,
-        borderColor: "divider",
-        backdropFilter: "blur(8px)",
-        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        borderBottom: "1px solid hsl(240 5.9% 90%)",
+        backdropFilter: "blur(10px)",
+        backgroundColor: "rgba(255, 255, 255, 0.85)",
+        boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.05)",
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <NextLink href="/dashboard" passHref>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{
-                fontWeight: "bold",
-                ml: 2,
-                mr: 3,
+      <Container maxWidth="lg">
+        <Toolbar
+          disableGutters
+          sx={{
+            justifyContent: "space-between",
+            height: { xs: 64, md: 72 },
+            px: { xs: 1, sm: 2 },
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <NextLink
+              href="/dashboard"
+              passHref
+              style={{
+                textDecoration: "none",
                 display: "flex",
                 alignItems: "center",
               }}
             >
-              INIAD-TimeTable-Share
-            </Typography>
-          </NextLink>
-        </Box>
+              <School
+                sx={{
+                  color: "hsl(210 100% 50%)",
+                  fontSize: { xs: 24, sm: 28 },
+                  mr: 1.5,
+                }}
+              />
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  fontWeight: 700,
+                  background:
+                    "linear-gradient(135deg, hsl(210 100% 50%), hsl(240 100% 65%))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  fontSize: { xs: "1.1rem", sm: "1.25rem" },
+                  letterSpacing: "-0.01em",
+                  display: { xs: "none", sm: "block" },
+                }}
+              >
+                INIAD-TimeTable-Share
+              </Typography>
+            </NextLink>
+          </Box>
 
-        <Box sx={{ mr: 2 }}>
-          <Button
-            id="avatar-button"
-            aria-controls={open ? "avatar-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-            sx={{
-              minWidth: 0,
-              p: 0.5,
-              borderRadius: "50%",
-            }}
-          >
-            <Avatar
-              src={authUser?.image || ""}
-              sx={{ width: 32, height: 32 }}
-            />
-          </Button>
-          <Menu
-            id="avatar-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "avatar-button",
-            }}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                router.push(`/profile/${authUser?.id}`);
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              id="avatar-button"
+              aria-controls={open ? "avatar-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+              sx={{
+                p: 0.5,
+                borderRadius: "50%",
+                border: "2px solid hsl(210 100% 85%)",
+                backgroundColor: "white",
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  borderColor: "hsl(210 100% 70%)",
+                  transform: "scale(1.05)",
+                },
               }}
             >
-              <ListItemIcon>
-                <AccountCircle fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>プロフィール</ListItemText>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={handleSignOut}>
-              <ListItemIcon>
-                {isLoading ? (
-                  <CircularProgress size={18} />
-                ) : (
-                  <Logout fontSize="small" />
-                )}
-              </ListItemIcon>
-              <ListItemText>ログアウト</ListItemText>
-            </MenuItem>
-          </Menu>
-        </Box>
-      </Toolbar>
+              <Avatar
+                src={authUser?.image || ""}
+                sx={{
+                  width: { xs: 32, sm: 36 },
+                  height: { xs: 32, sm: 36 },
+                  boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+                }}
+              />
+            </IconButton>
+            <Menu
+              id="avatar-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "avatar-button",
+                dense: isMobile,
+              }}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              slotProps={{
+                paper: {
+                  elevation: 2,
+                  sx: {
+                    mt: 1.5,
+                    minWidth: 180,
+                    overflow: "visible",
+                    borderRadius: "0.5rem",
+                    border: "1px solid hsl(240 5.9% 90%)",
+                    boxShadow:
+                      "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                    "&:before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                      borderTop: "1px solid hsl(240 5.9% 90%)",
+                      borderLeft: "1px solid hsl(240 5.9% 90%)",
+                    },
+                  },
+                },
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  router.push(`/profile/${authUser?.id}`);
+                }}
+                sx={{
+                  py: 1.5,
+                  "&:hover": { bgcolor: "hsl(210 100% 97%)" },
+                }}
+              >
+                <ListItemIcon>
+                  <AccountCircle
+                    fontSize="small"
+                    sx={{ color: "hsl(210 100% 50%)" }}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary="プロフィール"
+                  primaryTypographyProps={{
+                    sx: { fontWeight: 500 },
+                  }}
+                />
+              </MenuItem>
+              <Divider sx={{ my: 0.5 }} />
+              <MenuItem
+                onClick={handleSignOut}
+                sx={{
+                  py: 1.5,
+                  "&:hover": { bgcolor: "hsl(210 100% 97%)" },
+                }}
+              >
+                <ListItemIcon>
+                  {isLoading ? (
+                    <CircularProgress
+                      size={18}
+                      sx={{ color: "hsl(210 100% 50%)" }}
+                    />
+                  ) : (
+                    <Logout
+                      fontSize="small"
+                      sx={{ color: "hsl(210 100% 50%)" }}
+                    />
+                  )}
+                </ListItemIcon>
+                <ListItemText
+                  primary="ログアウト"
+                  primaryTypographyProps={{
+                    sx: { fontWeight: 500 },
+                  }}
+                />
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 };

@@ -1,7 +1,14 @@
 "use client";
 import ParticipantsModal from "@/components/domain/(authenticated)/dashboard/ParticipantsModal";
 import type { Timetable } from "@/types";
-import { Box, Paper, Skeleton, Typography } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Skeleton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 
 // 授業データの型定義
@@ -67,7 +74,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
       <Box
         sx={{
           height: "100%",
-          p: 1.5,
+          p: { xs: 0.5, sm: 0.75, md: 1 },
           backgroundColor: "hsl(0 0% 100%)",
           border: "1px solid hsl(240 5.9% 90%)",
           borderRadius: "0.375rem",
@@ -90,18 +97,20 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
       <Box
         sx={{
           height: "100%",
-          p: 1.5,
-          backgroundColor: "hsl(0 0% 98%)",
+          p: { xs: 0.5, sm: 0.75, md: 1 },
+          backgroundColor: "hsl(210 30% 98%)",
           borderRadius: "0.375rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          border: "1px solid hsl(210 15% 94%)",
+          boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.01)",
         }}
       >
         <Typography
           variant="body2"
           sx={{
-            color: "hsl(240 3.8% 66.1%)",
+            color: "hsl(210 10% 75%)",
             fontSize: "0.75rem",
             fontStyle: "italic",
           }}
@@ -115,31 +124,39 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
       onClick={handleOpen}
       sx={{
         height: "100%",
-        p: 1.5,
-        backgroundColor: "hsl(0 0% 100%)",
-        border: "1px solid hsl(240 5.9% 90%)",
+        p: { xs: 0.75, sm: 0.85, md: 1 },
+        backgroundColor: "white",
+        border: "1px solid hsl(210 30% 92%)",
         borderRadius: "0.375rem",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
         cursor: props.isAccessUserPage ? "pointer" : "default",
+        background: "linear-gradient(to bottom, white, hsl(210 30% 99%))",
+        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.02)",
         "&:hover": {
+          borderColor: "hsl(210 40% 80%)",
           boxShadow:
-            "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+            "0 0 0 1px hsl(210 30% 95%), 0 2px 4px 0 rgba(0, 0, 0, 0.05)",
+          background:
+            "linear-gradient(to bottom, hsl(210 30% 99%), hsl(210 30% 97%))",
         },
       }}
     >
       <Typography
         variant="body1"
         sx={{
-          color: "hsl(240 6% 10%)",
+          color: "hsl(210 30% 35%)",
           fontWeight: 600,
-          fontSize: "0.875rem",
-          mb: 0.5,
+          fontSize: { xs: "0.55rem", sm: "0.775rem", md: "0.875rem" },
+          mb: { xs: 0, sm: 0.5 },
+          lineHeight: { xs: 1.1, sm: 1.3, md: 1.4 },
           textOverflow: "ellipsis",
           overflow: "hidden",
-          // whiteSpace: "nowrap",
+          display: "-webkit-box",
+          WebkitLineClamp: { xs: 3, sm: 3 },
+          WebkitBoxOrient: "vertical",
         }}
       >
         {props.classData.name}
@@ -163,47 +180,53 @@ type TimetableProps = {
 };
 
 const TimetablePage: React.FC<TimetableProps> = (props) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       sx={{
         width: "100%",
-        overflowX: "auto",
+        // 横スクロールを無効化
+        overflowX: { xs: "hidden", md: "hidden" },
       }}
     >
       <Paper
         elevation={0}
         sx={{
-          p: 3,
+          p: { xs: 1, sm: 1.5, md: 2 },
           borderRadius: "0.75rem",
           backgroundColor: "white",
           boxShadow:
-            "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+            "0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05)",
           position: "relative",
+          width: "100%",
         }}
       >
-        <Typography
-          variant="h5"
-          component="h1"
-          sx={{
-            fontWeight: 600,
-            mb: 3,
-            color: "hsl(240 6% 10%)",
-            fontSize: "1.25rem",
-            letterSpacing: "-0.025em",
-          }}
-        >
-          時間割表
-        </Typography>
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "80px repeat(6, 1fr)",
-            gap: 1.5,
-            minWidth: 800,
-            gridTemplateRows: "auto repeat(6, 1fr)",
-            "& .class-cell": { aspectRatio: "1/1" },
-            borderRadius: "3rem",
+            // モバイル用により最適化したグリッド設定
+            gridTemplateColumns: {
+              xs: "20px repeat(6, 1fr)", // モバイル
+              sm: "40px repeat(6, 1fr)", // タブレット
+              md: "60px repeat(6, 1fr)", // デスクトップ
+            },
+            gap: { xs: 0.25, sm: 0.75, md: 1 },
+            width: "100%",
+            // 各行の設定
+            gridTemplateRows: {
+              xs: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // モバイル - ヘッダー行以外を等分
+              sm: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // タブレットも同様に
+              md: "auto 1fr 1fr 1fr 1fr 1fr 1fr", // デスクトップも同様に
+            },
+            borderRadius: { xs: "0.5rem", md: "0.75rem" },
             position: "relative",
+            mx: "auto", // 中央揃え
+            // PC表示時のグリッド全体の高さを調整（正方形セルのため）
+            aspectRatio: { md: "1.15/1" },
+            mb: { xs: 1, sm: 1.5, md: 2 },
           }}
         >
           {props.privacyProtection && (
@@ -230,6 +253,9 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                 sx={{
                   color: "hsl(240 6% 10%)",
                   fontWeight: 600,
+                  fontSize: { xs: "0.875rem", sm: "1rem", md: "1.25rem" },
+                  px: 2,
+                  textAlign: "center",
                 }}
               >
                 このユーザーは時間割を非公開にしています
@@ -239,7 +265,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
           {/* ヘッダー行 */}
           <Box
             sx={{
-              p: 1.5,
+              p: { xs: 0.75, sm: 1, md: 1.5 },
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -249,34 +275,38 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
             <Typography
               sx={{
                 color: "hsl(240 3.8% 46.1%)",
-                fontSize: "0.75rem",
+                fontSize: { xs: "0.6rem", sm: "0.7rem", md: "0.75rem" },
                 fontWeight: 500,
               }}
             >
-              時限
+              {isMobile ? "" : "時限"}
             </Typography>
           </Box>
           {dayLabels.map((day) => (
             <Box
               key={day}
               sx={{
-                p: 1.5,
-                backgroundColor: "hsl(240 5% 96%)",
+                p: { xs: 0.5, sm: 0.75, md: 1.5 },
+                backgroundColor: "hsl(210 30% 97%)",
                 borderRadius: "0.375rem",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 aspectRatio: "auto !important",
+                background:
+                  "linear-gradient(to bottom, hsl(210 30% 98%), hsl(210 25% 95%))",
+                border: "1px solid hsl(210 25% 90%)",
+                boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.02)",
               }}
             >
               <Typography
                 sx={{
-                  color: "hsl(240 6% 10%)",
-                  fontSize: "0.875rem",
+                  color: "hsl(210 40% 45%)",
+                  fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.875rem" },
                   fontWeight: 600,
                 }}
               >
-                {day}
+                {isMobile ? day.charAt(0) : day}
               </Typography>
             </Box>
           ))}
@@ -288,39 +318,68 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               <Box
                 key={`period-${period}`}
                 sx={{
-                  p: 1.5,
-                  backgroundColor: "hsl(240 5% 96%)",
+                  p: { xs: 0.25, sm: 0.5, md: 0.75 },
+                  backgroundColor: "hsl(210 30% 97%)",
                   borderRadius: "0.375rem",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
                   height: "100%",
+                  background:
+                    "linear-gradient(to right, hsl(210 30% 98%), hsl(210 25% 95%))",
+                  border: "1px solid hsl(210 25% 90%)",
+                  boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.02)",
                 }}
               >
                 <Typography
                   sx={{
-                    color: "hsl(240 6% 10%)",
-                    fontSize: "0.875rem",
+                    color: "hsl(210 40% 45%)",
+                    fontSize: { xs: "0.65rem", sm: "0.75rem", md: "0.875rem" },
                     fontWeight: 600,
                   }}
                 >
-                  {period + 1}限
+                  {period + 1}
                 </Typography>
-                <Typography
-                  sx={{
-                    color: "hsl(240 3.8% 46.1%)",
-                    fontSize: "0.7rem",
-                    mt: 0.5,
-                  }}
-                >
-                  {periodTimes[period]}
-                </Typography>
+                {!isMobile && (
+                  <Typography
+                    sx={{
+                      color: "hsl(210 30% 60%)",
+                      fontSize: { xs: "0.5rem", sm: "0.6rem", md: "0.7rem" },
+                      mt: { xs: 0.25, md: 0.5 },
+                      display: { xs: "none", sm: "block" },
+                    }}
+                  >
+                    {isTablet
+                      ? periodTimes[period].split(" - ")[0] // タブレットでは開始時間のみ
+                      : periodTimes[period]}
+                  </Typography>
+                )}
               </Box>
 
               {/* 各曜日のセル */}
               {days.map((day) => (
-                <Box key={`${day}-${period}`} className="class-cell" sx={{}}>
+                <Box
+                  key={`${day}-${period}`}
+                  className="class-cell"
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    // モバイルとPCで正方形に
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      paddingTop: "100%",
+                    },
+                    "& > *": {
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                    },
+                  }}
+                >
                   <ClassCell
                     classData={
                       props.timetableData[day]?.find(
