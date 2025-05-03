@@ -10,7 +10,7 @@ const LoginPage = async () => {
     headers: await headers(), // you need to pass the headers object.
   });
 
-  if (session) redirect("/dashboard");
+  if (session) redirect(`/profile/${session.user.id}`);
 
   return (
     <PageContainer>

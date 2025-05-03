@@ -2,14 +2,13 @@
 
 import { useAuthUserSWR } from "@/hooks/data/useAuthUserSWR";
 import { authClient } from "@/lib/auth-client";
-import { AccountCircle, Logout, School } from "@mui/icons-material";
+import { Logout, School } from "@mui/icons-material";
 import {
   AppBar,
   Avatar,
   Box,
   CircularProgress,
   Container,
-  Divider,
   IconButton,
   ListItemIcon,
   ListItemText,
@@ -48,7 +47,7 @@ export const SiteHeader = () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/"); // redirect to login page
+          router.push("/login"); // redirect to login page
         },
       },
     });
@@ -78,7 +77,7 @@ export const SiteHeader = () => {
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <NextLink
-              href="/dashboard"
+              href={`/profile/${authUser?.id}`}
               passHref
               style={{
                 textDecoration: "none",
@@ -186,30 +185,6 @@ export const SiteHeader = () => {
                 },
               }}
             >
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  router.push(`/profile/${authUser?.id}`);
-                }}
-                sx={{
-                  py: 1.5,
-                  "&:hover": { bgcolor: "hsl(210 100% 97%)" },
-                }}
-              >
-                <ListItemIcon>
-                  <AccountCircle
-                    fontSize="small"
-                    sx={{ color: "hsl(210 100% 50%)" }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary="プロフィール"
-                  primaryTypographyProps={{
-                    sx: { fontWeight: 500 },
-                  }}
-                />
-              </MenuItem>
-              <Divider sx={{ my: 0.5 }} />
               <MenuItem
                 onClick={handleSignOut}
                 sx={{

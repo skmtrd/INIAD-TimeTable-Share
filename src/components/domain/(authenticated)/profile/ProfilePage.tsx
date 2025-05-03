@@ -17,12 +17,14 @@ import {
   useTheme,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
+import { useRouter } from "next/navigation";
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SettingRecommendModal from "../dashboard/SettingRecommendModal";
 import TimetablePage from "./Timetable";
-
 const ProfilePage = () => {
   const {
+    accessUser,
     displayUser,
     timetable,
     error,
@@ -38,6 +40,19 @@ const ProfilePage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+  const [openSettingRecommendModal, setOpenSettingRecommendModal] =
+    useState(false);
+
+  useEffect(() => {
+    if (accessUser) {
+      if (!accessUser.twitterId) {
+        setTimeout(() => {
+          setOpenSettingRecommendModal(true);
+        }, 2000);
+      }
+    }
+  }, [accessUser]);
 
   if (error) return <div>Error loading users</div>;
 
@@ -65,8 +80,19 @@ const ProfilePage = () => {
     handleClose();
   };
 
+  if (timetable && Object.keys(timetable).length === 0) {
+    router.push("/dashboard");
+  }
+
   return (
     <PageContainer>
+      <SettingRecommendModal
+        open={openSettingRecommendModal}
+        onClose={() => setOpenSettingRecommendModal(false)}
+        onConfigure={() => setOpenSettingRecommendModal(false)}
+        settingName="表示名とTwitter ID"
+        description="アプリをより快適に使用するために、表示名とTwitter IDを設定しましょう。これにより、他のユーザーがあなたを見つけやすくなります。"
+      />
       <Box
         sx={{
           width: "100%",
