@@ -175,8 +175,8 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
         width: "100%",
         // 横スクロールを無効化
         overflowX: { xs: "hidden", md: "hidden" },
-        // 高さを確保して位置ズレを防止
-        minHeight: { xs: 400, sm: 450, md: 550 },
+        // 高さを確保して位置ズレを防止（PCでは自動調整）
+        minHeight: { xs: 400, sm: "auto", md: "auto" },
       }}
     >
       {props.isLoading ? (
@@ -193,9 +193,9 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            // 高さをデータ表示時と同等に設定
-            height: { xs: 300, sm: 400, md: 500 },
-            minHeight: { xs: 300, sm: 400, md: 500 },
+            // 高さをデータ表示時と同等に設定（PCでは自動調整）
+            height: { xs: 400, sm: 450, md: "auto" },
+            minHeight: { xs: 400, sm: 450, md: "auto" },
           }}
         >
           <CircularProgress
@@ -209,16 +209,19 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 1, sm: 1.5, md: 2 },
+            p: { xs: 1, sm: 1, md: 2 },
             borderRadius: "0.75rem",
             backgroundColor: "white",
             boxShadow:
               "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03)",
             position: "relative",
             width: "100%",
-            // 高さをデータ表示時と同等に設定
-            height: { xs: 400, sm: 450, md: 550 },
-            minHeight: { xs: 400, sm: 450, md: 550 },
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // 高さをデータ表示時と同等に設定（PCでは自動調整）
+            height: { xs: 400, sm: "auto", md: "auto" },
+            minHeight: { xs: 400, sm: "auto", md: "auto" },
           }}
         >
           <Box
@@ -230,7 +233,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                 sm: "40px repeat(6, 1fr)", // タブレット
                 md: "60px repeat(6, 1fr)", // デスクトップ
               },
-              gap: { xs: 1, sm: 1.5, md: 2 },
+              gap: { xs: 1, sm: 1, md: 2 },
               width: "100%",
               // 各行の設定
               gridTemplateRows: {
@@ -241,11 +244,11 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               borderRadius: { xs: "0.5rem", md: "0.75rem" },
               position: "relative",
               mx: "auto", // 中央揃え
-              // グリッド全体の高さを調整（正方形セルのため）
-              aspectRatio: { xs: "1.15/1", sm: "1.15/1", md: "1.15/1" },
-              mb: { xs: 1, sm: 1.5, md: 2 },
+              // グリッド全体の高さを調整（モバイルのみ固定比率）
+              aspectRatio: { xs: "1.15/1", sm: "auto", md: "auto" },
+              mb: { xs: 1, sm: 1, md: 2 },
               backgroundColor: "hsl(210 100% 98%)",
-              p: { xs: 1, sm: 1.5, md: 2 },
+              p: { xs: 1, sm: 0.75, md: 2 },
             }}
           >
             {props.privacyProtection && (
@@ -305,7 +308,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               <Box
                 key={day}
                 sx={{
-                  p: { xs: 0.5, sm: 0.75, md: 1.5 },
+                  p: { xs: 0.5, sm: 0.5, md: 1.5 },
                   backgroundColor: "#FFFFFF",
                   borderRadius: "0.5rem",
                   display: "flex",
@@ -337,7 +340,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                 <Box
                   key={`period-${period}`}
                   sx={{
-                    p: { xs: 0.25, sm: 0.5, md: 0.75 },
+                    p: { xs: 0.25, sm: 0.25, md: 0.75 },
                     backgroundColor: "#FFFFFF",
                     borderRadius: "0.5rem",
                     display: "flex",
