@@ -53,7 +53,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
       sx={{
         borderRadius: "1rem",
         overflow: "hidden",
-        backgroundColor: "hsl(210 100% 95%)",
+        backgroundColor: "#fafafa",
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
         mb: 4,
         p: 1,
