@@ -121,7 +121,6 @@ export const SiteHeader = () => {
               sx={{
                 p: 0.5,
                 borderRadius: "50%",
-                border: "2px solid hsl(210 100% 85%)",
                 backgroundColor: "white",
                 transition: "all 0.2s ease",
                 "&:hover": {
