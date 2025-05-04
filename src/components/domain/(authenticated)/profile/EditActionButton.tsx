@@ -38,7 +38,7 @@ const EditActionButton: React.FC<EditActionButtonProps> = (props) => {
             sx={{
               borderRadius: "0.5rem",
               textTransform: "none",
-              fontWeight: 600,
+              fontWeight: 500,
               backgroundColor: "#2979ff",
               color: "white",
               padding: "6px 16px",
@@ -53,16 +53,16 @@ const EditActionButton: React.FC<EditActionButtonProps> = (props) => {
         </Box>
       ) : (
         <Button
-          variant="outlined"
+          variant="contained"
           startIcon={<EditIcon />}
           onClick={props.handleToggleEditMode}
           sx={{
             borderRadius: "0.5rem",
             textTransform: "none",
-            fontWeight: 600,
+            fontWeight: 500,
             borderColor: "#2979ff",
-            color: "#2979ff",
-            backgroundColor: "rgba(41, 121, 255, 0.05)",
+            color: "white",
+            backgroundColor: "#2979ff",
             height: "36px",
             padding: "6px 16px",
             "&:hover": {
