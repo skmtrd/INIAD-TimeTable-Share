@@ -188,7 +188,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
             borderRadius: "0.75rem",
             backgroundColor: "white",
             boxShadow:
-              "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03)",
+              "0 1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 1px 0px rgba(0, 0, 0, 0.03)",
             position: "relative",
             width: "100%",
             display: "flex",
@@ -247,9 +247,8 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               aspectRatio: { xs: "1.15/1", sm: "auto", md: "auto" },
               mb: { xs: 1, sm: 1, md: 2 },
               backgroundColor: "white",
-              boxShadow:
-                "rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset",
-              p: { xs: 1, sm: 0.75, md: 2 },
+              boxShadow: "rgb(204, 219, 232) 1px 1px 1px 1px inset",
+              p: { xs: 3, sm: 3, md: 3 },
             }}
           >
             {props.privacyProtection && (

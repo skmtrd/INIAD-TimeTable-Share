@@ -54,8 +54,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
         borderRadius: "1rem",
         overflow: "hidden",
         backgroundColor: "white",
-        boxShadow:
-          "rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset",
+        boxShadow: "rgb(204, 219, 232) 2px 2px 2px 2px inset",
         mb: 4,
         p: 1,
         width: "100%",
