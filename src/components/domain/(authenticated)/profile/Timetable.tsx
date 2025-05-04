@@ -246,7 +246,9 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               // グリッド全体の高さを調整（モバイルのみ固定比率）
               aspectRatio: { xs: "1.15/1", sm: "auto", md: "auto" },
               mb: { xs: 1, sm: 1, md: 2 },
-              backgroundColor: "#fafafa",
+              backgroundColor: "white",
+              boxShadow:
+                "rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset",
               p: { xs: 1, sm: 0.75, md: 2 },
             }}
           >
