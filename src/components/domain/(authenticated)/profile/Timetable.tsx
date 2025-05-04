@@ -76,7 +76,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
           height: "100%",
           p: { xs: 0.5, sm: 0.75, md: 1 },
           backgroundColor: "white",
-          borderRadius: "0.5rem",
+          borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
           boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.05)",
         }}
       />
@@ -89,7 +89,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
           height: "100%",
           p: { xs: 0.5, sm: 0.75, md: 1 },
           backgroundColor: "hsl(210 100% 97%)",
-          borderRadius: "0.5rem",
+          borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -115,7 +115,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
         height: "100%",
         p: { xs: 0.75, sm: 0.85, md: 1 },
         backgroundColor: "white",
-        borderRadius: "0.5rem",
+        borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -210,11 +210,9 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 1, sm: 1, md: 2 },
             borderRadius: "0.75rem",
             backgroundColor: "white",
-            boxShadow:
-              "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03)",
+            boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
             position: "relative",
             width: "100%",
             display: "flex",
@@ -248,7 +246,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
               // グリッド全体の高さを調整（モバイルのみ固定比率）
               aspectRatio: { xs: "1.15/1", sm: "auto", md: "auto" },
               mb: { xs: 1, sm: 1, md: 2 },
-              backgroundColor: "hsl(210 100% 98%)",
+              backgroundColor: "hsl(210 100% 95%)",
               p: { xs: 1, sm: 0.75, md: 2 },
             }}
           >
@@ -311,7 +309,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                 sx={{
                   p: { xs: 0.5, sm: 0.5, md: 1.5 },
                   backgroundColor: "#FFFFFF",
-                  borderRadius: "0.5rem",
+                  borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -343,7 +341,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                   sx={{
                     p: { xs: 0.25, sm: 0.25, md: 0.75 },
                     backgroundColor: "#FFFFFF",
-                    borderRadius: "0.5rem",
+                    borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
