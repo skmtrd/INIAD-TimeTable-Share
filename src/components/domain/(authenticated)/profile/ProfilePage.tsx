@@ -97,9 +97,6 @@ const ProfilePage = () => {
         sx={{
           width: "100%",
           maxWidth: "md",
-          mt: { xs: 2, sm: 4, md: 6 },
-          mb: { xs: 4, sm: 6, md: 8 },
-          px: { xs: 2, sm: 0 },
         }}
       >
         <ProfileCard

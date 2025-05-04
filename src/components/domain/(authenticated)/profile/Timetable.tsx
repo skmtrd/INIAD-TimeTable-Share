@@ -172,6 +172,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
   return (
     <Box
       sx={{
+        p: { xs: 0, sm: 0, md: 0 },
         width: "100%",
         // 横スクロールを無効化
         overflowX: { xs: "hidden", md: "hidden" },
@@ -220,8 +221,8 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
             alignItems: "center",
             justifyContent: "center",
             // 高さをデータ表示時と同等に設定（PCでは自動調整）
-            height: { xs: 400, sm: "auto", md: "auto" },
-            minHeight: { xs: 400, sm: "auto", md: "auto" },
+            height: { xs: "auto", sm: "auto", md: "auto" },
+            minHeight: { xs: "auto", sm: "auto", md: "auto" },
           }}
         >
           <Box
