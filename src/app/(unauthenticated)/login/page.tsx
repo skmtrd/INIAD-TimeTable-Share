@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
-import PageContainer from "@/components/common/PageContainer";
 import LoginForm from "@/components/domain/(unauthenticated)/login/LoginForm";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -13,7 +12,7 @@ const LoginPage = async () => {
   if (session) redirect(`/profile/${session.user.id}`);
 
   return (
-    <PageContainer>
+    <Container>
       <Box
         sx={{
           minHeight: "100dvh",
@@ -60,7 +59,7 @@ const LoginPage = async () => {
 
         <LoginForm />
       </Box>
-    </PageContainer>
+    </Container>
   );
 };
 

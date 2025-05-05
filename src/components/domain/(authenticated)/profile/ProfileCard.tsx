@@ -6,6 +6,7 @@ import {
   Avatar,
   Box,
   InputAdornment,
+  Link,
   Paper,
   Skeleton,
   TextField,
@@ -48,18 +49,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
   );
 
   return (
-    <Paper
-      elevation={0}
-      sx={{
-        borderRadius: "1rem",
-        overflow: "hidden",
-        backgroundColor: "white",
-        boxShadow: "rgb(204, 219, 232) 2px 2px 2px 2px inset",
-        mb: 4,
-        p: 1,
-        width: "100%",
-      }}
-    >
+    <Paper elevation={1} sx={{ p: 2, width: "100%", borderRadius: "0.75rem" }}>
       <Box sx={{ p: { xs: 2, sm: 3 } }}>
         {/* モバイル表示用レイアウト */}
         <Box
@@ -87,12 +77,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
             ) : (
               <Avatar
                 src={props.image ?? ""}
-                sx={{
-                  width: 100,
-                  height: 100,
-                  backgroundColor: "#f0f0f0",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                }}
+                sx={{ width: 100, height: 100 }}
               />
             )}
           </Box>
@@ -138,16 +123,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
               mb: props.isAccessUserPage ? 2 : 0,
             }}
           >
-            <TwitterIcon
-              sx={{
-                fontSize: 20,
-                color: "#1DA1F2",
-                mr: 0.5,
-                backgroundColor: "rgba(29, 161, 242, 0.1)",
-                padding: "4px",
-                borderRadius: "50%",
-              }}
-            />
+            <TwitterIcon sx={{ fontSize: 20, color: "#1DA1F2", mr: 0.5 }} />
             {props.isLoading ? (
               <Skeleton variant="text" width={100} height={20} />
             ) : isEditMode ? (
@@ -164,26 +140,22 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
                 }}
               />
             ) : (
-              <Typography
+              <Link
                 variant="body2"
                 component="a"
                 href={`https://twitter.com/${props.twitterId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: "#1DA1F2",
-                  fontSize: "0.875rem",
                   textDecoration: "none",
-                  fontWeight: 500,
-                  display: "flex",
-                  alignItems: "center",
+                  fontWeight: 600,
                   "&:hover": {
                     textDecoration: "underline",
                   },
                 }}
               >
                 @{props.twitterId ?? "未設定"}
-              </Typography>
+              </Link>
             )}
           </Box>
 
@@ -227,13 +199,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
               ) : (
                 <Avatar
                   src={props.image ?? ""}
-                  sx={{
-                    width: 80,
-                    height: 80,
-                    backgroundColor: "#f0f0f0",
-                    mr: 2,
-                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  }}
+                  sx={{ width: 80, height: 80, mr: 2 }}
                 />
               )}
 
@@ -274,16 +240,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
             )}
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <TwitterIcon
-              sx={{
-                fontSize: 20,
-                color: "#1DA1F2",
-                mr: 0.5,
-                backgroundColor: "rgba(29, 161, 242, 0.1)",
-                padding: "4px",
-                borderRadius: "50%",
-              }}
-            />
+            <TwitterIcon sx={{ fontSize: 20, color: "#1DA1F2", mr: 0.5 }} />
             {props.isLoading ? (
               <Skeleton variant="text" width={100} height={20} />
             ) : isEditMode ? (
@@ -300,26 +257,22 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
                 }}
               />
             ) : (
-              <Typography
+              <Link
                 variant="body2"
                 component="a"
                 href={`https://twitter.com/${props.twitterId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: "#1DA1F2",
-                  fontSize: "0.875rem",
+                  fontWeight: 600,
                   textDecoration: "none",
-                  fontWeight: 500,
-                  display: "flex",
-                  alignItems: "center",
                   "&:hover": {
                     textDecoration: "underline",
                   },
                 }}
               >
                 @{props.twitterId ?? "未設定"}
-              </Typography>
+              </Link>
             )}
           </Box>
         </Box>

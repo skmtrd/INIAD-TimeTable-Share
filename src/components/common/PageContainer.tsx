@@ -27,7 +27,8 @@ const PageContainer: React.FC<PageContainerProps> = (props) => (
       pb: { xs: 4, sm: 5, md: 6 },
       px: { xs: 1, sm: 2, md: 3 },
       minHeight: { xs: "calc(100vh - 64px)", md: "calc(100vh - 72px)" },
-      backgroundColor: "#fff",
+      backgroundColor: "#edf2f7",
+      mx: 0,
     }}
   >
     {!!props.title && <Typography variant="h4">{props.title}</Typography>}

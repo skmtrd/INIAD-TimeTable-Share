@@ -5,9 +5,9 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 const Layout: React.FC<LayoutProps> = (props) => (
-  <main className="flex min-h-screen w-full flex-col">
+  <main className="min-h-screen w-full flex-col bg-[#edf2f7]">
     <SiteHeader />
-    <div className="flex-1">{props.children}</div>
+    {props.children}
   </main>
 );
 
