@@ -6,6 +6,7 @@ import { LockOutlined, PublicOutlined } from "@mui/icons-material";
 import {
   Box,
   Button,
+  Container,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -84,14 +85,15 @@ const ProfilePage = () => {
   }
 
   return (
-    <Box
+    <Container
+      fixed
       sx={{
-        backgroundColor: "#edf2f7",
-        width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         py: 2,
+        pb: 2,
+        height: "100%",
       }}
     >
       <SettingRecommendModal
@@ -155,7 +157,7 @@ const ProfilePage = () => {
                   backgroundColor: "rgba(255, 255, 255, 0.9)",
                   color: "#333333",
                   fontSize: "0.875rem",
-                  fontWeight: 500,
+                  fontWeight: 600,
                   pl: 1.5,
                   pr: 2,
                   py: 0.75,
@@ -233,7 +235,7 @@ const ProfilePage = () => {
                 primary="公開"
                 secondary="すべてのユーザーが時間割を閲覧できます"
                 primaryTypographyProps={{
-                  sx: { fontWeight: 500 },
+                  sx: { fontWeight: 600 },
                 }}
                 secondaryTypographyProps={{
                   sx: { fontSize: "0.75rem" },
@@ -261,7 +263,7 @@ const ProfilePage = () => {
                 primary="非公開"
                 secondary="同じ授業の受講者のみ情報を共有します"
                 primaryTypographyProps={{
-                  sx: { fontWeight: 500 },
+                  sx: { fontWeight: 600 },
                 }}
                 secondaryTypographyProps={{
                   sx: { fontSize: "0.75rem" },
@@ -277,7 +279,7 @@ const ProfilePage = () => {
           isAccessUserPage={isAccessUserPage}
         />
       </Box>
-    </Box>
+    </Container>
   );
 };
 

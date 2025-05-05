@@ -1,11 +1,10 @@
 "use client";
-
-import PageContainer from "@/components/common/PageContainer";
 import UploadForm from "@/components/domain/(authenticated)/dashboard/UploadForm";
 import { useDashboard } from "@/hooks/domain/(authenticated)/dashboard/useDashboard";
 import { Launch, School } from "@mui/icons-material";
 import {
   Box,
+  Container,
   Link,
   Paper,
   Step,
@@ -29,7 +28,15 @@ const DashboardPage = () => {
   }
 
   return (
-    <PageContainer>
+    <Container
+      sx={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+      }}
+    >
       <Box
         sx={{
           width: "100%",
@@ -44,13 +51,11 @@ const DashboardPage = () => {
         }}
       >
         <Paper
-          elevation={0}
+          elevation={1}
           sx={{
             width: "100%",
             borderRadius: "1rem",
             overflow: "hidden",
-            backgroundColor: "white",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.08)",
             p: { xs: 3, sm: 4, md: 5 },
           }}
         >
@@ -223,7 +228,7 @@ const DashboardPage = () => {
           </Box>
         </Paper>
       </Box>
-    </PageContainer>
+    </Container>
   );
 };
 

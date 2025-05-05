@@ -100,13 +100,12 @@ export const SiteHeader = () => {
                   background:
                     "linear-gradient(135deg, hsl(210 100% 50%), hsl(240 100% 65%))",
                   WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
                   fontSize: { xs: "1.1rem", sm: "1.25rem" },
                   letterSpacing: "-0.01em",
                   display: { xs: "none", sm: "block" },
                 }}
               >
-                INIAD-TimeTable-Share
+                TimeTable-Share
               </Typography>
             </NextLink>
           </Box>
@@ -207,7 +206,7 @@ export const SiteHeader = () => {
                 <ListItemText
                   primary="ログアウト"
                   primaryTypographyProps={{
-                    sx: { fontWeight: 500 },
+                    sx: { fontWeight: 600 },
                   }}
                 />
               </MenuItem>

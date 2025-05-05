@@ -25,12 +25,12 @@ type DayKey = (typeof daysConst)[number]; // "monday" | "tuesday" | ...
 
 // 時限の時間帯
 const periodTimes = [
-  "8:50 - 10:20",
-  "10:30 - 12:00",
+  "9:00 - 10:30",
+  "10:40 - 12:10",
   "13:00 - 14:30",
-  "14:40 - 16:10",
-  "16:20 - 17:50",
-  "18:00 - 19:30",
+  "14:45 - 16:15",
+  "16:30 - 18:00",
+  "18:15 - 19:45",
 ];
 
 // 曜日の配列 (型注釈を DayKey[] に変更)
@@ -80,7 +80,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
         sx={{
           height: "100%",
           p: { xs: 0.5, sm: 0.75, md: 1 },
-          backgroundColor: "hsl(210 100% 97%)",
+          backgroundColor: "#fff5f9",
           borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
           display: "flex",
           alignItems: "center",
@@ -112,9 +112,9 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
         justifyContent: "space-between",
         transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
         cursor: props.isAccessUserPage ? "pointer" : "default",
-        background: "white",
+        background: "#f8f7ff",
         "&:hover": {
-          background: "linear-gradient(to bottom, white, hsl(210 100% 98%))",
+          background: "#f0efff",
         },
       }}
     >
@@ -236,35 +236,25 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
           {/* ヘッダー行 */}
           <Box
             sx={{
+              borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
               p: { xs: 0.75, sm: 1, md: 1.5 },
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               aspectRatio: "auto !important",
             }}
-          >
-            <Typography
-              sx={{
-                color: "#555555",
-                fontSize: { xs: "0.6rem", sm: "0.7rem", md: "0.75rem" },
-                fontWeight: 500,
-              }}
-            >
-              {isMobile ? "" : "時限"}
-            </Typography>
-          </Box>
+          />
           {dayLabels.map((day) => (
             <Box
               key={day}
               sx={{
                 p: { xs: 0.5, sm: 0.5, md: 1.5 },
-                backgroundColor: "#FFFFFF",
+                backgroundColor: "#fff5f9",
                 borderRadius: { xs: "0.25rem", sm: "0.5rem", md: "0.5rem" },
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 aspectRatio: "auto !important",
-                background: "white",
               }}
             >
               {props.isLoading && isMobile ? null : (
@@ -296,7 +286,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
                   alignItems: "center",
                   justifyContent: "center",
                   height: "100%",
-                  background: "white",
+                  background: "#fff5f9",
                 }}
               >
                 <Typography

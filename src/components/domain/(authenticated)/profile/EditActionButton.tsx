@@ -30,7 +30,7 @@ const EditActionButton: React.FC<EditActionButtonProps> = (props) => {
             sx={{
               borderRadius: "0.5rem",
               textTransform: "none",
-              fontWeight: 550,
+              fontWeight: 600,
               color: "222222",
               padding: "6px 16px",
               height: "36px",
@@ -47,7 +47,7 @@ const EditActionButton: React.FC<EditActionButtonProps> = (props) => {
           sx={{
             borderRadius: "0.5rem",
             textTransform: "none",
-            fontWeight: 550,
+            fontWeight: 600,
             color: "222222",
             height: "36px",
             padding: "6px 16px",

@@ -6,6 +6,7 @@ import {
   Avatar,
   Box,
   InputAdornment,
+  Link,
   Paper,
   Skeleton,
   TextField,
@@ -139,15 +140,22 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
                 }}
               />
             ) : (
-              <Typography
+              <Link
                 variant="body2"
                 component="a"
                 href={`https://twitter.com/${props.twitterId}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                sx={{
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
               >
                 @{props.twitterId ?? "未設定"}
-              </Typography>
+              </Link>
             )}
           </Box>
 
@@ -249,15 +257,22 @@ const ProfileCard: React.FC<ProfileCardProps> = (props) => {
                 }}
               />
             ) : (
-              <Typography
+              <Link
                 variant="body2"
                 component="a"
                 href={`https://twitter.com/${props.twitterId}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                sx={{
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
               >
                 @{props.twitterId ?? "未設定"}
-              </Typography>
+              </Link>
             )}
           </Box>
         </Box>
