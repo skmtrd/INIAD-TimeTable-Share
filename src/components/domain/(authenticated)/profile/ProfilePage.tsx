@@ -1,5 +1,4 @@
 "use client";
-import PageContainer from "@/components/common/PageContainer";
 import ProfileCard from "@/components/domain/(authenticated)/profile/ProfileCard";
 import { dummyTimetableData } from "@/constants/dummyTimetableData";
 import { useProfilePage } from "@/hooks/domain/(authenticated)/profile/useProfilePage";
@@ -85,7 +84,16 @@ const ProfilePage = () => {
   }
 
   return (
-    <PageContainer>
+    <Box
+      sx={{
+        backgroundColor: "#edf2f7",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        py: 2,
+      }}
+    >
       <SettingRecommendModal
         open={openSettingRecommendModal}
         onClose={() => setOpenSettingRecommendModal(false)}
@@ -97,8 +105,11 @@ const ProfilePage = () => {
         sx={{
           width: "100%",
           maxWidth: "md",
+          display: "flex",
+          flexDirection: "column",
           pt: 2,
           px: 2,
+          gap: 2,
         }}
       >
         <ProfileCard
@@ -116,7 +127,6 @@ const ProfilePage = () => {
             display: "flex",
             width: "100%",
             justifyContent: "flex-end",
-            mb: 2,
           }}
         >
           {isAccessUserPage && (
@@ -129,17 +139,19 @@ const ProfilePage = () => {
                 onClick={handleClick}
                 startIcon={
                   displayUser?.privacyProtection ? (
-                    <LockOutlined fontSize="small" />
+                    <LockOutlined fontSize="small" color="primary" />
                   ) : (
-                    <PublicOutlined fontSize="small" />
+                    <PublicOutlined fontSize="small" color="primary" />
                   )
                 }
                 variant="outlined"
                 size="small"
                 sx={{
+                  boxShadow:
+                    "0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);",
+                  border: "none",
                   borderRadius: "0.5rem",
                   textTransform: "none",
-                  borderColor: "hsl(240 5.9% 90%)",
                   backgroundColor: "rgba(255, 255, 255, 0.9)",
                   color: "#333333",
                   fontSize: "0.875rem",
@@ -147,7 +159,6 @@ const ProfilePage = () => {
                   pl: 1.5,
                   pr: 2,
                   py: 0.75,
-                  boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
                   "&:hover": {
                     backgroundColor: "hsl(210 100% 97%)",
                     borderColor: "hsl(240 5.9% 80%)",
@@ -183,23 +194,8 @@ const ProfilePage = () => {
                   minWidth: 240,
                   overflow: "visible",
                   borderRadius: "0.5rem",
-                  border: "1px solid hsl(240 5.9% 90%)",
                   boxShadow:
                     "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                  "&:before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                    borderTop: "1px solid hsl(240 5.9% 90%)",
-                    borderLeft: "1px solid hsl(240 5.9% 90%)",
-                  },
                 },
               },
             }}
@@ -281,7 +277,7 @@ const ProfilePage = () => {
           isAccessUserPage={isAccessUserPage}
         />
       </Box>
-    </PageContainer>
+    </Box>
   );
 };
 
