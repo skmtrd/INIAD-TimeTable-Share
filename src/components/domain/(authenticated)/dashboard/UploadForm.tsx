@@ -1,12 +1,7 @@
 import { useUploadForm } from "@/hooks/domain/(authenticated)/dashboard/useUploadForm";
 import UploadIcon from "@mui/icons-material/Upload";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import type React from "react";
-type UploadFormProps = {
-  timetableMutate: () => void;
-};
-
-const UploadForm: React.FC<UploadFormProps> = (props) => {
+const UploadForm = () => {
   const {
     file,
     isUploading,
@@ -15,7 +10,7 @@ const UploadForm: React.FC<UploadFormProps> = (props) => {
     handleFileChange,
     handleUpload,
     openFileDialog,
-  } = useUploadForm(props.timetableMutate);
+  } = useUploadForm();
   return (
     <Box
       sx={{

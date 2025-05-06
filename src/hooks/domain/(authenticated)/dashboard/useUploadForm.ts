@@ -1,17 +1,17 @@
+import { useAuthUserSWR } from "@/hooks/data/useAuthUserSWR";
 import { apiClient } from "@/lib/apiClient";
-import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import type { ChangeEvent } from "react";
-
-export const useUploadForm = (timetableMutate: () => void) => {
+export const useUploadForm = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<string | null>(
     "ファイルを選択してください",
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { data: session } = authClient.useSession();
-
+  const { authUser } = useAuthUserSWR();
+  const router = useRouter();
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
@@ -25,7 +25,7 @@ export const useUploadForm = (timetableMutate: () => void) => {
       return;
     }
 
-    if (!session || !session.user.id) {
+    if (!authUser || !authUser.id) {
       setMessage("ログインしてください");
       return;
     }
@@ -37,7 +37,7 @@ export const useUploadForm = (timetableMutate: () => void) => {
     try {
       const requestBody = {
         file: file,
-        userId: session.user.id,
+        userId: authUser?.id,
       };
       setIsUploading(true);
       setMessage("アップロード中...");
@@ -50,12 +50,12 @@ export const useUploadForm = (timetableMutate: () => void) => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      timetableMutate();
     } catch (err) {
       console.error("アップロードエラー:", err);
       setMessage(err instanceof Error ? err.message : "エラーが発生しました");
     } finally {
       setIsUploading(false);
+      router.push("/profile");
     }
   };
 

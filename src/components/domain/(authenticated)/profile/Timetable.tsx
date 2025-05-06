@@ -123,7 +123,7 @@ const ClassCell: React.FC<ClassCellProps> = (props) => {
         sx={{
           color: "#333333",
           fontWeight: 600,
-          fontSize: { xs: "0.55rem", sm: "0.775rem", md: "0.875rem" },
+          fontSize: { xs: "0.45rem", sm: "0.775rem", md: "0.875rem" },
           mb: { xs: 0, sm: 0.5 },
           lineHeight: { xs: 1.1, sm: 1.3, md: 1.4 },
           textOverflow: "ellipsis",
@@ -199,7 +199,7 @@ const TimetablePage: React.FC<TimetableProps> = (props) => {
             aspectRatio: { xs: "1.15/1", sm: "auto", md: "auto" },
             mb: { xs: 1, sm: 1, md: 2 },
             backgroundColor: "white",
-            p: { xs: 3, sm: 3, md: 3 },
+            p: { xs: 2, sm: 2, md: 3 },
           }}
         >
           {props.privacyProtection && (

@@ -1,6 +1,5 @@
 "use client";
 import UploadForm from "@/components/domain/(authenticated)/dashboard/UploadForm";
-import { useDashboard } from "@/hooks/domain/(authenticated)/dashboard/useDashboard";
 import { Launch, School } from "@mui/icons-material";
 import {
   Box,
@@ -14,18 +13,9 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
 const DashboardPage = () => {
-  const { authUser, timetable, timetableMutate } = useDashboard();
-
-  const router = useRouter();
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  if (timetable && authUser && Object.keys(timetable).length > 0) {
-    router.push(`/profile/${authUser.id}`);
-  }
 
   return (
     <Container
@@ -223,7 +213,7 @@ const DashboardPage = () => {
                 justifyContent: "center",
               }}
             >
-              <UploadForm timetableMutate={timetableMutate} />
+              <UploadForm />
             </Box>
           </Box>
         </Paper>
