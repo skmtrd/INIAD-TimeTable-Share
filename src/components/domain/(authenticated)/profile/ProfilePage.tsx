@@ -17,7 +17,6 @@ import {
   useTheme,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
-import { useRouter } from "next/navigation";
 import type React from "react";
 import { useEffect, useState } from "react";
 import SettingRecommendModal from "../dashboard/SettingRecommendModal";
@@ -40,7 +39,6 @@ const ProfilePage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const router = useRouter();
   const [openSettingRecommendModal, setOpenSettingRecommendModal] =
     useState(false);
 
@@ -79,10 +77,6 @@ const ProfilePage = () => {
     } as SelectChangeEvent<string>);
     handleClose();
   };
-
-  if (timetable && Object.keys(timetable).length === 0) {
-    router.push("/dashboard");
-  }
 
   return (
     <Container

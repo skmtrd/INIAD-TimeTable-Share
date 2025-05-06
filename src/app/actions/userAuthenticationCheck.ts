@@ -18,5 +18,5 @@ export async function userAuthenticationCheck() {
 
   if (!session.user.email.endsWith("@iniad.org")) redirect("/invalidemail");
 
-  return true;
+  return session.user;
 }
