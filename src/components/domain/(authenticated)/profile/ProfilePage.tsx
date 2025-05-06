@@ -92,7 +92,7 @@ const ProfilePage = () => {
         flexDirection: "column",
         alignItems: "center",
         py: 2,
-        pb: 2,
+        px: 0,
         height: "100%",
       }}
     >
@@ -110,7 +110,7 @@ const ProfilePage = () => {
           display: "flex",
           flexDirection: "column",
           pt: 2,
-          px: 2,
+          px: 1.5,
           gap: 2,
         }}
       >
