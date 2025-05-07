@@ -1,6 +1,7 @@
 "use client";
 
 import { useTimetableSWR } from "@/hooks/data/useTimetableSWR";
+import { preloadUserData } from "@/hooks/data/useUserDataSWR";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -19,6 +20,7 @@ type ProfilePageProps = {
 const AuthCheckPage = (props: ProfilePageProps) => {
   const router = useRouter();
   const { timetable, isLoading } = useTimetableSWR(props.user.id, false);
+  preloadUserData(props.user.id);
   useEffect(() => {
     if (!isLoading && timetable) {
       if (Object.keys(timetable).length > 0) {
