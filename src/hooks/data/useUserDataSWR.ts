@@ -1,10 +1,19 @@
 import { apiClient } from "@/lib/apiClient";
-import useSWR from "swr";
+import useSWR, { preload } from "swr";
 
-export const useUserDataSWR = (id: string) => {
-  const [key, fetcher] = apiClient["users/[id]"].$build({
+const keyAndFetcher = (id: string) => {
+  return apiClient["users/[id]"].$build({
     params: { id },
   });
+};
+
+export const preloadUserData = (id: string) => {
+  const [key, fetcher] = keyAndFetcher(id);
+  preload(key, fetcher);
+};
+
+export const useUserDataSWR = (id: string) => {
+  const [key, fetcher] = keyAndFetcher(id);
 
   const { data: user, error, isLoading, mutate } = useSWR(key, fetcher);
 
