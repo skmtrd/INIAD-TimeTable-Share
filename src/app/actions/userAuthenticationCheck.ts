@@ -6,17 +6,15 @@ import { redirect } from "next/navigation";
 
 /**
  * ユーザーが認証されているかどうかを確認する
- * 認証されていない場合は/loginにリダイレクトする
+ * 認証されていない場合は/loginにリダイレクする
  * 認証されている場合はtrueを返す
  */
 export async function userAuthenticationCheck() {
   const session = await auth.api.getSession({
-    headers: await headers(), // you need to pass the headers object.
+    headers: await headers(),
   });
 
   if (!session) redirect("/login");
-
-  if (!session.user.email.endsWith("@iniad.org")) redirect("/invalidemail");
 
   return session.user;
 }
