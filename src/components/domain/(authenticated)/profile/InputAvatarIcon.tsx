@@ -48,8 +48,12 @@ function resizeBase64Img(base64: string, width: number, height: number) {
       }
 
       try {
+        // より高品質なレンダリングのための設定
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
         ctx.drawImage(img, 0, 0, width, height);
-        const resultDataUrl = canvas.toDataURL("image/jpeg"); // JPEG形式で出力
+        // PNG形式を使用して画質劣化をなくす
+        const resultDataUrl = canvas.toDataURL("image/png");
         resolve(resultDataUrl);
       } catch (error) {
         console.error("Canvas operation failed:", error);
@@ -131,8 +135,8 @@ const InputAvatarIcon = ({
     try {
       // AvatarEditorからクロップされた画像(Canvas)を取得
       const canvas = editor.current.getImageScaledToCanvas(); // オリジナル解像度で取得
-      // CanvasをJPEG形式のBase64文字列に変換
-      dataUrl = canvas.toDataURL("image/jpeg");
+      // PNG形式を使用して画質劣化をなくす
+      dataUrl = canvas.toDataURL("image/png");
     } catch (error) {
       console.error("Failed to get image from AvatarEditor:", error);
       alert(
@@ -272,8 +276,8 @@ const InputAvatarIcon = ({
               <AvatarEditor
                 ref={editor}
                 scale={scale}
-                width={1000} // 内部解像度 (高めに設定)
-                height={1000 / aspectRatio}
+                width={2000} // 内部解像度をさらに高く設定 (1000→2000)
+                height={2000 / aspectRatio}
                 image={image} // 編集中の File オブジェクト
                 border={0}
                 borderRadius={1000}
